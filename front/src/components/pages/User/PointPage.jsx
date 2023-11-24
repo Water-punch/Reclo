@@ -42,7 +42,7 @@ const MyPage = () => {
                 className={styles.change}
                 onClick={() => navigate("/mypage")}
               >
-                확d
+                확인
               </button>
             </div>
           </div>
