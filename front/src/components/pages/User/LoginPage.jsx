@@ -1,3 +1,6 @@
+import LoginForm from "../../features/Home/Test/User/LoginForm"
+import RegisterForm from "../../features/Home/Test/User/RegisterForm"
+
 
 const LoginPage = () => {
 
@@ -7,6 +10,8 @@ const LoginPage = () => {
     return (
         <>
           <h1>LoginPage</h1>
+          <LoginForm/>
+       
         </>
     )
 }
