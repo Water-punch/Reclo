@@ -13,8 +13,8 @@ class itemAuthService {
       return user;
     };
   
-    static async getItem({ _id }) {
-      const items = await Item.findAll({ _id });
+    static async getItems() {
+      const items = await Item.findAll();
       return items;
     };
   
