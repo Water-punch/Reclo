@@ -1,5 +1,5 @@
-import { ItemModel } from "../schemas/item";
-const ObjectId = require("mongoose").Types.ObjectId;
+import { ItemModel } from '../schemas/item';
+const ObjectId = require('mongoose').Types.ObjectId;
 
 class Item {
   static async create({ newItem }) {
@@ -14,21 +14,10 @@ class Item {
 
   static async findAll({ userId }) {
     // ItemModel에서 주어진 userId에 해당하는 모든 아이템을 거래글 생성일 순으로 정렬해서 찾기
-    const items = await ItemModel.find({ userId }).sort({ createdAt: "asc" });
+    const items = await ItemModel.find({ userId }).sort({ createdAt: 'asc' });
     const sortedItems = items
       .map(({ ...rest }) =>
-        [rest._doc].map(
-          ({
-            userId,
-            price,
-            description,
-            category,
-            createdAt,
-            updatedAt,
-            __v,
-            ...rest
-          }) => rest
-        )
+        [rest._doc].map(({ userId, price, description, category, createdAt, updatedAt, __v, ...rest }) => rest)
       )
       .flat();
     return sortedItems;
@@ -43,11 +32,7 @@ class Item {
     const filter = { _id: ObjectId(itemId) };
     const update = { [fieldToUpdate]: newValue };
     const option = { new: true };
-    const updatedItem = await ItemModel.findOneAndUpdate(
-      filter,
-      update,
-      option
-    );
+    const updatedItem = await ItemModel.findOneAndUpdate(filter, update, option);
     return updatedItem;
   }
 
