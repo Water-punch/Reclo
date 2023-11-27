@@ -7,3 +7,5 @@ const ContentCard = () => {
 }
 
 export default ContentCard
+
+// 호출/

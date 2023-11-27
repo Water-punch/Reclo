@@ -3,24 +3,6 @@ import "../../../styles/Mypage.css"
 
 const MyPage = () => {
   const navigate = useNavigate();
-
-  // function Tap() {
-  //   return (
-  //     <div className={buttoncontainer}>
-  //       <button className={service}>서비스소개</button>
-  //       <button className={wish} onClick={() => navigate("/wishlist")}>
-  //         거래하기
-  //       </button>
-  //       <button className={some} onClick={() => navigate("/some-route")}>
-  //         나눔
-  //       </button>
-  //       <button className={event} onClick={() => navigate("/event")}>
-  //         이벤트
-  //       </button>
-  //     </div>
-  //   );
-  // }
-
   
   function Userinfocomponents() {
     return (
@@ -64,7 +46,6 @@ const MyPage = () => {
 
   return (
     <>
-      {/* <Tap /> */}
       <Userinfocomponents />
     </>
   );
