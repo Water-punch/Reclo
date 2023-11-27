@@ -6,6 +6,23 @@ const { imageUploader, imageDelete } = require('../middlewares/imageMiddleware')
 // 전체 품목 조회
 async function getAllItems(req, res, next) {
   const { itemCategory, itemSearch } = req.query;
+  const currentPage = req.query.page || 1;
+  const itemPerPage = parseInt(req.query.itemPerPage) || 10;
+  let totalItems;
+
+  Post.find()
+    .countDocuments()
+    .then((count) => {
+      totalItems = count;
+      return Post.find()
+        .skip((currentPage - 1) * perPage)
+        .limit(perPage);
+    })
+    .then((posts) => {
+      res.status(200).json({ posts: posts, totalItems: totalItems });
+    })
+    .catch((err) => {});
+
   try {
     if (itemCategory) {
       const items = await itemAuthService.getItems({ itemCategory });

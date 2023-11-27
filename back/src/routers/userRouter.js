@@ -1,16 +1,14 @@
-import is from "@sindresorhus/is";
-import { Router } from "express";
-import { login_required } from "../middlewares/login_required";
-import { userAuthService } from "../services/userService";
+import is from '@sindresorhus/is';
+import { Router } from 'express';
+import { login_required } from '../middlewares/login_required';
+import { userAuthService } from '../services/userService';
 
 const userAuthRouter = Router();
 
-userAuthRouter.post("/user/register", async function (req, res, next) {
+userAuthRouter.post('/user/register', async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
-      throw new Error(
-        "headers의 Content-Type을 application/json으로 설정해주세요"
-      );
+      throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
     }
 
     const user = req.body.user;
@@ -30,7 +28,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
   }
 });
 
-userAuthRouter.post("/user/login", async function (req, res, next) {
+userAuthRouter.post('/user/login', async function (req, res, next) {
   try {
     // req (request) 에서 데이터 가져오기
     const email = req.body.email;
@@ -50,12 +48,12 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
 });
 
 userAuthRouter.get(
-  "/user/current",
+  '/user/current',
   //login_required,
   async function (req, res, next) {
     try {
       // jwt토큰에서 추출된 사용자 이메일을 가지고 db에서 사용자 정보를 찾음.
-      req.currentUserEmail = "mob1@email.com";
+      req.currentUserEmail = 'mob1@email.com';
       const email = req.currentUserEmail;
 
       const currentUserInfo = await userAuthService.getUserInfobyEmail({
@@ -74,11 +72,11 @@ userAuthRouter.get(
 );
 
 userAuthRouter.put(
-  "/user/current",
+  '/user/current',
   //login_required,
   async function (req, res, next) {
     try {
-      req.currentUserEmail = "mob1@email.com";
+      req.currentUserEmail = 'mob1@email.com';
       const email = req.currentUserEmail;
 
       const user = req.body.user;
@@ -99,7 +97,7 @@ userAuthRouter.put(
 
 // 닉네임으로 유저정보 조회, 넘겨주는 데이터에서 개인정보와 관련된부분 없애야할 필요가 있을듯
 userAuthRouter.get(
-  "/user/:nickname",
+  '/user/:nickname',
   //login_required,
   async function (req, res, next) {
     try {
@@ -120,7 +118,7 @@ userAuthRouter.get(
 );
 
 userAuthRouter.put(
-  "/users/current/point",
+  '/users/current/point',
   //login_required,
   async function (req, res, next) {
     try {
@@ -141,18 +139,14 @@ userAuthRouter.put(
   }
 );
 
-userAuthRouter.get(
-  "/user/wishlist",
-  login_required,
-  async function (req, res, next) {
-    try {
-      const email = req.currentUserEmail;
+userAuthRouter.get('/user/wishlist', login_required, async function (req, res, next) {
+  try {
+    const email = req.currentUserEmail;
 
-      // 자신의 이메일에서 위시리스트를 찾아서 반환
-    } catch (error) {
-      next(error);
-    }
+    // 자신의 이메일에서 위시리스트를 찾아서 반환
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 export { userAuthRouter };

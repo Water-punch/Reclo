@@ -1,6 +1,6 @@
 import { Item } from '../db';
 
-class itemAuthService {
+class itemService {
   // 아이템 상세내용 조회
   static async getItemDetails({ itemId }) {
     const user = await Item.getItemDetails({ itemId });
@@ -77,4 +77,4 @@ class itemAuthService {
   }
 }
 
-export { itemAuthService };
+export { itemService };

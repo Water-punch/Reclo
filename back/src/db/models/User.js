@@ -1,4 +1,4 @@
-import { UserModel } from "../schemas/user";
+import { UserModel } from '../schemas/user';
 
 class User {
   static async create({ newUser }) {
@@ -17,21 +17,13 @@ class User {
   }
 
   static async update({ user }) {
-    const updatedUser = await UserModel.findOneAndUpdate(
-      { _id: user._id },
-      { ...user },
-      { new: true }
-    );
+    const updatedUser = await UserModel.findOneAndUpdate({ _id: user._id }, { ...user }, { new: true });
 
     return updatedUser;
   }
 
   static async updatePoint({ email, point }) {
-    const updatedUser = await UserModel.findOneAndUpdate(
-      { email },
-      { $set: { point: point } },
-      { new: true }
-    );
+    const updatedUser = await UserModel.findOneAndUpdate({ email }, { $set: { point: point } }, { new: true });
 
     return updatedUser;
   }

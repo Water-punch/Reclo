@@ -1,6 +1,6 @@
-import { User } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { User } from '../db'; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 class userAuthService {
   // 회원가입 서비스
@@ -9,8 +9,7 @@ class userAuthService {
 
     const duplication = await User.findByEmail({ email: user.email });
     if (duplication) {
-      const errorMessage =
-        "이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요.";
+      const errorMessage = '이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요.';
       return { errorMessage };
     }
 
@@ -32,25 +31,20 @@ class userAuthService {
     const user = await User.findByEmail({ email });
 
     if (!user) {
-      const errorMessage =
-        "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
+      const errorMessage = '해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.';
       return { errorMessage };
     }
 
     // 비밀번호 일치 여부 확인
     const correctPasswordHash = user.password;
-    const isPasswordCorrect = await bcrypt.compare(
-      password,
-      correctPasswordHash
-    );
+    const isPasswordCorrect = await bcrypt.compare(password, correctPasswordHash);
     if (!isPasswordCorrect) {
-      const errorMessage =
-        "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.";
+      const errorMessage = '비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.';
       return { errorMessage };
     }
 
     // 로그인 성공 -> JWT 웹 토큰 생성
-    const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
+    const secretKey = process.env.JWT_SECRET_KEY || 'jwt-secret-key';
     const token = jwt.sign({ user_email: user.email }, secretKey);
 
     // 반환할 loginuser 객체를 위한 변수 설정
@@ -75,7 +69,7 @@ class userAuthService {
     console.log(duplication);
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!duplication) {
-      const errorMessage = "가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
+      const errorMessage = '가입 내역이 없습니다. 다시 한 번 확인해 주세요.';
       return { errorMessage };
     }
 
@@ -101,7 +95,7 @@ class userAuthService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
-      const errorMessage = "가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
+      const errorMessage = '가입 내역이 없습니다. 다시 한 번 확인해 주세요.';
       return { errorMessage };
     }
 
@@ -116,8 +110,7 @@ class userAuthService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
-      const errorMessage =
-        "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
+      const errorMessage = '해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.';
       return { errorMessage };
     }
 
@@ -130,8 +123,7 @@ class userAuthService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
-      const errorMessage =
-        "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
+      const errorMessage = '해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.';
       return { errorMessage };
     }
 

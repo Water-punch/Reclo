@@ -14,7 +14,7 @@ const s3 = new AWS.S3();
 const bucketName = 'bucket name 넣어주기';
 const allowedExtensions = ['.png', '.jpg', '.jpeg', '.bmp'];
 
-const imageUploader = multer({
+const imageUploader_user = multer({
   storage: multerS3({
     s3: s3,
     bucket: bucketName,
@@ -25,9 +25,28 @@ const imageUploader = multer({
       if (!allowedExtensions.includes(extension)) {
         return callback(new Error('파일의 확장자가 잘못되었습니다.'));
       }
-      callback(null, `${uploadDirectory}/${Date.now()}${extension}`);
+      callback(null, `${UserImg}/${Date.now()}${extension}`);
     },
     acl: 'public-read-write',
+    limits: { fileSize: 5 * 1024 * 1024 },
+  }),
+});
+
+const imageUploader_item = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: bucketName,
+    key: (req, file, callback) => {
+      const uploadDirectory = req.query.directory ?? '';
+      const extension = path.extname(file.originalname);
+
+      if (!allowedExtensions.includes(extension)) {
+        return callback(new Error('파일의 확장자가 잘못되었습니다.'));
+      }
+      callback(null, `${ItemImg}/${Date.now()}${extension}`);
+    },
+    acl: 'public-read-write',
+    limits: { fileSize: 5 * 1024 * 1024 },
   }),
 });
 
@@ -46,4 +65,4 @@ const imageDelete = async (imageUrl) => {
   );
 };
 
-export { imageUploader, imageDelete };
+export { imageUploader_item, imageDelete };
