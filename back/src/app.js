@@ -2,11 +2,21 @@ import cors from "cors";
 import express from "express";
 import { userAuthRouter } from "./routers/userRouter";
 import { errorMiddleware } from "./middlewares/errorMiddleware";
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
 // CORS 에러 방지
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5001"],
+    credentials: true,
+    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
+    exposedHeaders: ["set-cookie"],
+  })
+);
+
+app.use(cookieParser());
 
 // express 기본 제공 middleware
 // express.json(): POST 등의 요청과 함께 오는 json형태의 데이터를 인식하고 핸들링할 수 있게 함.

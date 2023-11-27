@@ -1,33 +1,53 @@
-import jwt from "jsonwebtoken";
+import { makeToken, verify, refreshVerify } from "../util/token";
 
-function login_required(req, res, next) {
-  // request 헤더로부터 authorization bearer 토큰을 받음.
-  const userToken = req.headers["authorization"] ?? "null";
+async function login_required(req, res, next) {
+  // cookie에서 access token을 받음
+  const userAccessToken = req.cookies.accessToken; // = req.cookies.accessToken;
+  const userRefreshToken = req.cookies.refreshToken;
 
-  console.log(req.cookies);
+  //access token을 우선 검사함
+  if (userAccessToken != null) {
+    try {
+      const jwtDecoded = verify(userAccessToken);
 
-  // 이 토큰은 jwt 토큰 문자열이거나, 혹은 "null" 문자열임.
-  // 토큰이 "null" 일 경우, login_required 가 필요한 서비스 사용을 제한함.
-
-  if (userToken === "null") {
-    console.log("서비스 사용 요청이 있습니다.하지만, Authorization 토큰: 없음");
-    res.status(400).send("로그인한 유저만 사용할 수 있는 서비스입니다.");
-    return;
-  }
-
-  // 해당 token 이 정상적인 token인지 확인 -> 토큰에 담긴 user_id 정보 추출
-  try {
-    const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
-    const jwtDecoded = jwt.verify(userToken, secretKey);
-
-    console.log(jwtDecoded);
-
-    const useremail = jwtDecoded.user_email;
-    req.currentUserEmail = useremail;
+      if (jwtDecoded.ok == true) {
+        const userId = jwtDecoded.decoded.user_id;
+        req.currentUserId = userId;
+      }
+    } catch (error) {
+      res
+        .status(400)
+        .send("정상적인 토큰이 아닙니다. 다시 한 번 확인해 주세요.");
+    }
     next();
-  } catch (error) {
-    res.status(400).send("정상적인 토큰이 아닙니다. 다시 한 번 확인해 주세요.");
-    return;
+  }
+  // access token이 없는경우 refreshtoken 검사, refreshtoken도 없는 경우 로그인 유지
+  else if (userRefreshToken != null) {
+    try {
+      const jwtDecoded = await refreshVerify(userRefreshToken);
+      // token이 유효한 경우 새로운 access token 생성하여 쿠키에 저장해줌
+      if (jwtDecoded.ok == true) {
+        const userId = jwtDecoded.decoded.user_id;
+        req.currentUserId = userId;
+
+        const token = makeToken({ user_id: userId });
+
+        res.cookie("accessToken", token, {
+          maxAge: 1000 * 60 * 20,
+          httpOnly: true,
+        });
+      }
+
+      //새로운 access token 생성
+      next();
+    } catch (error) {
+      res
+        .status(400)
+        .send("정상적인 토큰이 아닙니다. 다시 한 번 확인해 주세요.");
+    }
+  } else {
+    // token을 가지고 있지 않은 유저
+    res.status(400).send("로그인한 유저만 사용할 수 있는 서비스입니다.");
   }
 }
 
