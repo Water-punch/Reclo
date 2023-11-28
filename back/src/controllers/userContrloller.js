@@ -1,4 +1,5 @@
 const { userAuthService } = require('../services/userService');
+const { pointService } = require('../services/pointService');
 
 async function register(req, res, next) {
   try {
@@ -89,37 +90,27 @@ async function currentInfoUpdate(req, res, next) {
   }
 }
 
+//포인트 누적 정보 확인
 async function currentPointInfo(req, res, next) {
   try {
     // jwt토큰에서 추출된 사용자 이메일을 가지고 db에서 사용자 정보를 찾음.
     const userId = req.currentUserId;
 
-    const currentUserInfo = await userAuthService.getUserInfobyId({
-      userId,
-    });
+    const points = await pointService.getAllUserPoint({ userId });
 
-    if (currentUserInfo.errorMessage) {
-      throw new Error(currentUserInfo.errorMessage);
-    }
-
-    res.status(200).send(currentUserInfo);
+    res.status(200).send(points);
   } catch (error) {
     next(error);
   }
 }
 
+//
 async function addPoint(req, res, next) {
   try {
-    const userId = req.currentUserId;
-
-    const user = req.body.user;
-
+    const pointdetails = req.body.pointdetails;
     // 해당 사용자 이메일로 사용자 정보를 db에서 찾아 업데이트함.
-    const updatedUser = await userAuthService.setUser({ userId, user });
 
-    if (updatedUser.errorMessage) {
-      throw new Error(updatedUser.errorMessage);
-    }
+    const updatedUser = await pointService.addPoint({ pointdetails });
 
     res.status(200).json(updatedUser);
   } catch (error) {
@@ -145,16 +136,6 @@ async function InfoByNickname(req, res, next) {
   }
 }
 
-//좋아요 표시한 아이템 리스트를 찾음
-async function wishlist(req, res, next) {
-  try {
-    const userId = req.currentUserId;
-    // 자신의 이메일에서 위시리스트를 찾아서 반환
-  } catch (error) {
-    next(error);
-  }
-}
-
 module.exports = {
   register,
   login,
@@ -163,5 +144,4 @@ module.exports = {
   currentPointInfo,
   addPoint,
   InfoByNickname,
-  wishlist,
 };

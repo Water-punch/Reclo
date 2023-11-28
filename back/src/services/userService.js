@@ -88,7 +88,7 @@ class userAuthService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
-      const errorMessage = '해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.';
+      const errorMessage = '해당하는 유저가 존재하지 않습니다.';
       return { errorMessage };
     }
 
@@ -101,11 +101,24 @@ class userAuthService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
-      const errorMessage = '해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.';
+      const errorMessage = '해당하는 유저가 존재하지 않습니다.';
       return { errorMessage };
     }
 
     return user;
+  }
+
+  static async addUserPoint({ userId, point }) {
+    const user = await User.findById({ userId });
+
+    if (!user) {
+      const errorMessage = '해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.';
+      return { errorMessage };
+    }
+
+    const updatedUser = await User.updatePoint({ userId, point: user.point + point });
+
+    return updatedUser;
   }
 }
 
