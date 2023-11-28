@@ -116,7 +116,7 @@ class userAuthService {
       return { errorMessage };
     }
 
-    const updatedUser = await User.updatePoint({ userId, point: user.point + point });
+    const updatedUser = await User.updatePoint({ userId,point: Number(user.point) + Number(point) });
 
     return updatedUser;
   }
