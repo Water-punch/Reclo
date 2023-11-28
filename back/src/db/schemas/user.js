@@ -5,6 +5,7 @@ const UserSchema = new Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     password: {
       type: String,
@@ -13,6 +14,7 @@ const UserSchema = new Schema(
     nickname: {
       type: String,
       required: true,
+      unique: true,
     },
     rank: {
       type: String,

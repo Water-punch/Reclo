@@ -1,42 +1,65 @@
 const ObjectId = require('mongoose').Types.ObjectId;
-const { itemAuthService } = require('../services/itemService');
+const { itemService } = require('../services/itemService');
 
-const { imageUploader, imageDelete } = require('../middlewares/imageMiddleware');
+const { imageUploader_item, imageUploader_user, imageDelete } = require('../middlewares/imageMiddleware');
 
-// 전체 품목 조회
+// 페이징을 적용한 전체 품목 조회
 async function getAllItems(req, res, next) {
-  const { itemCategory, itemSearch } = req.query;
   const currentPage = req.query.page || 1;
-  const itemPerPage = parseInt(req.query.itemPerPage) || 10;
-  let totalItems;
-
-  Post.find()
-    .countDocuments()
-    .then((count) => {
-      totalItems = count;
-      return Post.find()
-        .skip((currentPage - 1) * perPage)
-        .limit(perPage);
-    })
-    .then((posts) => {
-      res.status(200).json({ posts: posts, totalItems: totalItems });
-    })
-    .catch((err) => {});
+  const itemsPerPage = parseInt(req.query.itemsPerPage) || 10;
 
   try {
-    if (itemCategory) {
-      const items = await itemAuthService.getItems({ itemCategory });
-      res.status(200).json({ items });
-    } else if (itemCategory) {
-      const items = await itemAuthService.getItems({ itemSearch });
-      res.status(200).json({ items });
-    } else if (!allItems) {
-      const allItems = await itemAuthService.getItems({});
-      throw new Error(allItems.errorMessage);
+    const items = await itemService.getAllItems();
+
+    // 페이징을 적용한 응답
+    const totalItems = items.length;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = currentPage * itemsPerPage;
+
+    const paginatedItems = items.slice(startIndex, endIndex);
+
+    if (paginatedItems) {
+      res.status(200).json({ items: paginatedItems, totalItems });
     } else {
-      const allItems = await itemAuthService.getItems({});
-      res.status(200).send({ allItems });
+      res.status(404).json({ message: '페이지에 대한 아이템이 없습니다.' });
     }
+  } catch (error) {
+    next(error);
+  }
+}
+
+// 카테고리별 아이템 조회
+async function getItemsByCategory(req, res, next) {
+  const { itemCategory } = req.query;
+  try {
+    let items;
+
+    if (itemCategory) {
+      items = await itemService.getItems({ itemCategory });
+      res.status(200).json({ items: paginatedItems, totalItems });
+    } else {
+      items = await itemService.getAllItems();
+    }
+
+    res.status(200).json({ items });
+  } catch (error) {
+    next(error);
+  }
+}
+
+// 검색으로 아이템 조회
+async function getItemsBySearch(req, res, next) {
+  const { itemSearch } = req.query;
+  try {
+    let items;
+
+    if (itemSearch) {
+      items = await itemService.getItems({ itemSearch });
+    } else {
+      items = await itemService.getItems({});
+    }
+
+    res.status(200).json({ items });
   } catch (error) {
     next(error);
   }
@@ -46,7 +69,7 @@ async function getAllItems(req, res, next) {
 async function getUserItems(req, res, next) {
   try {
     const userId = ObjectId(req.params.userId);
-    const userItems = await itemAuthService.getItems({ userId });
+    const userItems = await itemService.getItems({ userId });
 
     if (!userItems) {
       throw new Error(userItems.errorMessage);
@@ -62,7 +85,7 @@ async function getUserItems(req, res, next) {
 async function getItemDetails(req, res, next) {
   try {
     const itemId = ObjectId(req.params.itemId);
-    const itemDetails = await itemAuthService.getItemDetails({ itemId });
+    const itemDetails = await itemService.getItemDetails({ itemId });
 
     if (!itemDetails) {
       throw new Error(itemDetails.errorMessage);
@@ -80,7 +103,7 @@ async function addItem(req, res, next) {
     const userId = ObjectId(req.params.userId);
 
     // 이미지 업로드
-    imageUploader.array('image')(req, res, async function (err) {
+    imageUploader_item.array('image')(req, res, async function (err) {
       if (err) {
         return next(err);
       }
@@ -88,18 +111,21 @@ async function addItem(req, res, next) {
       const itemImgUrl = req.files[0].location;
 
       const { itemTitle, itemName, itemDescription, itemCategory, itemLike, itemPrice, itemState } = req.body;
+      console.log(req.body);
 
       // DB에 데이터 추가
-      const newItem = await itemAuthService.addItem({
-        userId,
-        itemTitle,
-        itemName,
-        itemDescription,
-        itemImgUrl,
-        itemCategory,
-        itemLike,
-        itemPrice,
-        itemState,
+      const newItem = await itemService.addItem({
+        itemInfo: {
+          userId,
+          itemTitle,
+          itemName,
+          itemDescription,
+          itemImgUrl,
+          itemCategory,
+          itemLike,
+          itemPrice,
+          itemState,
+        },
       });
 
       if (!newItem) {
@@ -134,7 +160,7 @@ async function setItem(req, res, next) {
       itemState,
     };
 
-    const updatedItem = await itemAuthService.setItem({ itemId, toUpdate });
+    const updatedItem = await itemService.setItem({ itemId, toUpdate });
 
     if (!updatedItem) {
       throw new Error(updatedItem.errorMessage);
@@ -154,12 +180,9 @@ async function deleteItem(req, res, next) {
   const itemId = ObjectId(req.params.itemId);
   // delete 로직 수정 필요
   try {
-    const deleteImageAndItem = await Promise.all([
-      imageDelete(item.itemImgUrl),
-      itemAuthService.deleteItem({ itemId }),
-    ]);
+    const deleteImageAndItem = await Promise.all([imageDelete(item.itemImgUrl), itemService.deleteItem({ itemId })]);
 
-    const [deleteImageResult, deleteItemResult] = deleteImageAndItem;
+    const [deleteItemResult, deleteImageResult] = deleteImageAndItem;
 
     //   const deleteItem = await itemAuthService.deleteItem({ itemId });
     //   // 이미지 URL까지 같이 삭제
@@ -183,6 +206,8 @@ async function deleteItem(req, res, next) {
 
 module.exports = {
   getAllItems,
+  getItemsByCategory,
+  getItemsBySearch,
   getUserItems,
   getItemDetails,
   addItem,

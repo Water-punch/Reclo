@@ -26,7 +26,7 @@ class itemService {
   }
 
   // 검색으로 아이템 조회
-  static async getItemsByCategory({ search }) {
+  static async getItemsBySearch({ search }) {
     const items = await Item.findItemsBySearch({ search });
     return items;
   }
