@@ -2,23 +2,16 @@ import { Schema, model } from 'mongoose';
 
 const PointSchema = new Schema(
   {
-    ids: {
-      type: {
-        userId: {
-          type: Schema.Types.ObjectId,
-          required: true,
-          ref: 'User',
-        },
-        itemId: {
-          type: Schema.Types.ObjectId,
-          required: true,
-          ref: 'Item',
-        },
-      },
+    userId: {
+      type: Schema.Types.ObjectId,
       required: true,
-      unique: true,
+      ref: 'User',
     },
-
+    itemId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'Item',
+    },
     point: {
       type: Number,
       required: true,
@@ -31,6 +24,14 @@ const PointSchema = new Schema(
   {
     timestamps: true,
   }
+);
+
+PointSchema.index(
+  {
+    userId: 1,
+    itemId: 1,
+  },
+  { unique: true }
 );
 
 const PointModel = model('Point', PointSchema);

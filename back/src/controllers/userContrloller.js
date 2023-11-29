@@ -3,11 +3,8 @@ const { pointService } = require('../services/pointService');
 
 async function register(req, res, next) {
   try {
-    if (is.emptyObject(req.body)) {
-      throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
-    }
-
     const user = req.body.user;
+    console.log();
     // req (request) 에서 데이터 가져오기
     // 위 데이터를 유저 db에 추가하기
     const newUser = await userAuthService.addUser({
@@ -47,14 +44,14 @@ async function login(req, res, next) {
       throw new Error(errorMessage);
     }
 
-    res.status(200).send(user);
+    res.status(200).send({ user: user });
   } catch (error) {
     next(error);
   }
 }
 async function currentInfo(req, res, next) {
   try {
-    // jwt토큰에서 추출된 사용자 이메일을 가지고 db에서 사용자 정보를 찾음.
+    // jwt access토큰에서 사용자의 id를 얻음.
     const userId = req.currentUserId;
 
     const currentUserInfo = await userAuthService.getUserInfobyId({

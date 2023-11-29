@@ -8,9 +8,8 @@ class pointService {
     return points;
   }
   static async addPoint({ pointdetails }) {
-    const point = await Point.findone({ ids: pointdetails.ids });
+    const point = await Point.findone({ userId: pointdetails.userId, itemId: pointdetails.itemId });
 
-    console.log(point);
     if (point != null) {
       const errorMessage = '포인트 내역이 이미 존재합니다.';
       return { errorMessage };
@@ -19,7 +18,7 @@ class pointService {
     const newPoint = await Point.create({ newPoint: pointdetails });
 
     if (newPoint !== null) {
-      const user = userAuthService.addUserPoint({ userId: pointdetails.ids.userId, point: pointdetails.point });
+      const user = userAuthService.addUserPoint({ userId: pointdetails.userId, point: pointdetails.point });
 
       if (user.errorMessage) {
         const errorMessage = user.errorMessage;
