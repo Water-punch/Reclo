@@ -4,4 +4,3 @@ import { create } from 'zustand'
 export const createChatSlice = (set) => ({
   // 1:1 채팅 or 쪽지 or 비밀댓글 결정해야 함.
 })
-

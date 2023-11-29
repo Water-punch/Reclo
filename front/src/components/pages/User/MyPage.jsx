@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import "../../../styles/Mypage.css"
+import "../../../styles/Mypage.css";
+import Header from "../../common/Header";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -21,10 +22,7 @@ const MyPage = () => {
               <input className="email"></input>
               <p>주소</p>
               <input className="address"></input>
-              <button
-                className="change"
-                onClick={() => navigate("/point")}
-              >
+              <button className="change" onClick={() => navigate("/point")}>
                 변경
               </button>
             </div>

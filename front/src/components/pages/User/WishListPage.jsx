@@ -1,14 +1,12 @@
+import CelTable from "../../features/WishListbox";
 
 const WishListPage = () => {
+  return (
+    <>
+      <h1>관심상품 조회</h1>
+      <CelTable />
+    </>
+  );
+};
 
-
-
-
-    return (
-        <>
-          <h1>WishListPage</h1>
-        </>
-    )
-}
-
-export default WishListPage
+export default WishListPage;
