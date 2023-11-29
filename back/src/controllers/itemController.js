@@ -1,7 +1,7 @@
 const ObjectId = require('mongoose').Types.ObjectId;
 const { itemService } = require('../services/itemService');
 
-const { imageUploader_item, imageUploader_user, imageDelete } = require('../middlewares/imageMiddleware');
+// const { imageUploader_item, imageUploader_user, imageDelete } = require('../middlewares/imageMiddleware');
 
 // 페이징을 적용한 전체 품목 조회
 async function getAllItems(req, res, next) {
@@ -69,10 +69,11 @@ async function getItemsBySearch(req, res, next) {
 async function getUserItems(req, res, next) {
   try {
     const userId = ObjectId(req.params.userId);
-    const userItems = await itemService.getItems({ userId });
+    // console.log(userId);
+    const userItems = await itemService.getUserItems({ userId });
 
     if (!userItems) {
-      throw new Error(userItems.errorMessage);
+      // throw new Error(userItems.errorMessage);
     }
 
     res.status(200).send({ userItems });
@@ -86,6 +87,7 @@ async function getItemDetails(req, res, next) {
   try {
     const itemId = ObjectId(req.params.itemId);
     const itemDetails = await itemService.getItemDetails({ itemId });
+    console.log(itemDetails);
 
     if (!itemDetails) {
       throw new Error(itemDetails.errorMessage);
@@ -100,43 +102,29 @@ async function getItemDetails(req, res, next) {
 // 아이템 추가하기
 async function addItem(req, res, next) {
   try {
-    const userId = ObjectId(req.params.userId);
-
     // 이미지 업로드
-    imageUploader_item.array('image')(req, res, async function (err) {
-      if (err) {
-        return next(err);
-      }
+    // imageUploader_item.array('image')(req, res, async function (err) {
+    // if (err) {
+    //   return next(err);
+    // }
 
-      const itemImgUrl = req.files[0].location;
+    const itemInfo = req.body.itemInfo;
+    // console.log(itemInfo);
 
-      const { itemTitle, itemName, itemDescription, itemCategory, itemLike, itemPrice, itemState } = req.body;
-      console.log(req.body);
+    // DB에 데이터 추가
+    const newItem = await itemService.addItem({
+      itemInfo,
+    });
 
-      // DB에 데이터 추가
-      const newItem = await itemService.addItem({
-        itemInfo: {
-          userId,
-          itemTitle,
-          itemName,
-          itemDescription,
-          itemImgUrl,
-          itemCategory,
-          itemLike,
-          itemPrice,
-          itemState,
-        },
-      });
+    // const itemImgUrl = req.files[0].location;
 
-      if (!newItem) {
-        throw new Error(newItem.errorMessage);
-      }
-
-      res.status(201).send({
-        itemId: newItem._id,
-        itemImgUrl: newItem.itemImgUrl,
-        message: '아이템 추가에 성공했습니다.',
-      });
+    if (!newItem) {
+      throw new Error(newItem.errorMessage);
+    }
+    res.status(201).send({
+      itemId: newItem._id,
+      // itemImgUrl: newItem.itemImgUrl,
+      // message: '아이템 추가에 성공했습니다.',
     });
   } catch (error) {
     next(error);
@@ -147,28 +135,17 @@ async function addItem(req, res, next) {
 async function setItem(req, res, next) {
   try {
     const itemId = ObjectId(req.params.itemId);
-    const { itemTitle, itemName, itemDescription, itemImgUrl, itemCategory, itemLike, itemPrice, itemState } = req.body;
-
-    const toUpdate = {
-      itemTitle,
-      itemName,
-      itemDescription,
-      itemImgUrl,
-      itemCategory,
-      itemLike,
-      itemPrice,
-      itemState,
-    };
+    const toUpdate = req.body.toUpdate;
 
     const updatedItem = await itemService.setItem({ itemId, toUpdate });
-
+    console.log(updatedItem);
     if (!updatedItem) {
       throw new Error(updatedItem.errorMessage);
     }
 
     res.status(200).send({
-      itemImgUrl: updatedItem.itemImgUrl,
-      message: '아이템 수정에 성공했습니다.',
+      // itemImgUrl: updatedItem.itemImgUrl,
+      // message: '아이템 수정에 성공했습니다.',
     });
   } catch (error) {
     next(error);
@@ -176,33 +153,33 @@ async function setItem(req, res, next) {
 }
 
 // 아이템 삭제하기
-async function deleteItem(req, res, next) {
-  const itemId = ObjectId(req.params.itemId);
-  // delete 로직 수정 필요
-  try {
-    const deleteImageAndItem = await Promise.all([imageDelete(item.itemImgUrl), itemService.deleteItem({ itemId })]);
+// async function deleteItem(req, res, next) {
+//   const itemId = ObjectId(req.params.itemId);
+//   // delete 로직 수정 필요
+//   try {
+// const deleteImageAndItem = await Promise.all([imageDelete(item.itemImgUrl), itemService.deleteItem({ itemId })]);
 
-    const [deleteItemResult, deleteImageResult] = deleteImageAndItem;
+// const [deleteItemResult, deleteImageResult] = deleteImageAndItem;
 
-    //   const deleteItem = await itemAuthService.deleteItem({ itemId });
-    //   // 이미지 URL까지 같이 삭제
-    //   const deleteImage = await imageDelete({ imageUrl: deleteItem.itemImgUrl });
+//   const deleteItem = await itemAuthService.deleteItem({ itemId });
+//   // 이미지 URL까지 같이 삭제
+//   const deleteImage = await imageDelete({ imageUrl: deleteItem.itemImgUrl });
 
-    if (!deleteItemResult) {
-      throw new Error(deleteItemResult.errorMessage);
-    }
+// if (!deleteItemResult) {
+//   throw new Error(deleteItemResult.errorMessage);
+// }
 
-    if (!deleteImageResult) {
-      throw new Error(deleteImageResult.errorMessage);
-    }
+// if (!deleteImageResult) {
+//   throw new Error(deleteImageResult.errorMessage);
+// }
 
-    res.status(200).send({
-      message: '아이템 삭제에 성공했습니다.',
-    });
-  } catch (error) {
-    next(error);
-  }
-}
+//     res.status(200).send({
+//       message: '아이템 삭제에 성공했습니다.',
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// }
 
 module.exports = {
   getAllItems,
@@ -212,5 +189,5 @@ module.exports = {
   getItemDetails,
   addItem,
   setItem,
-  deleteItem,
+  // deleteItem,
 };

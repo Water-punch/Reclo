@@ -10,22 +10,22 @@ const ItemSchema = new Schema(
 
     email: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     title: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     description: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     category: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     like: {

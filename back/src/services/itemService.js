@@ -1,22 +1,23 @@
 import { Item } from '../db';
+// const { ObjectId } = require('mongodb');
 
 class itemService {
   // 아이템 상세내용 조회
   static async getItemDetails({ itemId }) {
-    const user = await Item.getItemDetails({ itemId });
-    return user;
+    const item = await Item.findByItemId({ itemId });
+    return item;
   }
 
   // 전체 아이템 조회
   static async getAllItems() {
-    const items = await Item.findAll();
+    const items = await Item.findAll({});
     return items;
   }
 
   // 유저별 아이템 조회
   static async getUserItems({ userId }) {
-    const item = await Item.findByItemId({ userId });
-    return item;
+    const items = await Item.findAll({ userId });
+    return items;
   }
 
   // 카테고리별 아이템 조회
@@ -33,42 +34,43 @@ class itemService {
 
   // 아이템 추가
   static async addItem({ itemInfo }) {
+    // console.log(itemInfo);
     const newItem = { ...itemInfo };
-    const createdNewItem = await Item.create({ newItem });
+    const createdNewItem = await Item.createItem({ newItem });
     return createdNewItem;
   }
 
+  //아이템 수정
   static async setItem({ itemId, toUpdate }) {
-    // console.log('Service_itemId', itemId);
     let item = await Item.findByItemId({ itemId });
+    // console.log(item);
 
-    // DB에서 찾지 못한 경우, 에러 메시지 반환
     if (!item) {
-      const errorMessage = '해당 아이템이 존재하지 않습니다';
+      const errorMessage = '해당 id의 상품이 없습니다. 다시 한 번 확인해 주세요.';
       return { errorMessage };
     }
 
-    const updateFields = [
-      'itemTitle',
-      'itemName',
-      'itemDescription',
-      'itemImgUrl',
-      'itemCategory',
-      'itemLike',
-      'itemPrice',
-      'itemState',
-    ];
+    const itemFieldMapping = {
+      title: 'title',
+      description: 'description',
+      category: 'category',
+      price: 'price',
+      state: 'state',
+      itemsImgUrl: 'itemsImgUrl',
+    };
 
-    // 아이템 상세내용 업데이트
-    for (const field of updateFields) {
-      if (toUpdate[field] !== undefined) {
-        const fieldToUpdate = field;
+    let updatedItem = {};
+
+    for (const [field, fieldToUpdate] of Object.entries(itemFieldMapping)) {
+      console.log(toUpdate[field]);
+      if (toUpdate[field]) {
         const newValue = toUpdate[field];
-        item = await Item.update({ itemId, fieldToUpdate, newValue });
+
+        updatedItem = await Item.update({ itemId, fieldToUpdate, newValue });
       }
     }
 
-    return item;
+    return updatedItem;
   }
 
   static async deleteItem({ itemId }) {
