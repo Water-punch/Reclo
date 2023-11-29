@@ -1,7 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import { userAuthRouter } from './routers/userRouter';
-//import { itemAuthRouter } from './routers/itemRouter';
+import { itemRouter } from './routers/itemRouter';
 import { errorMiddleware } from './middlewares/errorMiddleware';
 const cookieParser = require('cookie-parser');
 
