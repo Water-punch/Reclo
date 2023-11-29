@@ -1,8 +1,9 @@
-import cors from "cors";
-import express from "express";
-import { userAuthRouter } from "./routers/userRouter";
-import { itemAuthRouter } from './routers/itemRouter';
-import { errorMiddleware } from "./middlewares/errorMiddleware";
+import cors from 'cors';
+import express from 'express';
+import { userAuthRouter } from './routers/userRouter';
+//import { itemAuthRouter } from './routers/itemRouter';
+import { errorMiddleware } from './middlewares/errorMiddleware';
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -11,11 +12,11 @@ app.use(cors());
 
 app.use(
   cors({
-    origin: ["http://localhost:5001", 'http://localhost:3000'],
+    origin: ['http://localhost:5001', 'http://localhost:3000'],
     methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
     credentials: true,
-    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
-    exposedHeaders: ["set-cookie"],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
+    exposedHeaders: ['set-cookie'],
   })
 );
 
@@ -33,7 +34,7 @@ app.get('/', (req, res) => {
 });
 
 app.use(userAuthRouter);
-app.use(itemAuthRouter);
+//app.use(itemAuthRouter);
 // 에러 핸들링
 app.use(errorMiddleware);
 

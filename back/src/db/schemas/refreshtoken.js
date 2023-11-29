@@ -1,11 +1,11 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
 
 const refreshTokenSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     required: true,
     unique: true,
-    ref: "User",
+    ref: 'User',
   },
   token: {
     type: String,
@@ -13,6 +13,6 @@ const refreshTokenSchema = new Schema({
   },
 });
 
-const RefreshTokenModel = model("RefreshToken", refreshTokenSchema);
+const RefreshTokenModel = model('RefreshToken', refreshTokenSchema);
 
 export { RefreshTokenModel };
