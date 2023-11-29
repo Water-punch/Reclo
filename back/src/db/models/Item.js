@@ -2,36 +2,41 @@ import { ItemModel } from '../schemas/item';
 const ObjectId = require('mongoose').Types.ObjectId;
 
 class Item {
-  static async create({ newItem }) {
+  // 새로운 아이템 생성
+  static async createItem({ newItem }) {
     const createdNewItem = await ItemModel.create(newItem);
     return createdNewItem;
   }
 
-  static async checkItemId({ itemId }) {
-    const item = await ItemModel.findOne({ _id: ObjectId(itemId) });
+  // 아이템 아이디로 찾기
+  static async findByItemId({ itemId }) {
+    const item = await ItemModel.findById({ _id: ObjectId(itemId) });
     return item;
   }
 
-  static async findAll({ userId }) {
-    // ItemModel에서 주어진 userId에 해당하는 모든 아이템을 거래글 생성일 순으로 정렬해서 찾기
-    const items = await ItemModel.find({ userId }).sort({ createdAt: 'asc' });
+  // 전체 조회
+  static async findAll({}) {
+    const items = await ItemModel.find({}).sort({ createdAt: 'asc' });
     const sortedItems = items
       .map(({ ...rest }) =>
-        [rest._doc].map(({ userId, price, description, category, createdAt, updatedAt, __v, ...rest }) => rest)
+        [rest._doc].map(
+          ({ userId, price, description, category, state, email, createdAt, updatedAt, __v, ...rest }) => rest
+        )
       )
       .flat();
     return sortedItems;
   }
 
-  static async findByItemId({ itemId }) {
-    const item = await ItemModel.findOne({ _id: ObjectId(itemId) });
-    return item;
-  }
+  // // userId로 아이템 찾기
+  // static async findByUserId({ userId }) {
+  //   const items = await ItemModel.findAll({ userId: ObjectId(userId) });
+  //   return items;
+  // }
 
   static async update({ itemId, fieldToUpdate, newValue }) {
     const filter = { _id: ObjectId(itemId) };
     const update = { [fieldToUpdate]: newValue };
-    const option = { new: true };
+    const option = { returnOriginal: false };
     const updatedItem = await ItemModel.findOneAndUpdate(filter, update, option);
     return updatedItem;
   }

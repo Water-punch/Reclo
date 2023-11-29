@@ -1,10 +1,10 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 const JWT_KEY = process.env.JWT_SECRET_KEY;
-import { RefreshToken } from "../db";
+import { RefreshToken } from '../db';
 
 // accessToken 발급 함수
 const makeToken = ({ user_id }) => {
-  const token = jwt.sign({ user_id }, JWT_KEY, { expiresIn: "20m" });
+  const token = jwt.sign({ user_id }, JWT_KEY, { expiresIn: '20m' });
   return token;
 };
 
@@ -13,8 +13,8 @@ const makeRefreshToken = async ({ user_id }) => {
   await RefreshToken.findByIdAndDelete({ userId: user_id });
 
   const token = jwt.sign({ user_id }, JWT_KEY, {
-    algorithm: "HS256",
-    expiresIn: "200m",
+    algorithm: 'HS256',
+    expiresIn: '200m',
   });
 
   const refreshToken = await RefreshToken.create({ userId: user_id, token });

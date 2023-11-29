@@ -36,6 +36,7 @@ class userAuthService {
     // 비밀번호 일치 여부 확인
     const correctPasswordHash = user.password;
     const isPasswordCorrect = await bcrypt.compare(password, correctPasswordHash);
+    const isPasswordCorrect = await bcrypt.compare(password, correctPasswordHash);
     if (!isPasswordCorrect) {
       throw new BadRequestError('비밀번호가 일치하지 않습니다.');
     }
