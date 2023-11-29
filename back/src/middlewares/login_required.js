@@ -1,4 +1,4 @@
-import { makeToken, verify, refreshVerify } from "../util/token";
+import { makeToken, verify, refreshVerify } from '../utils/token';
 
 async function login_required(req, res, next) {
   // cookie에서 access token을 받음
@@ -15,9 +15,7 @@ async function login_required(req, res, next) {
         req.currentUserId = userId;
       }
     } catch (error) {
-      res
-        .status(400)
-        .send("정상적인 토큰이 아닙니다. 다시 한 번 확인해 주세요.");
+      res.status(400).send('정상적인 토큰이 아닙니다. 다시 한 번 확인해 주세요.');
     }
     next();
   }
@@ -32,7 +30,7 @@ async function login_required(req, res, next) {
 
         const token = makeToken({ user_id: userId });
 
-        res.cookie("accessToken", token, {
+        res.cookie('accessToken', token, {
           maxAge: 1000 * 60 * 20,
           httpOnly: true,
         });
@@ -41,13 +39,11 @@ async function login_required(req, res, next) {
       //새로운 access token 생성
       next();
     } catch (error) {
-      res
-        .status(400)
-        .send("정상적인 토큰이 아닙니다. 다시 한 번 확인해 주세요.");
+      res.status(400).send('정상적인 토큰이 아닙니다. 다시 한 번 확인해 주세요.');
     }
   } else {
     // token을 가지고 있지 않은 유저
-    res.status(400).send("로그인한 유저만 사용할 수 있는 서비스입니다.");
+    res.status(400).send('로그인한 유저만 사용할 수 있는 서비스입니다.');
   }
 }
 
