@@ -4,16 +4,11 @@ const { pointService } = require('../services/pointService');
 async function register(req, res, next) {
   try {
     const user = req.body.user;
-    console.log();
     // req (request) 에서 데이터 가져오기
     // 위 데이터를 유저 db에 추가하기
     const newUser = await userAuthService.addUser({
       user,
     });
-
-    if (newUser.errorMessage) {
-      throw new Error(newUser.errorMessage);
-    }
 
     res.status(201).json(newUser);
   } catch (error) {
@@ -40,10 +35,6 @@ async function login(req, res, next) {
       httpOnly: true,
     });
 
-    if (errorMessage) {
-      throw new Error(errorMessage);
-    }
-
     res.status(200).send({ user: user });
   } catch (error) {
     next(error);
@@ -57,10 +48,6 @@ async function currentInfo(req, res, next) {
     const currentUserInfo = await userAuthService.getUserInfobyId({
       userId,
     });
-
-    if (currentUserInfo.errorMessage) {
-      throw new Error(currentUserInfo.errorMessage);
-    }
 
     res.status(200).send(currentUserInfo);
   } catch (error) {
@@ -76,10 +63,6 @@ async function currentInfoUpdate(req, res, next) {
 
     // 해당 사용자 이메일로 사용자 정보를 db에서 찾아 업데이트함.
     const updatedUser = await userAuthService.setUser({ userId, user });
-
-    if (updatedUser.errorMessage) {
-      throw new Error(updatedUser.errorMessage);
-    }
 
     res.status(200).json(updatedUser);
   } catch (error) {
@@ -122,10 +105,6 @@ async function InfoByNickname(req, res, next) {
     const currentUserInfo = await userAuthService.getUserInfobyNickname({
       nickname: user_nickname,
     });
-
-    if (currentUserInfo.errorMessage) {
-      throw new Error(currentUserInfo.errorMessage);
-    }
 
     res.status(200).send(currentUserInfo);
   } catch (error) {

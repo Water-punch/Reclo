@@ -44,4 +44,14 @@ class ConflictError extends Error {
     this.status = 409;
   }
 }
+
+// 500 db저장중 문제 발생
+class InternalServerError extends Error {
+  constructor(message) {
+    super(message);
+    this.status = 500;
+  }
+}
+
 export { BadRequestError, INVALID_USER_Error, UnauthorizedError, ForbiddenError, NotFoundError, ConflictError };
+export { InternalServerError };

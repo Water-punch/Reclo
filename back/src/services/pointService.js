@@ -1,5 +1,13 @@
 import { Point } from '../db'; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import { userAuthService } from './userService';
+import {
+  BadRequestError,
+  INVALID_USER_Error,
+  UnauthorizedError,
+  ForbiddenError,
+  NotFoundError,
+  ConflictError,
+} from '../utils/customError';
 
 class pointService {
   static async getAllUserPoint({ userId }) {
@@ -11,8 +19,7 @@ class pointService {
     const point = await Point.findone({ userId: pointdetails.userId, itemId: pointdetails.itemId });
 
     if (point != null) {
-      const errorMessage = '포인트 내역이 이미 존재합니다.';
-      return { errorMessage };
+      throw new ConflictError('이미 존재하는 포인트입니다.');
     }
 
     const newPoint = await Point.create({ newPoint: pointdetails });

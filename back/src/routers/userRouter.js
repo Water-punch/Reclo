@@ -13,7 +13,7 @@ userAuthRouter.get('/user/current', asyncHandler(login_required), userController
 userAuthRouter.put('/user/current', asyncHandler(login_required), userController.currentInfoUpdate);
 
 userAuthRouter.get('/user/current/point', asyncHandler(login_required), userController.currentPointInfo);
-userAuthRouter.post('/user/:id/point', userController.addPoint);
+userAuthRouter.post('/point', userController.addPoint);
 
 // 추가적인 작성이 필요한 함수들
 userAuthRouter.get('/user/:nickname', asyncHandler(login_required), userController.InfoByNickname);
