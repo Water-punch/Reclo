@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-
+import { QueryClient, QueryClientProvider ,} from '@tanstack/react-query' //useQueryClient는 Queryclient를 사용할 컴포넌트에서
 import { Home, IntroPage } from './components/pages/Home'
 import { TestPage, TestResultPage } from './components/pages/Test'
 import { ChatListPage, ChattingRoomPage } from './components/pages/Chat'
@@ -10,9 +10,10 @@ import Header from './components/common/Header'
 import NavBar from './components/common/NavBar'
 
 function App() {
+  const queryClient = new QueryClient()
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Router>
         <Header />
         <NavBar />
@@ -35,10 +36,9 @@ function App() {
 
           <Route path='/chatlist' element={<ChatListPage />} />
           <Route path='/chatting' element={<ChattingRoomPage />} />
-
         </Routes>
       </Router>
-    </>
+    </QueryClientProvider>
   )
 }
 
