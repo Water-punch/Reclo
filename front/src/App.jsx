@@ -31,11 +31,12 @@ function App() {
 
           <Route path='/contents' element={<ContentsPage />} />
           <Route path='/add' element={<ContentsAddPage />} />
-          <Route path='/detail' element={<ContentsDetailPage />} />
+          <Route path='/detail:id' element={<ContentsDetailPage />} />
           <Route path='/event' element={<EventPage />} />
 
           <Route path='/chatlist' element={<ChatListPage />} />
           <Route path='/chatting' element={<ChattingRoomPage />} />
+          {/* <Route path='*' element={<NotFound />} /> */}
         </Routes>
       </Router>
     </QueryClientProvider>

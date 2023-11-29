@@ -47,15 +47,17 @@ const ContentsPage = () => {
           display: 'flex',
           justifyContent: 'center'
         }}>
-          <Grid item xs={3}>
+          <Grid container spacing={2} mx={5} my={5}>
             {items.map((item) => ( // 테스트용임
-              <ContentsCard
-                mt={2} 
-                key={item.itemId}
-                item={item}
-              />
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <ContentsCard
+                  mt={2} 
+                  key={item.itemId}
+                  item={item}
+                />
+              </Grid> 
             ))}
-          </Grid> 
+          </Grid>
         </Box>   
       </div>
     )
