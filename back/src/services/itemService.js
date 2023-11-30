@@ -16,7 +16,7 @@ class itemService {
 
   // 유저별 아이템 조회
   static async getUserItems({ userId }) {
-    const items = await Item.findAll({ userId });
+    const items = await Item.findUserItems({ userId });
     return items;
   }
 
