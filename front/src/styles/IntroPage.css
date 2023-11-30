@@ -1,0 +1,36 @@
+.IntroPage {
+  margin: 0 10%;
+}
+
+.IntroPage h1 {
+  margin: 50px;
+}
+
+/* chart */
+#chart {
+  margin: 100px 0;
+}
+
+/* Cloth_waste */
+#cloth_waste {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#cloth_waste a {
+}
+
+#cloth_waste a img {
+  width: 100%;
+}
+
+#cloth_waste p {
+  margin-left: 100px;
+  width: 60%;
+
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 2px;
+  line-height: 40px;
+}
