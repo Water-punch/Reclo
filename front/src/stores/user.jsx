@@ -1,19 +1,12 @@
-import { create } from "zustand";
+import { create } from 'zustand'
 
-//관리할 상태: 로그인, 포인트, 유저등급, 관심상품, 별명 ...
-const useUserStore = create((set) => ({
+//관리할 상태: 전역상태만! 
+export const createUserSlice = (set) => ({
   login: false,
-  setLogin: () => set({ login: !login }),
-  nickName: "",
-  setNickName: (input) => set({ nickName: input }),
-  rank: 0,
-  //setLevel:
-  point: 0,
-  //setPoint:
-  birthDate: "",
-  //setBirthdate:
-  wishList: [],
-  //setLiked:
-}));
+  setLogin: (state) => set({ login: !state.login }),
+  setLogout: (state) => set({ logout: !state.logout }),
 
-export default useUserStore;
+  userId: 0,
+  setUserId: (id) => set({ userId: id})
+
+})
