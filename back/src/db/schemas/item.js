@@ -25,7 +25,7 @@ const ItemSchema = new Schema(
 
     category: {
       type: String,
-      // required: true,
+      required: true,
     },
 
     like: {
@@ -44,6 +44,16 @@ const ItemSchema = new Schema(
       required: true,
       default: '거래 가능',
     },
+
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
+
+    // deletedAt: {
+    //   type: Date,
+    //   default: null,
+    // },
 
     itemsImgUrl: {
       type: String,

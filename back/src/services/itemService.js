@@ -34,7 +34,6 @@ class itemService {
 
   // 아이템 추가
   static async addItem({ itemInfo }) {
-    // console.log(itemInfo);
     const newItem = { ...itemInfo };
     const createdNewItem = await Item.createItem({ newItem });
     return createdNewItem;
@@ -43,7 +42,6 @@ class itemService {
   //아이템 수정
   static async setItem({ itemId, toUpdate }) {
     let item = await Item.findByItemId({ itemId });
-    // console.log(item);
 
     if (!item) {
       const errorMessage = '해당 id의 상품이 없습니다. 다시 한 번 확인해 주세요.';
@@ -62,7 +60,6 @@ class itemService {
     let updatedItem = {};
 
     for (const [field, fieldToUpdate] of Object.entries(itemFieldMapping)) {
-      console.log(toUpdate[field]);
       if (toUpdate[field]) {
         const newValue = toUpdate[field];
 
@@ -73,10 +70,22 @@ class itemService {
     return updatedItem;
   }
 
-  static async deleteItem({ itemId }) {
-    const result = await Item.delete({ itemId });
-    return result;
+  static async deleteById({ itemId }) {
+    // const item = await Item.findOne({ _id: ObjectId(itemId) });
+    const deletedItem = await Item.deleteItem({ itemId });
+    return deletedItem;
   }
+
+  // await Item.softDelete({ item });
+  // const result = await Item.save(item);
+
+  // } else if (itemId.userId !== user) {
+  //   const errorMessage = '해당 아이템 삭제 권한이 없습니다.';
+  //   return { errorMessage };
+  // }
+  // const result = await Item.deleteItem({ itemId });
+  // return result.isDeleted ? true : false;
+  // return {};
 }
 
 export { itemService };
