@@ -6,7 +6,6 @@ async function register(req, res, next) {
     const user = req.body.user;
     // req (request) 에서 데이터 가져오기
     // 위 데이터를 유저 db에 추가하기
-    console.log(user)
     const newUser = await userAuthService.addUser({
       user,
     });
