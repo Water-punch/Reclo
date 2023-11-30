@@ -39,6 +39,7 @@ const UserSchema = new Schema(
     },
     deleted: {
       type: Boolean,
+      default: false,
     },
   },
   {

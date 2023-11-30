@@ -24,6 +24,24 @@ class userAuthService {
     return createdNewUser;
   }
 
+  static async deleteUser({ userId }) {
+    // 해당하는 id가 존재하는지 확인
+    const duplication = await User.findById({ userId });
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!duplication) {
+      throw new INVALID_USER_Error('유저가 존재하지 않습니다.');
+    }
+
+    const updateduser = {
+      ...duplication._doc,
+      deleted: true,
+    };
+    // user의 deleted를 true로 설정
+    const updatedUser = await User.update({ user: updateduser });
+
+    return updatedUser;
+  }
+
   //로그인
   static async getUser({ email, password }) {
     // 이메일 db에 존재 여부 확인
