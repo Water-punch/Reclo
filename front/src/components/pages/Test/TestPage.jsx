@@ -1,15 +1,9 @@
-
-
 const TestPage = () => {
+  return (
+    <>
+      <h1>TestPage</h1>
+    </>
+  );
+};
 
-
-
-
-    return (
-        <>
-          <h1>TestPage</h1>
-        </>
-    )
-}
-
-export default TestPage
+export default TestPage;
