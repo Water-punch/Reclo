@@ -28,7 +28,6 @@ export default function LoginForm() {
     event.preventDefault();
 
     try {
-      // 예제: API 호출
       const response = await fetch("/api/login", {
         method: "POST",
         headers: {
@@ -37,10 +36,8 @@ export default function LoginForm() {
         body: JSON.stringify({ email, password }),
       });
 
-      // 예제: 서버 응답 확인
       if (response.ok) {
         console.log("로그인 성공!");
-        // 여기에서 로그인 성공 후의 동작을 추가할 수 있습니다.
       } else {
         console.error("로그인 실패");
       }
