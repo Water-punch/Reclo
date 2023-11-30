@@ -27,7 +27,7 @@
 
 .trendbanner {
   width: 100%;
-  height: 15vh;
+  height: max-content;
   background-color: rgb(208, 241, 230);
 }
 

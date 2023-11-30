@@ -10,7 +10,7 @@ with open(oceanDataJson,"r") as file2:
     ocean_data = json.load(file2)
 
 # 두 데이터의 연도 목록 추출
-years = list(set(ocean_data["data"].keys()).union(set(land_data["data"].keys())))
+years = sorted(set(ocean_data["data"].keys()).union(set(land_data["data"].keys())))
 
 # 변환된 데이터를 담을 리스트 초기화
 combined_data = []
@@ -21,6 +21,8 @@ for year in years:
     land_value = float(land_data["data"].get(year, 0))
     
     combined_data.append({"year": year, "ocean": ocean_value, "land": land_value})
+
+year
 
 print(combined_data)
 
