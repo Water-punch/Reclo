@@ -1,30 +1,48 @@
-import { useState } from "react";
-import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Link, Grid, Box, Typography, Container, Checkbox } from "@mui/material";
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import * as Api from '../../../api/api'
+
+function Copyright(props) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link color="inherit" href="https://mui.com/">
+        RE:CLO
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
+
+const defaultTheme = createTheme();
 
 export default function LoginForm() {
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
-
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-
-    try {
-      const response = await Api.post('user/login', {email, password})
-
-      if (response.ok) {
-        console.log("로그인 성공!");
-      } else {
-        console.error("로그인 실패");
-      }
-    } catch (error) {
-      console.error("API 호출 에러:", error);
-    }
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get("email"),
+      password: data.get("password"),
+    });
   };
 
-  const defaultTheme = createTheme();
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -58,8 +76,6 @@ export default function LoginForm() {
               name="email"
               autoComplete="email"
               autoFocus
-              value={email}
-              onChange={e=>setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -70,8 +86,6 @@ export default function LoginForm() {
               type="password"
               id="password"
               autoComplete="current-password"
-              value={password}
-              onChange={e=>setPassword(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -99,10 +113,7 @@ export default function LoginForm() {
             </Grid>
           </Box>
         </Box>
-        <Typography variant="body2" color="text.secondary" align="center">
-          {"© "}
-          {new Date().getFullYear()} Your Website
-        </Typography>
+        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

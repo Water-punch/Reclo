@@ -1,26 +1,27 @@
-import { useState } from "react";
-import { Avatar, Button, CssBaseline, Checkbox, TextField, FormControlLabel, Link, Grid, Box, Typography, Container } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import * as Api from "../../../api/api";
+import useLoginFormStore from "../../stores/useloginform";
 
-function RegisterForm() {
+function LoginForm() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
-  const [nickname, setNickname] = useState('')
 
-  const validateEmail = (email) => {
-    return email
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      )
-    }
+  const { email, password, setEmail, setPassword, validateEmail } =
+    useLoginFormStore();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     if (!validateEmail(email)) {
@@ -29,12 +30,14 @@ function RegisterForm() {
     }
 
     try {
-      await Api.post("user/register", { user: {email,password, nickname}});
-      console.log("회원가입 성공:", response.data);
-
-      navigate("/login");
+      console.log("Email:", email);
+      console.log("Password:", password);
+      // console.log({
+      //   email: email,
+      //   password: password,
+      // });
     } catch (error) {
-      console.error("회원가입 에러:", error);
+      console.error("로그인 에러:", error);
     }
   };
 
@@ -65,27 +68,23 @@ function RegisterForm() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  autoComplete="name"
-                  name="name"
+                  autoComplete="given-name"
+                  name="firstName"
                   required
                   fullWidth
-                  id="name"
-                  label="name"
+                  id="firstName"
+                  label="First Name"
                   autoFocus
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
-                  id="nickname"
-                  label="nickname"
-                  name="nickname"
-                  autoComplete="nickname"
-                  value={nickname}
-                  onChange={(e) => setNickname(e.target.value)}
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="family-name"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -96,8 +95,8 @@ function RegisterForm() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={email} // 추가
+                  onChange={(e) => setEmail(e.target.value)} // 추가
                 />
               </Grid>
               <Grid item xs={12}>
@@ -109,8 +108,8 @@ function RegisterForm() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={password} // 추가
+                  onChange={(e) => setPassword(e.target.value)} // 추가
                 />
               </Grid>
               <Grid item xs={12}>
@@ -118,7 +117,7 @@ function RegisterForm() {
                   control={
                     <Checkbox value="allowExtraEmails" color="primary" />
                   }
-                  label="로그인 정보 기억하기"
+                  label="I want to receive inspiration, marketing promotions and updates via email."
                 />
               </Grid>
             </Grid>
@@ -131,6 +130,11 @@ function RegisterForm() {
               회원가입
             </Button>
             <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link href="/register" variant="body2">
+                  회원이 아니신가요? 가입하기
+                </Link>
+              </Grid>
             </Grid>
           </Box>
         </Box>
@@ -139,4 +143,4 @@ function RegisterForm() {
   );
 }
 
-export default RegisterForm;
+export default LoginForm;

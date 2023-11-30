@@ -31,7 +31,7 @@ function App() {
 
           <Route path='/contents' element={<ContentsPage />} />
           <Route path='/add' element={<ContentsAddPage />} />
-          <Route path='/detail/:itemId' element={<ContentsDetailPage />} />
+          <Route path='/detail:id' element={<ContentsDetailPage />} />
           <Route path='/event' element={<EventPage />} />
 
           <Route path='/chatlist' element={<ChatListPage />} />
