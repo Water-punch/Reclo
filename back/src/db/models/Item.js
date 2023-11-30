@@ -33,14 +33,14 @@ class Item {
     return items;
   }
 
-  // // userId로 아이템 찾기
-  // static async findByUserId({ userId }) {
-  //   const items = await ItemModel.findAll({ userId: ObjectId(userId) });
-  //   return items;
-  // }
+  //userId로 아이템 찾기
+  static async findUserItems({ userId }) {
+    const items = await ItemModel.find({ userId: new ObjectId(userId) });
+    return items;
+  }
 
   static async update({ itemId, fieldToUpdate, newValue }) {
-    const filter = { _id: ObjectId(itemId) };
+    const filter = { _id: new ObjectId(itemId) };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
     const updatedItem = await ItemModel.findOneAndUpdate(filter, update, option);
