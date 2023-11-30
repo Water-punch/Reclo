@@ -16,6 +16,20 @@ async function register(req, res, next) {
   }
 }
 
+async function resign(req, res, next) {
+  try {
+    const userId = req.currentUserId;
+    await userAuthService.deleteUser({ userId });
+
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken');
+
+    res.status(201).json({ message: '회원 탈퇴에 성공했습니다' });
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function login(req, res, next) {
   try {
     const email = req.body.email;
@@ -40,6 +54,17 @@ async function login(req, res, next) {
     next(error);
   }
 }
+
+async function logout(req, res, next) {
+  try {
+    // 토큰을 설정해줌
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken').end();
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function currentInfo(req, res, next) {
   try {
     // jwt access토큰에서 사용자의 id를 얻음.
@@ -84,6 +109,19 @@ async function currentPointInfo(req, res, next) {
   }
 }
 
+async function profileUpdate(req, res, next) {
+  try {
+    const userId = req.currentUserId;
+
+    // 해당 사용자 이메일로 사용자 정보를 db에서 찾아 업데이트함.
+    //const updatedUser = await userAuthService.setUserProfile({ userId, img });
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+}
+
 //
 async function addPoint(req, res, next) {
   try {
@@ -114,10 +152,13 @@ async function InfoByNickname(req, res, next) {
 
 module.exports = {
   register,
+  resign,
   login,
+  logout,
   currentInfo,
   currentInfoUpdate,
   currentPointInfo,
+  profileUpdate,
   addPoint,
   InfoByNickname,
 };
