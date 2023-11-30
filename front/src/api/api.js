@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const backendPortNumber = ''
+const backendPortNumber = '5001'
 const serverUrl =
   "http://" + window.location.hostname + ":" + backendPortNumber + "/";
 
@@ -11,7 +11,9 @@ async function get(endpoint, params = '') {
   } catch (err) {
     console.log('GET 요청 실패\n', err)
   }
-  return axios.get(serverUrl + endpoint + '/' + params)
+  return axios.get(serverUrl + endpoint + '/' + params, {
+    withCredentials: true
+  })
 }
 
 async function post(endpoint, data) {
@@ -22,6 +24,7 @@ async function post(endpoint, data) {
     console.log('POST 요청 실패\n', err)
   }
   return axios.post(serverUrl + endpoint, bodyData, {
+    withCredentials: true,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -38,6 +41,7 @@ async function postImg(endpoint, data) {
   }
 
   return axios.post(serverUrl + endpoint, data, {
+    withCredentials: true,
     headers: {
       "Content-Type": 'multipart/form-data',
     },
@@ -55,6 +59,7 @@ async function put(endpoint, data) {
     headers: {
       'Content-Type': 'application/json',
     },
+    withCredentials: true,
   })
 }
 
@@ -65,10 +70,7 @@ async function del(endpoint, params = '') {
     console.log('DELETE 요청 실패\n', err)
   }
   return axios.delete(serverUrl + endpoint + '/' + params, {
-    headers: {
-      // Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
-      // 보안 관련해서는 공부가 필요하다
-    },
+    withCredentials: true
   })
 }
 
@@ -82,6 +84,7 @@ async function delImg(endpoint, data) {
     headers: {
       'Content-Type': 'application/json',
     },
+    withCredentials: true
   })
 }
 

@@ -6,7 +6,7 @@ const ContentsCard = ({item}) => {
 
   return (
     <Card sx={{ width: '30vh' }}>
-      <CardActionArea onClick={() => navigate(`/detail/${item.itemId}`, { state : {item} }) }>
+      <CardActionArea onClick={() => navigate(`/detail/${item.itemId}`, { state : 123 })}>
         <CardMedia
           component="img"
           height="50%"
