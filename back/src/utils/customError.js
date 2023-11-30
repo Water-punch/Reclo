@@ -13,7 +13,7 @@ class INVALID_USER_Error extends Error {
   }
 }
 
-// 401: 인증되지 않은 상태에서 인증이 필요한 리소스에 접근
+// 401: 권한 없음
 class UnauthorizedError extends Error {
   constructor(message) {
     super(message);

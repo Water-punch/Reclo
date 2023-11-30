@@ -13,17 +13,14 @@ app.use(cors());
 app.use(
   cors({
     origin: ['http://localhost:5001', 'http://localhost:3000'],
-    origin: ['http://localhost:5001', 'http://localhost:3000'],
     methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
     credentials: true,
-    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
-    exposedHeaders: ['set-cookie'],
     allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
     exposedHeaders: ['set-cookie'],
   })
 );
 
-// app.use(cookieParser());
+app.use(cookieParser());
 
 // express 기본 제공 middleware
 // express.json(): POST 등의 요청과 함께 오는 json형태의 데이터를 인식하고 핸들링할 수 있게 함.
