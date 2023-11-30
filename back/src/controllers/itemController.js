@@ -1,5 +1,6 @@
 const ObjectId = require('mongoose').Types.ObjectId;
 const { itemService } = require('../services/itemService');
+// const { Item } = require('../db');
 
 // const { imageUploader_item, imageUploader_user, imageDelete } = require('../middlewares/imageMiddleware');
 
@@ -30,14 +31,13 @@ async function getAllItems(req, res, next) {
 
 // 카테고리별 아이템 조회
 async function getItemsByCategory(req, res, next) {
-  const { itemCategory } = req.query;
+  let items;
   try {
-    let items;
-
-    if (itemCategory) {
-      items = await itemService.getItems({ itemCategory });
-      res.status(200).json({ items: paginatedItems, totalItems });
-    } else {
+    const category = req.query.category;
+    if (category) {
+      items = await itemService.getItemsByCategory({ category });
+      // res.status(200).json({ items });
+    } else if (!category) {
       items = await itemService.getAllItems();
     }
 
@@ -68,8 +68,7 @@ async function getItemsBySearch(req, res, next) {
 // 유저별 품목 조회
 async function getUserItems(req, res, next) {
   try {
-    const userId = ObjectId(req.params.userId);
-    // console.log(userId);
+    const userId = new ObjectId(req.params.userId);
     const userItems = await itemService.getUserItems({ userId });
 
     if (!userItems) {
@@ -85,9 +84,8 @@ async function getUserItems(req, res, next) {
 // 아이템 상세내용 조회
 async function getItemDetails(req, res, next) {
   try {
-    const itemId = ObjectId(req.params.itemId);
+    const itemId = new ObjectId(req.params.itemId);
     const itemDetails = await itemService.getItemDetails({ itemId });
-    console.log(itemDetails);
 
     if (!itemDetails) {
       throw new Error(itemDetails.errorMessage);
@@ -109,7 +107,6 @@ async function addItem(req, res, next) {
     // }
 
     const itemInfo = req.body.itemInfo;
-    // console.log(itemInfo);
 
     // DB에 데이터 추가
     const newItem = await itemService.addItem({
@@ -138,7 +135,6 @@ async function setItem(req, res, next) {
     const toUpdate = req.body.toUpdate;
 
     const updatedItem = await itemService.setItem({ itemId, toUpdate });
-    console.log(updatedItem);
     if (!updatedItem) {
       throw new Error(updatedItem.errorMessage);
     }
@@ -153,33 +149,33 @@ async function setItem(req, res, next) {
 }
 
 // 아이템 삭제하기
-// async function deleteItem(req, res, next) {
-//   const itemId = ObjectId(req.params.itemId);
-//   // delete 로직 수정 필요
-//   try {
-// const deleteImageAndItem = await Promise.all([imageDelete(item.itemImgUrl), itemService.deleteItem({ itemId })]);
+async function deleteItem(req, res, next) {
+  // console.log(req.body.itemId);
+  // const itemId = ObjectId(req.params.itemId);
+  // delete 로직 수정 필요
+  try {
+    const item = new ObjectId(req.params.itemId);
+    const deleteItem = await itemService.deleteById({ itemId: item });
+    await Image.imageDelete({ imageUrl: deleteItem.itemImgUrl });
+    // console.log(deleteImage);
+    // const [deleteItem, deleteImage] = await imageDeleteAndItem({ imageUrl: deleteItem.itemImgUrl });
+    // 이미지 URL까지 같이 삭제
 
-// const [deleteItemResult, deleteImageResult] = deleteImageAndItem;
+    if (!deleteItem) {
+      throw new Error(findItem.errorMessage);
+    }
 
-//   const deleteItem = await itemAuthService.deleteItem({ itemId });
-//   // 이미지 URL까지 같이 삭제
-//   const deleteImage = await imageDelete({ imageUrl: deleteItem.itemImgUrl });
+    // if (!deletedImageResult) {
+    //   throw new Error(deleteImageResult.errorMessage);
+    // }
 
-// if (!deleteItemResult) {
-//   throw new Error(deleteItemResult.errorMessage);
-// }
-
-// if (!deleteImageResult) {
-//   throw new Error(deleteImageResult.errorMessage);
-// }
-
-//     res.status(200).send({
-//       message: '아이템 삭제에 성공했습니다.',
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// }
+    res.status(200).send({
+      message: '아이템 삭제에 성공했습니다.',
+    });
+  } catch (error) {
+    next(error);
+  }
+}
 
 module.exports = {
   getAllItems,
@@ -189,5 +185,5 @@ module.exports = {
   getItemDetails,
   addItem,
   setItem,
-  // deleteItem,
+  deleteItem,
 };
