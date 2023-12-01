@@ -96,7 +96,6 @@ const IntroPage = () => {
           height="315"
           src="https://www.youtube.com/embed/aopyc8cAFzQ?si=NKrPQUY-jBxDLK89&amp;start=0"
           title="YouTube video player"
-          frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen
         ></iframe>

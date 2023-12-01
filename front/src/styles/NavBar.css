@@ -1,0 +1,14 @@
+.navbar {
+  display: flex;
+  height: 100px;
+  align-items: center;
+}
+.navbar h1 {
+  margin-left: 40px;
+  font-style: italic;
+  color: rgb(10, 55, 21);
+}
+
+.navbar #button_group {
+  margin-right: 100px;
+}

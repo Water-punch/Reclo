@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import * as React from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import "../../styles/NavBar.css";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -17,7 +18,12 @@ const NavBar = () => {
       >
         RE:CLO
       </h1>
-      <Stack spacing={2} direction="row" sx={{ marginBottom: "3vh" }}>
+      <Stack
+        id="button_group"
+        spacing={2}
+        direction="row"
+        sx={{ marginBottom: "0vh" }}
+      >
         <Button
           variant="text"
           color="success"
