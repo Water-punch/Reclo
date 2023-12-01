@@ -18,9 +18,7 @@ const Home = () => {
         test banner
       </div>
       <div className="freespace">freespace</div>
-      <div className="trendbanner">
-        <Chart />
-      </div>
+      <div className="trendbanner">trend banner</div>
       <div className="freespace">freespace</div>
       <div className="introbanner">intro banner</div>
       <div className="freespace">freespace</div>

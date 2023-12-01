@@ -1,5 +1,6 @@
 .IntroPage {
   margin: 0 10%;
+  transform: translateY(200px);
 }
 
 .IntroPage h1 {
@@ -9,6 +10,28 @@
 /* chart */
 #chart {
   margin: 100px 0;
+}
+
+/* intro_pic */
+#intro_pic {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#intro_pic p {
+  height: 300px;
+  display: flex;
+
+  align-items: center;
+
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 2px;
+  line-height: 40px;
+}
+#intro_pic p:nth-child(1) {
+  transform: translateY(00px);
 }
 
 /* Cloth_waste */
@@ -43,5 +66,6 @@
 #news #world_news {
   width: 800px;
   height: 450px;
-  margin: 100px;
+  margin: 300px;
+  color: rgb(6, 82, 23);
 }

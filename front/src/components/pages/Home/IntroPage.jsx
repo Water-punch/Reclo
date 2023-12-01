@@ -1,23 +1,28 @@
 import "../../../styles/IntroPage.css";
 import Chart from "./Chart";
 
+import intro_indonesia from "./img/intro_indonesia.jpg";
+import intro_nowater from "./img/intro_nowater.jpg";
+import intro_Heatwave from "./img/intro_Heatwave.webp";
+import intro_clothwaste from "./img/intro_clothwaste.jpg";
 import cloth_waste from "./img/cloth_waste.jpg";
 
+import { useEffect } from "react";
+
 const IntroPage = () => {
+  useEffect(() => {
+    AOS.init({ duration: 1200 });
+  });
+
   return (
     <div className="IntroPage">
       <h1>IntroPage</h1>
 
-      <div>
-        <img
-          src="https://eco-business.imgix.net/ebmedia/fileuploads/Global_Shield_Arti…ure.jpeg?ar=16%3A10&auto=format&fit=crop&ixlib=django-1.2.0&q=85&width=320"
-          alt="Global Shield Cover Picture"
-          srcset="https://eco-business.imgix.net/ebmedia/fileuploads/Global_Shield_Arti…eg?ar=16%3A10&auto=format&dpr=2&fit=crop&ixlib=django-1.2.0&q=45&width=320 640w, https://eco-business.imgix.net/ebmedia/fileuploads/Global_Shield_Arti…ure.jpeg?ar=16%3A10&auto=format&fit=crop&ixlib=django-1.2.0&q=85&width=700 700w, https://eco-business.imgix.net/ebmedia/fileuploads/Global_Shield_Arti…eg?ar=16%3A10&auto=format&dpr=2&fit=crop&ixlib=django-1.2.0&q=45&width=480 960w, https://eco-business.imgix.net/ebmedia/fileuploads/Global_Shield_Arti…eg?ar=16%3A10&auto=format&dpr=2&fit=crop&ixlib=django-1.2.0&q=45&width=700 1400w, https://eco-business.imgix.net/ebmedia/fileuploads/Global_Shield_Arti…g?ar=16%3A10&auto=format&dpr=2&fit=crop&ixlib=django-1.2.0&q=45&width=1100 2200w"
-          sizes="(min-width: 1300px) 1100px, (min-width: 740px) 700px, 100vw"
-        />
-      </div>
-
-      <div id="chart">
+      <div
+        id="chart"
+        data-aos="fade-right"
+        data-aos-anchor-placement="center-center"
+      >
         <Chart />
         <a
           id="temp_url"
@@ -27,7 +32,49 @@ const IntroPage = () => {
         </a>
       </div>
 
-      <div id="cloth_waste">
+      <div id="intro_pic">
+        <p data-aos="zoom-in" data-aos-anchor-placement="center-center">
+          지구의 온도가 지속적으로 상승함에 따라{" "}
+        </p>
+        <img
+          src={intro_indonesia}
+          data-aos="fade-right"
+          data-aos-anchor-placement="center-center"
+        />
+        <p data-aos="zoom-in" data-aos-anchor-placement="center-center">
+          지구에 예상하지 못한 일들이{" "}
+        </p>
+        <img
+          src={intro_nowater}
+          data-aos="fade-right"
+          data-aos-anchor-placement="center-center"
+        />
+        <p data-aos="zoom-in" data-aos-anchor-placement="center-center">
+          {" "}
+          일어나고 있습니다.{" "}
+        </p>
+        <img
+          src={intro_Heatwave}
+          data-aos="fade-right"
+          data-aos-anchor-placement="center-center"
+        />
+
+        <p data-aos="zoom-in" data-aos-anchor-placement="center-center">
+          {" "}
+          우리는 우리가 할 수 있는 일을 해보려고 합니다.
+        </p>
+        <img
+          src={intro_clothwaste}
+          data-aos="fade-right"
+          data-aos-anchor-placement="center-center"
+        />
+      </div>
+
+      <div
+        id="cloth_waste"
+        data-aos="fade-right"
+        data-aos-anchor-placement="center-center"
+      >
         <a href="https://earth.org/statistics-about-fast-fashion-waste/">
           <img src={cloth_waste} />
         </a>
@@ -38,7 +85,11 @@ const IntroPage = () => {
         </p>
       </div>
 
-      <div id="news">
+      <div
+        id="news"
+        data-aos="zoom-in"
+        data-aos-anchor-placement="center-center"
+      >
         <iframe
           id="world_news"
           width="560"

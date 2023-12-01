@@ -23,8 +23,8 @@ class Chart extends PureComponent {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="land" stackId="a" fill="#8884d8" />
-        <Bar dataKey="ocean" stackId="a" fill="#82ca9d" />
+        <Bar dataKey="land" stackId="a" fill="rgb(6, 82, 23)" />
+        <Bar dataKey="ocean" stackId="a" fill="rgb(56, 69, 218)" />
       </BarChart>
     );
   }
