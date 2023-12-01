@@ -1,8 +1,36 @@
 const ObjectId = require('mongoose').Types.ObjectId;
 const { wishItemService } = require('../services/wishItemService');
 
-// 관심상품 찾기
-async function getLikedItems(req, res, next) {}
+// 유저별 관심상품 찾기
+async function getLikedItems(req, res, next) {
+  try {
+    const userId = new ObjectId(req.params.userId);
+    const userwishItems = await wishItemService.getUserLikeItems({ userId });
+    if (!userwishItems) {
+      throw new Error(userwishItems.errorMessage);
+    }
+
+    res.status(200).send({ userwishItems });
+  } catch (error) {
+    next(error);
+  }
+}
+
+// 관심상품 상세내용 조회
+async function getLikedItemDetails(req, res, next) {
+  try {
+    const itemId = new ObjectId(req.params.itemId);
+    const likeItemDetails = await wishItemService.getLikeItemDetails({ itemId });
+
+    if (!likeItemDetails) {
+      throw new Error(likeItemDetails.errorMessage);
+    }
+
+    res.status(200).send({ likeItemDetails });
+  } catch (error) {
+    next(error);
+  }
+}
 
 // 관심상품 등록
 async function putItemLikes(req, res, next) {
@@ -40,6 +68,7 @@ async function putItemDislikes(req, res, next) {
 
 module.exports = {
   getLikedItems,
+  getLikedItemDetails,
   putItemLikes,
   putItemDislikes,
 };

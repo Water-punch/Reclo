@@ -4,10 +4,16 @@ import { Item } from '../db';
 class wishItemService {
   // 관심상품 조회
   static async getUserLikeItems({ userId }) {
-    const likedItems = await wishItem.findAll({ userId });
-
+    const likedItems = await wishItem.findLikeitems({ userId });
     return likedItems;
   }
+
+  // 관심상품별 상세내용 조회
+  static async getLikeItemDetails({ itemId }) {
+    const item = await wishItem.findLikeitemDetails({ itemId });
+    return item;
+  }
+
   // 관심상품 등록
   static async addLike({ likeInfo }) {
     const item = await Item.findByItemId({ itemId: likeInfo.itemId });
