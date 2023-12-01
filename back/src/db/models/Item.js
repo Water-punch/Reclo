@@ -23,13 +23,6 @@ class Item {
   // 전체 조회
   static async findAll({}) {
     const items = await ItemModel.find({ deleted: false }).sort({ createdAt: 'asc' });
-    // const sortedItems = items
-    //   .map(({ ...rest }) =>
-    //     [rest._doc].map(
-    //       ({ userId, price, description, category, state, email, createdAt, updatedAt, __v, ...rest }) => rest
-    //     )
-    //   )
-    //   .flat();
     return items;
   }
 
