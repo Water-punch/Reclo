@@ -34,3 +34,14 @@
   letter-spacing: 2px;
   line-height: 40px;
 }
+
+#news {
+  display: flex;
+  justify-content: center;
+}
+
+#news #world_news {
+  width: 800px;
+  height: 450px;
+  margin: 100px;
+}
