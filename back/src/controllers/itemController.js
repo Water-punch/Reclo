@@ -1,8 +1,5 @@
 const ObjectId = require('mongoose').Types.ObjectId;
 const { itemService } = require('../services/itemService');
-// const { Item } = require('../db');
-
-// const { imageUploader_item, imageUploader_user, imageDelete } = require('../middlewares/imageMiddleware');
 
 // 페이징을 적용한 전체 품목 조회
 async function getAllItems(req, res, next) {
