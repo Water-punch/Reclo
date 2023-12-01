@@ -26,12 +26,18 @@
   align-items: center;
 
   font-weight: 700;
-  font-size: 20px;
+  font-size: 30px;
   letter-spacing: 2px;
-  line-height: 40px;
 }
-#intro_pic p:nth-child(1) {
-  transform: translateY(00px);
+#intro_pic p:nth-child(3) {
+  align-self: flex-end;
+}
+#intro_pic p:nth-child(7) {
+  align-self: flex-end;
+}
+
+#intro_pic img {
+  scale: 50%;
 }
 
 /* Cloth_waste */
@@ -45,6 +51,7 @@
 }
 
 #cloth_waste a img {
+  scale: 100%;
   width: 100%;
 }
 
@@ -53,14 +60,24 @@
   width: 60%;
 
   font-weight: 700;
-  font-size: 20px;
+  font-size: 40px;
   letter-spacing: 2px;
-  line-height: 40px;
+  line-height: 80px;
 }
 
 #news {
   display: flex;
   justify-content: center;
+}
+
+#news p {
+  margin-left: 100px;
+  width: 60%;
+
+  font-weight: 700;
+  font-size: 40px;
+  letter-spacing: 2px;
+  line-height: 80px;
 }
 
 #news #world_news {

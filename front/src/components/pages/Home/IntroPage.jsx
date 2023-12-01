@@ -11,13 +11,12 @@ import { useEffect } from "react";
 
 const IntroPage = () => {
   useEffect(() => {
-    AOS.init({ duration: 1200 });
+    AOS.init({ duration: 1500 });
   });
 
   return (
     <div className="IntroPage">
       <h1>IntroPage</h1>
-
       <div
         id="chart"
         data-aos="fade-right"
@@ -31,7 +30,6 @@ const IntroPage = () => {
           출처: Global Times Series
         </a>
       </div>
-
       <div id="intro_pic">
         <p data-aos="zoom-in" data-aos-anchor-placement="center-center">
           지구의 온도가 지속적으로 상승함에 따라{" "}
@@ -68,28 +66,30 @@ const IntroPage = () => {
           data-aos="fade-right"
           data-aos-anchor-placement="center-center"
         />
-      </div>
 
-      <div
-        id="cloth_waste"
-        data-aos="fade-right"
-        data-aos-anchor-placement="center-center"
-      >
-        <a href="https://earth.org/statistics-about-fast-fashion-waste/">
-          <img src={cloth_waste} />
-        </a>
-        <p>
-          매년 1,000억개의 의류 쓰레기 중 9천2백만 톤이 매립되 고있습니다. 의류
-          산업의 성장세를 보았을 때 2030년까지의 의류 배출량은 50% 증가 할 것을
-          보입니다.
-        </p>
+        <div
+          id="cloth_waste"
+          data-aos="fade-right"
+          data-aos-anchor-placement="center-center"
+        >
+          <a href="https://earth.org/statistics-about-fast-fashion-waste/">
+            <img src={cloth_waste} />
+          </a>
+          <p>
+            매년 1,000억개의 의류 쓰레기 중<br /> 9천2백만 톤이 매립되고
+            있습니다.
+          </p>
+        </div>
       </div>
-
       <div
         id="news"
         data-aos="zoom-in"
         data-aos-anchor-placement="center-center"
       >
+        <p data-aos="zoom-in" data-aos-anchor-placement="center-center">
+          의류 산업의 성장세를 보았을 때 2030년까지의 의류 배출량은 50% 증가 할
+          것을 보입니다.
+        </p>
         <iframe
           id="world_news"
           width="560"
