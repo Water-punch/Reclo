@@ -22,7 +22,7 @@ const UserSchema = new Schema(
     },
     birth: {
       type: Date,
-      required: true,
+      //required: true,
     },
     point: {
       type: Number,
