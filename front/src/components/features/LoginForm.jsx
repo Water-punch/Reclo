@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Link, Grid, Box, Typography, Container, Checkbox } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import * as Api from '../../../api/api'
+import * as Api from '../../api/api'
 
 export default function LoginForm() {
   const [email, setEmail] = useState()
@@ -15,10 +15,7 @@ export default function LoginForm() {
 
       if (response.ok) {
         console.log("로그인 성공!");
-      } else {
-        console.error("로그인 실패");
-      }
-    } catch (error) {
+      }} catch (error) {
       console.error("API 호출 에러:", error);
     }
   };

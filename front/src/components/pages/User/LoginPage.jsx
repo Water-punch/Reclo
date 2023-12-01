@@ -1,10 +1,6 @@
 import LoginForm from "../../features/LoginForm"
 
-
 const LoginPage = () => {
-
-
-
 
     return (
         <>

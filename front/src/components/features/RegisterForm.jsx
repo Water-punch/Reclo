@@ -3,6 +3,7 @@ import { Avatar, Button, CssBaseline, Checkbox, TextField, FormControlLabel, Lin
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import * as Api from '../../api/api'
 
 function RegisterForm() {
   const navigate = useNavigate();

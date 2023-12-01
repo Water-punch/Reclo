@@ -12,12 +12,9 @@ app.use(cors());
 
 app.use(
   cors({
-    origin: ['http://localhost:5001', 'http://localhost:3000'],
-    origin: ['http://localhost:5001', 'http://localhost:3000'],
+    origin: ['http://localhost:5001', 'http://localhost:5173'],
     methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
     credentials: true,
-    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
-    exposedHeaders: ['set-cookie'],
     allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
     exposedHeaders: ['set-cookie'],
   })
