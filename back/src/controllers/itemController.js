@@ -70,7 +70,6 @@ async function getUserItems(req, res, next) {
   try {
     const userId = new ObjectId(req.params.userId);
     const userItems = await itemService.getUserItems({ userId });
-    console.log(userItems);
     if (!userItems) {
       // throw new Error(userItems.errorMessage);
     }
@@ -156,7 +155,6 @@ async function deleteItem(req, res, next) {
     const item = new ObjectId(req.params.itemId);
     const deleteItem = await itemService.deleteById({ itemId: item });
     // await Image.imageDelete({ imageUrl: deleteItem.itemImgUrl });
-    // console.log(deleteImage);
     // const [deleteItem, deleteImage] = await imageDeleteAndItem({ imageUrl: deleteItem.itemImgUrl });
     // 이미지 URL까지 같이 삭제
 

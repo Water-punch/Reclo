@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const imageSchema = new Schema(
+const ImageSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -25,5 +25,5 @@ const imageSchema = new Schema(
   }
 );
 
-const imageModel = model('Image', imageSchema);
-export { imageModel };
+const ImageModel = model('Image', ImageSchema);
+export { ImageModel };
