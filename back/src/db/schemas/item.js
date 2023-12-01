@@ -8,11 +8,6 @@ const ItemSchema = new Schema(
       ref: 'User',
     },
 
-    email: {
-      type: String,
-      // required: true,
-    },
-
     title: {
       type: String,
       // required: true,
@@ -49,11 +44,6 @@ const ItemSchema = new Schema(
       type: Boolean,
       default: false,
     },
-
-    // deletedAt: {
-    //   type: Date,
-    //   default: null,
-    // },
 
     itemsImgUrl: {
       type: String,
