@@ -1,18 +1,12 @@
-import LoginForm from "../../features/LoginForm"
-
+import LoginForm from "../../features/Home/LoginForm";
 
 const LoginPage = () => {
+  return (
+    <>
+      <h1>LoginPage</h1>
+      <LoginForm />
+    </>
+  );
+};
 
-
-
-
-    return (
-        <>
-          <h1>LoginPage</h1>
-          <LoginForm/>
-       
-        </>
-    )
-}
-
-export default LoginPage
+export default LoginPage;

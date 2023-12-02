@@ -11,6 +11,7 @@ const wishItemSchema = new Schema(
     itemId: {
       type: Schema.Types.ObjectId,
       required: true,
+      uniqe: true,
       ref: 'Item',
     },
   },

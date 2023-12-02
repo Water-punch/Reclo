@@ -1,29 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import * as React from "react";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
-import "../../styles/NavBar.css";
+import { Stack, Button, Typography } from "@mui/material";
 
 const NavBar = () => {
   const navigate = useNavigate();
 
   return (
     <div className="navbar">
-      <div style={{ height: "2vh" }} />
-      <h1
-        className="logo_space"
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        RE:CLO
-      </h1>
-      <Stack
-        id="button_group"
-        spacing={2}
-        direction="row"
-        sx={{ marginBottom: "0vh" }}
-      >
+      <Stack spacing={2} direction="row" my={3}>
+        <Typography
+          variant="h3"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          RE:CLO
+        </Typography>
         <Button
           variant="text"
           color="success"
@@ -54,8 +46,17 @@ const NavBar = () => {
         >
           이벤트
         </Button>
+        <Button
+          variant="outlined"
+          color="success"
+          sx={{ flexShrink: 0 }}
+          onClick={() => {
+            navigate("/activity");
+          }}
+        >
+          💬거래진행
+        </Button>
       </Stack>
-      <div style={{ height: "2vh" }} />
     </div>
   );
 };

@@ -1,0 +1,13 @@
+.testPageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  flex-direction: column;
+}
+
+.questionBox {
+  border: 2px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+}

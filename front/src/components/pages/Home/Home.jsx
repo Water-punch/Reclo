@@ -1,6 +1,6 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import NavBar from "../../common/NavBar";
-import Chart from "./Chart";
+import Slide from "../../features/Home/Slide";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -14,9 +14,15 @@ const Home = () => {
         onClick={() => {
           navigate("/test");
         }}
+        style={{ textAlign: "center" }}
       >
-        test banner
+        <img
+          src="/src/styles/Test.png"
+          alt="Test Image"
+          style={{ width: "50%", height: "100%", margin: "auto" }}
+        />
       </div>
+      <Slide></Slide>
       <div className="freespace">freespace</div>
       <div className="trendbanner">trend banner</div>
       <div className="freespace">freespace</div>

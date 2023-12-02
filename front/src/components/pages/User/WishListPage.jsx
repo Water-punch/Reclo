@@ -1,10 +1,8 @@
-// import CelTable from "../../features/WishListbox";
-
 const WishListPage = () => {
   return (
     <>
       <h1>관심상품 조회</h1>
-      {/* <CelTable /> */}
+      <CelTable />
     </>
   );
 };
