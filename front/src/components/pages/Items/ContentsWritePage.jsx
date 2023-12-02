@@ -9,12 +9,13 @@ const ContentsWritePage = () => {
   const params = useParams()
   const location = useLocation()
   const edit = location.state.edit
+  const item = location.state.item
   const { user } = useUserStore() 
 
     return (
         <>
           <h1>ContentsWritePage</h1>
-          {edit ? (<ContentEditForm />) : 
+          {edit ? (<ContentEditForm item={item} />) : 
           (<ContentWriteForm userId={user.userId}/>)}
         </>
     )

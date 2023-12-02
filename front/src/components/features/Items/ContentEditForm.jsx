@@ -5,51 +5,37 @@ import { Box, Button, Stack, TextField, InputLabel, MenuItem, FormControl, Selec
 import '../../../styles/contents.css'
 import * as Api from '../../../api/api'
 import { useMutation } from "@tanstack/react-query"
-import { useLocation } from "react-router-dom"
 
+const ContentEditForm = ({item}) => {
+  console.log(item)
 
-const ContentEditForm = () => {
-  const location = useLocation()
-  const item = location.state.item
-  // const { isPending, error, data } = useQuery({ 
-  //   queryKey: ['detailpage', itemId], 
-  //   queryFn: async () => {
-  //     try {
-  //       const res = await Api.get(`item/${itemId}`)
-  //       return res.data
-  //     } catch (error) {
-  //       throw error
-  //     }
-  //   },
-  // })
-
-  // if (isPending) return 'Loading...'
-  // if (error) return '오류가 발생했습니다.' + error.message
-
-  const [name, setName] = useState(item?.name || '')
-  const [title, setTitle] = useState(item?.title || '')
-  const [price, setPrice] = useState(item?.price || '')
-  const [description, setDescription] = useState(item?.description || '')
-  const [tag, setTag] = useState(item?.tag || '')
-  const [state, setState] = useState(item?.state || '거래가능')
-  const [category1, setCategory1] = useState(item?.category1 || '')
-  const [category2, setCategory2] = useState(item?.category2 || '')
-  const [category3, setCategory3] = useState(item?.category3 || '')
-  const [category, setCategory] = useState(item?.category || [])
-
+  const [title, setTitle] = useState(item.title)
+  const [price, setPrice] = useState(item.price)
+  const [description, setDescription] = useState(item.description)
+  const [state, setState] = useState(item.state)
+  const [category1, setCategory1] = useState(item.category[0])
+  const [category2, setCategory2] = useState(item.category[1])
+  const [category3, setCategory3] = useState(item.category[2])
+  const [category, setCategory] = useState(item.category)
+  const itemId = item._id
+  
   const editMutation = useMutation({
-    mutationFn: (data) => {
-      return Api.put(`item/${item._id}`, data)
+    mutationFn: async (data) => {
+      // const startTime = performance.now(); // 시작 시간 기록
+      const result = await Api.put(`item/${itemId}`, data)
+      // const endTime = performance.now(); // 끝나는 시간 기록
+      // console.log('API 호출 시간:', endTime - startTime, 'ms')
+      return result
     }
   })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try{
-      editMutation.mutate({ userId, title, name, price, description, category, state, tag })
+      editMutation.mutate({ userId: item.userId, title, price, description, category, state })
       alert('게시글이 업로드되었습니다.')
     } catch (err) {
-      alert(`게시글 등록에 실패했습니다.\n 필수항목을 채워주세요.`)
+      alert(`게시글 등록에 실패했습니다. 모든 항목을 채워주세요.`)
       }
     } 
 
@@ -72,9 +58,10 @@ const ContentEditForm = () => {
   ]
 
     return (
-      (
         <div className="addBox">
+           {editMutation.isError && <p>Error deleting the post</p>}
           <Box
+            component='form'
             onSubmit={handleSubmit} 
             sx={{
             bgcolor: '#fff',
@@ -89,7 +76,9 @@ const ContentEditForm = () => {
             },
           }}>
             <Stack spacing={'10%'} direction="row">
-              <TextField onChange={setTitle}
+              <TextField 
+                value={title}
+                onChange={e=> setTitle(e.target.value)}
                 id="title" label="제목" 
                 sx={{ width: '100%' }} variant="standard" />
               {/* <FormControl sx={{ minWidth: '20%'}}>
@@ -120,7 +109,7 @@ const ContentEditForm = () => {
                 label="성별"
                 onChange={e => {
                   setCategory1(e.target.value)
-                  setCategory(e.target.value)
+                  setCategory(prev=> prev + e.target.value)
                 }}
               >
                 <MenuItem value={'남성'}>남성</MenuItem>
@@ -138,7 +127,7 @@ const ContentEditForm = () => {
                   label="분류1"
                   onChange={e => {
                     setCategory2(e.target.value)
-                    setCategory(e.target.value)
+                    setCategory(prev=> prev + e.target.value)
                   }}
                 >
                   <MenuItem value={'상의'}>상의</MenuItem>
@@ -157,7 +146,7 @@ const ContentEditForm = () => {
                   label="분류2"
                   onChange={e => {
                     setCategory3(e.target.value)
-                    setCategory(e.target.value)
+                    setCategory(prev=> prev + e.target.value)
                   }}
                 >
                   <MenuItem value={'티셔츠'}>티셔츠</MenuItem>
@@ -177,7 +166,7 @@ const ContentEditForm = () => {
                     label="분류2"
                     onChange={e => {
                       setCategory3(e.target.value)
-                      setCategory(e.target.value)
+                      setCategory(prev=> prev + e.target.value)
                     }}
                   >
                     <MenuItem value={'치마'}>치마</MenuItem>
@@ -198,7 +187,7 @@ const ContentEditForm = () => {
                     label="분류2"
                     onChange={e => {
                       setCategory3(e.target.value)
-                      setCategory(e.target.value)
+                      setCategory(prev=> prev + e.target.value)
                     }}
                   >
                     <MenuItem value={'자켓'}>자켓</MenuItem>
@@ -220,7 +209,7 @@ const ContentEditForm = () => {
                   label="분류2"
                   onChange={e => {
                     setCategory3(e.target.value)
-                    setCategory(e.target.value)
+                    setCategory(prev=> prev + e.target.value)
                   }}
                 >
                   <MenuItem value={'티셔츠'}>티셔츠</MenuItem>
@@ -240,7 +229,7 @@ const ContentEditForm = () => {
                     label="분류2"
                     onChange={e => {
                       setCategory3(e.target.value)
-                      setCategory(e.target.value)
+                      setCategory(prev=> prev + e.target.value)
                     }}
                   >
                     <MenuItem value={'데님'}>데님</MenuItem>
@@ -260,7 +249,7 @@ const ContentEditForm = () => {
                     label="분류2"
                     onChange={e => {
                       setCategory3(e.target.value)
-                      setCategory(e.target.value)
+                      setCategory(prev=> prev + e.target.value)
                     }}
                   >
                     <MenuItem value={'자켓'}>자켓</MenuItem>
@@ -274,13 +263,9 @@ const ContentEditForm = () => {
         </Box>
           
               <Stack spacing={'20%'} direction="row">
-                <TextField 
-                  value={name}
-                  onChange={e=>setName(e.target.value)}
-                  id='name' label="상품명" 
-                  sx={{ width: '40%' }}
-                  variant="standard" />
-                <TextField onChange={e=>setPrice(e)}
+                <TextField
+                  value={price} 
+                  onChange={e=>setPrice(e.target.value)}
                   id="price" label="가격(숫자를 입력하세요: ₩)" 
                   sx={{ width: '20%' }}
                   variant="standard" />
@@ -310,7 +295,6 @@ const ContentEditForm = () => {
               </Button>
           </Box>
         </div>  
-      )
     )
 }
 

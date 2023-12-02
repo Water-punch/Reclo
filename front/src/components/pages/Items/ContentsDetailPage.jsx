@@ -30,7 +30,8 @@ const ContentsDetailPage = () => {
   if (isPending) return 'Loading...'
   if (error) return '오류가 발생했습니다.' + error.message
 
-  const item = data.items
+  const item = data.itemDetails
+  console.log(data)
   
   // const deleteMutation = useMutation(() => Api.del(`item/${itemId}`))
   // const deleteItem = async () => {
@@ -93,7 +94,7 @@ const ContentsDetailPage = () => {
                 <Card sx={{ height: '50%'}}>
                   <Stack direction='row' spacing={1} mb={1}>
                     <Typography gutterBottom variant="h6" component="div">
-                      {item.name}
+                      {item.title}
                     </Typography>
                     <Chip label={item.price == 0 ? '나눔' : '판매'}/>
                     {item.state === '거래가능' ? (<Chip label={item.state}/>) : item.state === '거래중' ? (<Chip label={item.state} color='primary'/>) : (<Chip label={item.state} color='success'/>)}
@@ -102,13 +103,10 @@ const ContentsDetailPage = () => {
                     {item.category}
                   </Typography>
                   <Typography variant="body1" mb={1}>
-                    {item.title}
-                  </Typography>
-                  <Typography variant="body1" mb={1}>
                     판매가 {item.price} 원
                   </Typography>
                   <Typography variant="body2" mb={1}>
-                    {item.content}
+                    {item.description}
                   </Typography>
                   <Divider />
                   <Stack direction='row'>
