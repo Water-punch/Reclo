@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider ,} from '@tanstack/react-query' //useQ
 import { Home, IntroPage, ActivityAdmin } from './components/pages/Home'
 import { TestPage, TestResultPage } from './components/pages/Test'
 import { ChatListPage, ChattingRoomPage } from './components/pages/Chat'
-import { EventPage, ContentsPage, ContentsAddPage, ContentsDetailPage } from './components/pages/Items'
+import { EventPage, ContentsPage, ContentsWritePage, ContentsDetailPage } from './components/pages/Items'
 import { LoginPage, PointPage, MyPage, RegisterPage, WishListPage } from './components/pages/User'
 import Header from './components/common/Header'
 import NavBar from './components/common/NavBar'
@@ -31,8 +31,8 @@ function App() {
           <Route path='/test' element={<TestPage />} />
 
           <Route path='/contents' element={<ContentsPage />} />
-          <Route path='/add' element={<ContentsAddPage />} />
-          <Route path='/detail:itemId' element={<ContentsDetailPage />} />
+          <Route path='/write' element={<ContentsWritePage />} />
+          <Route path='/detail/:itemId' element={<ContentsDetailPage />} />
           <Route path='/event' element={<EventPage />} />
 
           <Route path='/chatlist' element={<ChatListPage />} />

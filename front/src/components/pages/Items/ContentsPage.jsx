@@ -33,10 +33,10 @@ const ContentsPage = () => {
           sx={{ flexGrow: 1, marginLeft: '20vh' }}
           // sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
         >
-          <button onClick={() => {navigate('/add')}}>물품 등록</button>
+          <button onClick={() => {navigate('/write', { state : { edit: false } })}}>물품 등록</button>
           <Grid container spacing={2} mx={5} my={5} >
             {data.items.map((item) => ( // 테스트용임
-              <Grid item xs={12} sm={6} md={4} lg={3} key={item.itemId}>
+              <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>
                 <ContentsCard
                   mt={2} 
                   item={item}

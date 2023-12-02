@@ -9,10 +9,11 @@ import * as Api from '../../api/api'
 
 const Header = () => {
     const navigate = useNavigate()
-    const { login } = useUserStore
-    const [isLogin, setIsLogin] = useState(login)
+    const [isLogin, setIsLogin] = useState(false)
+    const { login } = useUserStore()
 
     const handleSubmit = async (e) => {
+      console.log(isLogin)
       e.preventDefault()
       try {
         await Api.post('user/logout')

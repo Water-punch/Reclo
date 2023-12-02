@@ -3,10 +3,11 @@ import { Divider, Card, CardActionArea, CardContent, CardMedia, Chip, Grid, Stac
 
 const ContentsCard = ({item}) => {
   const navigate = useNavigate()
+  console.log(item._id)
 
   return (
     <Card sx={{ width: '30vh' }}>
-      <CardActionArea onClick={() => navigate(`/detail/${item._Id}`) }>
+      <CardActionArea onClick={() => navigate(`/detail/${item._id}`) }>
         <CardMedia
           component="img"
           height="50%"

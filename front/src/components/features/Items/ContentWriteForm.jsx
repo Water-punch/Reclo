@@ -3,15 +3,14 @@ import ReactQuill, {Quill} from "react-quill"
 import 'react-quill/dist/quill.snow.css'
 import { Box, Button, Stack, TextField, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import '../../../styles/contents.css'
-// import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 import * as Api from '../../../api/api'
+import { useMutation } from "@tanstack/react-query"
 
 const ContentWriteForm = ({ userId }) => {
   const [name, setName] = useState('')
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState('')
   const [description, setDescription] = useState('')
-  const [share, setShare] = useState(false)
   const [tag, setTag] = useState('')
   const [state, setState] = useState('거래가능')
   const [category1, setCategory1] = useState('')
@@ -21,7 +20,7 @@ const ContentWriteForm = ({ userId }) => {
 
   const postMutation = useMutation({
     mutationFn: (data) => {
-      return Api.post(`item/${userId}`)
+      return Api.post(`item/${userId}`, data)
     }
   })
 
@@ -43,37 +42,15 @@ const ContentWriteForm = ({ userId }) => {
     'link', 'image'
   ]
 
-    // postMutation.mutate(`items/${userId}`, {
-      //   userId,
-      //   title,
-      //   name,
-      //   price,
-      //   description,
-      //   category,
-      //   state,
-      //   tag,
-      // })
-
     const handleSubmit = async (e) => {
       e.preventDefault()
-      try {
-        await Api.post(`item/${userId}`, {
-            userId,
-            title,
-            name,
-            price,
-            description,
-            category,
-            state,
-            tag,
-          })
-  
-        console.log(`category: ${category}`)
+      try{
+        postMutation.mutate({ userId, title, name, price, description, category, state, tag })
         alert('게시글이 업로드되었습니다.')
-      } catch {
-          alert(`게시글 등록에 실패했습니다.\n 필수항목을 채워주세요.`)
-      }
-    }
+      } catch (err) {
+        alert(`게시글 등록에 실패했습니다.\n 필수항목을 채워주세요.`)
+        }
+      } 
       
   // const handleSubmit = async (e) => {
   //   e.preventDefault()
@@ -304,10 +281,10 @@ const ContentWriteForm = ({ userId }) => {
               id='name' label="상품명" 
               sx={{ width: '40%' }}
               variant="standard" />
-            {!share && <TextField onChange={e=>setPrice(e)}
+            <TextField onChange={e=>setPrice(e)}
               id="price" label="가격(숫자를 입력하세요: ₩)" 
               sx={{ width: '20%' }}
-              variant="standard" />}
+              variant="standard" />
           </Stack>
 
           <ReactQuill

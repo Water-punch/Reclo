@@ -19,7 +19,6 @@ const UserInfo = (user) => {
             <div className="userInfo">
               <p>{user.email}</p>
               <p>{user.nickname}</p>
-              <p>{user.birth}</p>
               <button className="change" onClick={() => navigate("/point")}>
                 변경
               </button>
