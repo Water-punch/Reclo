@@ -72,7 +72,7 @@ class itemService {
       category: 'category',
       price: 'price',
       state: 'state',
-      itemsImgUrl: 'itemsImgUrl',
+      // itemsImgUrl: 'itemsImgUrl',
     };
 
     let updatedItem = {};

@@ -124,7 +124,6 @@ async function setItem(req, res, next) {
   try {
     const itemId = new ObjectId(req.params.itemId);
     const toUpdate = req.body.toUpdate;
-
     const updatedItem = await itemService.setItem({ itemId, toUpdate });
     if (!updatedItem) {
       throw new Error(updatedItem.errorMessage);
