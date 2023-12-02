@@ -8,7 +8,7 @@ import { useMutation } from "@tanstack/react-query"
 
 const ContentWriteForm = ({ userId }) => {
   const [title, setTitle] = useState('')
-  const [price, setPrice] = useState('')
+  const [price, setPrice] = useState(0)
   const [description, setDescription] = useState('')
   const [state, setState] = useState('거래가능')
   const [category1, setCategory1] = useState('')
@@ -43,7 +43,7 @@ const ContentWriteForm = ({ userId }) => {
     const handleSubmit = async (e) => {
       e.preventDefault()
       try{
-        postMutation.mutate({ userId, title, name, price, description, category, state, tag })
+        postMutation.mutate({ userId, title, price, description, category, state })
         alert('게시글이 업로드되었습니다.')
       } catch (err) {
         alert(`게시글 등록에 실패했습니다.\n 필수항목을 채워주세요.`)
@@ -56,12 +56,10 @@ const ContentWriteForm = ({ userId }) => {
   //     await Api.post(`item/${userId}`, {
   //         userId,
   //         title,
-  //         name,
   //         price,
   //         description,
   //         category,
   //         state,
-  //         tag,
   //       })
 
   //     console.log(`category: ${category}`)

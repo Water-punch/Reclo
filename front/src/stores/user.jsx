@@ -7,7 +7,8 @@ const useUserStore = create((set) => ({
   setLogout: () => set({ login: false }),
 
   user: {},
-  setUser: (data) => set({ user: data })
+  setUser: (data) => set({ user: data }),
+  resetUser: () => set({ user: {} })
 }))
 
 export default useUserStore

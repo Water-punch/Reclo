@@ -7,8 +7,7 @@ import * as Api from '../../../api/api'
 import { useMutation } from "@tanstack/react-query"
 
 const ContentEditForm = ({item}) => {
-  console.log(item)
-
+  
   const [title, setTitle] = useState(item.title)
   const [price, setPrice] = useState(item.price)
   const [description, setDescription] = useState(item.description)
@@ -21,11 +20,14 @@ const ContentEditForm = ({item}) => {
   
   const editMutation = useMutation({
     mutationFn: async (data) => {
-      // const startTime = performance.now(); // 시작 시간 기록
-      const result = await Api.put(`item/${itemId}`, data)
-      // const endTime = performance.now(); // 끝나는 시간 기록
-      // console.log('API 호출 시간:', endTime - startTime, 'ms')
-      return result
+      try {
+        const result = await Api.put(`item/${itemId}`, data);
+        console.log('API 호출 결과:', result);  // 콘솔에 결과를 출력해봅니다.
+        return result;
+      } catch (error) {
+        console.error('API 호출 중 오류:', error);  // 오류 발생 시 콘솔에 출력합니다.
+        throw error;  // 오류를 다시 throw하여 상위 수준에서도 처리할 수 있도록 합니다.
+      }
     }
   })
 
@@ -38,6 +40,23 @@ const ContentEditForm = ({item}) => {
       alert(`게시글 등록에 실패했습니다. 모든 항목을 채워주세요.`)
       }
     } 
+
+  //  const handleSubmit = async (e) => {
+  //   e.preventDefault()
+  //   try {
+  //     const res = await Api.put(`item/${itemId}`, {
+  //         userId : item.userId,
+  //         title,
+  //         price,
+  //         description,
+  //         category,
+  //         state,
+  //       })
+  //     alert('게시글이 업로드되었습니다.')
+  //   } catch {
+  //       alert(`게시글 등록에 실패했습니다.\n 필수항목을 채워주세요.`)
+  //   }
+  // }
 
   const modules = {
     toolbar: [
@@ -59,7 +78,6 @@ const ContentEditForm = ({item}) => {
 
     return (
         <div className="addBox">
-           {editMutation.isError && <p>Error deleting the post</p>}
           <Box
             component='form'
             onSubmit={handleSubmit} 
@@ -279,13 +297,6 @@ const ContentEditForm = ({item}) => {
                 onChange={text=>setDescription(text)}
                 style={{width: '82%', height: '60vh', marginBottom: '5vh', marginTop: '2.5vh'}}
               />
-    
-              <TextField
-                value={tag} 
-                onChange={e=>setTag(e.target.value)}
-                id="tag" label="태그"
-                sx={{ marginBottom: '5vh' }}
-                variant="standard" /> 
               
               <Button 
                 variant="contained"
