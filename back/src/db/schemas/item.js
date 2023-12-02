@@ -8,19 +8,14 @@ const ItemSchema = new Schema(
       ref: 'User',
     },
 
-    email: {
-      type: String,
-      // required: true,
-    },
-
     title: {
       type: String,
-      // required: true,
+      required: true,
     },
 
     description: {
       type: String,
-      // required: true,
+      required: true,
     },
 
     category: {
@@ -50,11 +45,6 @@ const ItemSchema = new Schema(
       default: false,
     },
 
-    // deletedAt: {
-    //   type: Date,
-    //   default: null,
-    // },
-
     itemsImgUrl: {
       type: String,
       required: false,
@@ -63,6 +53,15 @@ const ItemSchema = new Schema(
   {
     timestamps: true,
   }
+);
+
+ItemSchema.index(
+  {
+    title: 'text',
+    description: 'text',
+    category: 'text',
+  },
+  { name: 'textScore' }
 );
 
 const ItemModel = model('Item', ItemSchema);
