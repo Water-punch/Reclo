@@ -49,7 +49,7 @@ async function login(req, res, next) {
       httpOnly: true,
     });
 
-    res.status(200).send({ ok: true });
+    res.status(200).json({ user });
   } catch (error) {
     next(error);
   }
@@ -59,7 +59,10 @@ async function logout(req, res, next) {
   try {
     // 토큰을 설정해줌
     res.clearCookie('accessToken');
-    res.clearCookie('refreshToken').end();
+    res.clearCookie('refreshToken');
+
+    res.status(201).json({ ok: true });
+    console.log('로그아웃 성공')
   } catch (error) {
     next(error);
   }
