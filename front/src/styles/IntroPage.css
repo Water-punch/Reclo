@@ -1,0 +1,88 @@
+.IntroPage {
+  margin: 0 10%;
+  transform: translateY(200px);
+}
+
+.IntroPage h1 {
+  margin: 50px;
+}
+
+/* chart */
+#chart {
+  margin: 100px 0;
+}
+
+/* intro_pic */
+#intro_pic {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#intro_pic p {
+  height: 300px;
+  display: flex;
+
+  align-items: center;
+
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 2px;
+}
+#intro_pic p:nth-child(3) {
+  align-self: flex-end;
+}
+#intro_pic p:nth-child(7) {
+  align-self: flex-end;
+}
+
+#intro_pic img {
+  scale: 50%;
+}
+
+/* Cloth_waste */
+#cloth_waste {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#cloth_waste a {
+}
+
+#cloth_waste a img {
+  scale: 100%;
+  width: 100%;
+}
+
+#cloth_waste p {
+  margin-left: 100px;
+  width: 60%;
+
+  font-weight: 700;
+  font-size: 40px;
+  letter-spacing: 2px;
+  line-height: 80px;
+}
+
+#news {
+  display: flex;
+  justify-content: center;
+}
+
+#news p {
+  margin-left: 100px;
+  width: 60%;
+
+  font-weight: 700;
+  font-size: 40px;
+  letter-spacing: 2px;
+  line-height: 80px;
+}
+
+#news #world_news {
+  width: 800px;
+  height: 450px;
+  margin: 300px;
+  color: rgb(6, 82, 23);
+}
