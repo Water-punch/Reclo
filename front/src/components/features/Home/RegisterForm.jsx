@@ -3,13 +3,12 @@ import { Avatar, Button, CssBaseline, Checkbox, TextField, FormControlLabel, Lin
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import * as Api from '../../api/api'
+import * as Api from '../../../api/api'
 
 function RegisterForm() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
   const [nickname, setNickname] = useState('')
 
   const validateEmail = (email) => {
@@ -29,10 +28,11 @@ function RegisterForm() {
     }
     
     try {
-      await Api.post("user/register", { user: {email,password, nickname}});
-      console.log("회원가입 성공:", response.data);
+      await Api.post("user/register", { user: { email, password, nickname }});
+      console.log("회원가입 성공:");
+      
+      navigate("/login")
 
-      navigate("/login");
     } catch (error) {
       console.error("회원가입 에러:", error);
     }
@@ -106,7 +106,7 @@ function RegisterForm() {
                   control={
                     <Checkbox value="allowExtraEmails" color="primary" />
                   }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  label="이벤트 소식을 이메일로 전달해드립니다"
                 />
               </Grid>
             </Grid>

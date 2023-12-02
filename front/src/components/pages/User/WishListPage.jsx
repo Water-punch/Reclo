@@ -1,4 +1,3 @@
-import CelTable from "../../features/WishListbox";
 
 const WishListPage = () => {
   return (

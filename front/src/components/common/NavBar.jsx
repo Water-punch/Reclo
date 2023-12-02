@@ -36,7 +36,7 @@ const NavBar = () => {
                 variant="outlined" 
                 color="success"
                 sx={{ flexShrink: 0 }}
-                onClick={() => {navigate('/chatlist')}}>
+                onClick={() => {navigate('/activity')}}>
                 💬거래진행
               </Button>
             </Stack>

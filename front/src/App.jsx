@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider ,} from '@tanstack/react-query' //useQueryClient는 Queryclient를 사용할 컴포넌트에서
-import { Home, IntroPage } from './components/pages/Home'
+import { Home, IntroPage, ActivityAdmin } from './components/pages/Home'
 import { TestPage, TestResultPage } from './components/pages/Test'
 import { ChatListPage, ChattingRoomPage } from './components/pages/Chat'
 import { EventPage, ContentsPage, ContentsAddPage, ContentsDetailPage } from './components/pages/Items'
@@ -20,6 +20,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/intro' element={<IntroPage />} />
+          <Route path='/activity' element={<ActivityAdmin />} />
 
           <Route path='/login' element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage />} />

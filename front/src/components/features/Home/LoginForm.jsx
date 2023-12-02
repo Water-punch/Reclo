@@ -2,21 +2,34 @@ import { useState } from "react";
 import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Link, Grid, Box, Typography, Container, Checkbox } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import * as Api from '../../api/api'
+import * as Api from '../../../api/api'
+import { useNavigate } from "react-router-dom";
+import useUserStore from "../../../stores/user";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const { setLogin, login, setUser } = useUserStore()
+  const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
     try {
-      const response = await Api.post('user/login', {email, password})
+      const res = await Api.post('user/login', {email, password})
+      const user = res.data
 
-      if (response.ok) {
-        console.log("로그인 성공!");
-      }} catch (error) {
-      console.error("API 호출 에러:", error);
+      setLogin()
+      setUser(user)
+      console.log(login)
+      console.log(`로그인 성공` )
+            
+      navigate('/', { replace: true })
+
+    } catch (error) {
+
+      alert('로그인에 실패했습니다.')
+      console.error("로그인 실패:", error);
     }
   };
 
@@ -96,7 +109,6 @@ export default function LoginForm() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

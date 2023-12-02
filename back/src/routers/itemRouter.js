@@ -31,7 +31,7 @@ itemRouter.get('/item/:itemId', itemController.getItemDetails);
 //   itemController.addItem
 // );
 
-itemRouter.post('/item/:userId', itemController.addItem);
+itemRouter.post('/item', itemController.addItem);
 
 // 아이템 수정하기
 // itemRouter.put(

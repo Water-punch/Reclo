@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { Card, Chip, Stack, Box, Button, Grid, Checkbox, Divider, Typography, MenuItem, Menu, IconButton } from '@mui/material'
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder'
 import Favorite from '@mui/icons-material/Favorite'
@@ -9,13 +9,8 @@ import * as Api from '../../../api/api'
 
 const ContentsDetailPage = () => {
   const navigate = useNavigate()
-  const location = useLocation()
-  // const {
-  //   state: { item : { itemId, name, title, price, content, like, share, tradeState, categorySave, tag }}
-  // } = location
   const params = useParams()
-  console.log(params)
-  console.log(location)
+  const itemId = params
   const buttonOptions = ['수정', '삭제', '공유']
   
   const likeUpdateMutation = useMutation((endpoint, data) => Api.put(endpoint, data))
@@ -70,7 +65,6 @@ const ContentsDetailPage = () => {
               aria-controls={open ? 'long-menu' : undefined}
               aria-expanded={open ? 'true' : undefined}
               aria-haspopup="true"
-              // onClick={handleClick}
             >
               <MoreVertIcon />
             </IconButton>
@@ -79,15 +73,17 @@ const ContentsDetailPage = () => {
               MenuListProps={{
                 'aria-labelledby': 'long-button',
               }}
-              anchorEl={anchorEl}
               open={open}
-              onClose={handleClose}
             >
-              {buttonOptions.map((option) => (
                 <MenuItem key={option}  onClick={handleClose}>
                   {option}
                 </MenuItem>
-              ))}
+                <MenuItem key={option}  onClick={handleClose}>
+                  {option}
+                </MenuItem>
+                <MenuItem key={option}  onClick={handleClose}>
+                  {option}
+                </MenuItem>
             </Menu>
           </div>
 

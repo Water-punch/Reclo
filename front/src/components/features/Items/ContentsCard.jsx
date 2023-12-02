@@ -6,7 +6,7 @@ const ContentsCard = ({item}) => {
 
   return (
     <Card sx={{ width: '30vh' }}>
-      <CardActionArea onClick={() => navigate(`/detail/${item.itemId}`, { state : {item} }) }>
+      <CardActionArea onClick={() => navigate(`/detail/${item._Id}`) }>
         <CardMedia
           component="img"
           height="50%"
@@ -15,7 +15,7 @@ const ContentsCard = ({item}) => {
         />
         <CardContent>
           <Stack direction='row' spacing={1} mb={1}>
-            <Chip label={item.share ? '나눔' : '판매'}/>
+            <Chip label={item.price == 0 ? '나눔' : '판매'}/>
             <Typography gutterBottom variant="h6" component="div">
               {item.name}
             </Typography>
@@ -23,16 +23,16 @@ const ContentsCard = ({item}) => {
           <Typography variant="body2" mb={1}>
             {item.title}
           </Typography>
-          {!item.share && (<Typography variant="body2" color="text.secondary" mb={1}>
+          {item.price != 0 && (<Typography variant="body2" color="text.secondary" mb={1}>
             가격: {item.price}
           </Typography>)}
-          {item.share && (<Typography variant="body2" color="text.secondary" mb={1}>
+          {item.price == 0 && (<Typography variant="body2" color="text.secondary" mb={1}>
             가격: -
           </Typography>)}
           <Divider />
           <Stack direction='row' spacing={1} mt={1} >
             <Chip label={'❤' + item.like}/>
-            {item.tradeState === '거래가능' ? (<Chip label={item.tradeState}/>) : item.tradeState === '거래중' ? (<Chip label={item.tradeState} color='primary'/>) : (<Chip label={item.tradeState} color='success'/>)}
+            {item.state === '거래가능' ? (<Chip label={item.state}/>) : item.state === '거래중' ? (<Chip label={item.state} color='primary'/>) : (<Chip label={item.state} color='success'/>)}
           </Stack>
         </CardContent>
       </CardActionArea>

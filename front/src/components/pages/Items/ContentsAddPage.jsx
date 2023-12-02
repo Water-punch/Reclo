@@ -1,8 +1,5 @@
 import ContentWriteForm from "../../features/Items/ContentWriteForm"
 
-
-
-
 const ContentsAddPage = () => {
   
     return (

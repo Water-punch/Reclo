@@ -1,15 +1,11 @@
-
+import TestResult from "../../../stores/testresult";
 
 const TestResultPage = () => {
+  return (
+    <>
+      <TestResult></TestResult>
+    </>
+  );
+};
 
-
-
-
-    return (
-        <>
-          <h1>TestResultPage</h1>
-        </>
-    )
-}
-
-export default TestResultPage
+export default TestResultPage;

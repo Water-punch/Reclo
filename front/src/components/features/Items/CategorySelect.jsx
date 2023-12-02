@@ -1,13 +1,10 @@
 import { useState } from 'react';
 import { Box, InputLabel, MenuItem, FormControl, Select, Stack } from '@mui/material'
-import { useBoundStore } from '../../../stores/boundStore';
-// 스토어를 한 곳에서 꺼내 쓸 수 있게 모아둔 파일
 
 export default function CategorySelect() {
   const [category1, setCategory1] = useState('')
   const [category2, setCategory2] = useState('')
   const [category3, setCategory3] = useState('')
-  const { categorySave, setCategorySave } = useBoundStore
 
   return (
     <Box>   
