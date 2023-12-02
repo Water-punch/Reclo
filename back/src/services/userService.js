@@ -127,7 +127,7 @@ class userAuthService {
       throw new INVALID_USER_Error('유저가 존재하지 않습니다.');
     }
 
-    const updatedUser = await User.incresePoint({ userId, point: Number(point) });
+    const updatedUser = await User.updatePoint({ userId, point: Number(user.point) + Number(point) });
 
     return updatedUser;
   }

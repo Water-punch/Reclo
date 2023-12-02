@@ -7,7 +7,7 @@ class User {
   }
 
   static async findByEmail({ email }) {
-    const user = await UserModel.find({ $and: [{ email: email }, { deleted: false }] });
+    const user = await UserModel.findOne({ $and: [{ email: email }, { deleted: false }] });
     return user;
   }
 
@@ -31,10 +31,10 @@ class User {
     return updatedUser;
   }
 
-  static async incresePoint({ userId, point }) {
+  static async updatePoint({ userId, point }) {
     const updatedUser = await UserModel.findOneAndUpdate(
       { $and: [{ _id: userId }, { deleted: false }] },
-      { $inc: { point: point } },
+      { $set: { point: point } },
       { new: true }
     );
 
