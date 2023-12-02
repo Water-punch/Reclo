@@ -40,8 +40,11 @@ class itemService {
   }
 
   // 검색으로 아이템 조회
-  static async getItemsBySearch({ search }) {
-    const items = await Item.findItemsBySearch({ search });
+  static async getItemsBySearch({ searchItem }) {
+    const items = await Item.findItemsBySearch({ searchItem });
+    if (!items) {
+      throw new INVALID_ITEM_Error('해당 검색어와 관련된 상품이 존재하지 않습니다.');
+    }
     return items;
   }
 
