@@ -14,6 +14,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import useLoginFormStore from "../../stores/useloginform";
+import { get, post, postImg, put, del, delImg } from "../../api/api";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ function LoginForm() {
   const { email, password, setEmail, setPassword, validateEmail } =
     useLoginFormStore();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!validateEmail(email)) {
@@ -30,14 +31,13 @@ function LoginForm() {
     }
 
     try {
-      console.log("Email:", email);
-      console.log("Password:", password);
-      // console.log({
-      //   email: email,
-      //   password: password,
-      // });
+      const response = await post("/register", { email, password });
+
+      console.log("회원가입 성공:", response.data);
+
+      navigate("/login");
     } catch (error) {
-      console.error("로그인 에러:", error);
+      console.error("회원가입 에러:", error);
     }
   };
 
@@ -95,8 +95,8 @@ function LoginForm() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  value={email} // 추가
-                  onChange={(e) => setEmail(e.target.value)} // 추가
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -108,8 +108,8 @@ function LoginForm() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  value={password} // 추가
-                  onChange={(e) => setPassword(e.target.value)} // 추가
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -117,7 +117,7 @@ function LoginForm() {
                   control={
                     <Checkbox value="allowExtraEmails" color="primary" />
                   }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  label="로그인 정보 기억하기"
                 />
               </Grid>
             </Grid>

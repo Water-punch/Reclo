@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import "../../../styles/MyPage.css";
-import Header from "../../common/Header";
+import Point from "../../features/Items/Pointform";
 
 const MyPage = () => {
   const navigate = useNavigate();
 
-  function Userinfocomponents() {
+  function Userinfo() {
     return (
       <div className="userinfoContainer">
         <div className="mypage">
@@ -32,19 +32,9 @@ const MyPage = () => {
     );
   }
 
-  function Point() {
-    return (
-      <div className="pointbox">
-        <div>포인트 IMAGE</div>
-        <div>레벨 IMAGE</div>
-        <div>포인트 IMAGE</div>
-      </div>
-    );
-  }
-
   return (
     <>
-      <Userinfocomponents />
+      <Userinfo />
     </>
   );
 };
