@@ -1,8 +1,5 @@
 const ObjectId = require('mongoose').Types.ObjectId;
 const { itemService } = require('../services/itemService');
-// const { Item } = require('../db');
-
-// const { imageUploader_item, imageUploader_user, imageDelete } = require('../middlewares/imageMiddleware');
 
 // 페이징을 적용한 전체 품목 조회
 async function getAllItems(req, res, next) {
@@ -49,16 +46,12 @@ async function getItemsByCategory(req, res, next) {
 
 // 검색으로 아이템 조회
 async function getItemsBySearch(req, res, next) {
-  const { itemSearch } = req.query;
+  let items;
   try {
-    let items;
-
-    if (itemSearch) {
-      items = await itemService.getItems({ itemSearch });
-    } else {
-      items = await itemService.getItems({});
+    const searchItem = req.query.searchItem;
+    if (searchItem) {
+      items = await itemService.getItemsBySearch({ searchItem });
     }
-
     res.status(200).json({ items });
   } catch (error) {
     next(error);
@@ -70,7 +63,6 @@ async function getUserItems(req, res, next) {
   try {
     const userId = new ObjectId(req.params.userId);
     const userItems = await itemService.getUserItems({ userId });
-
     if (!userItems) {
       // throw new Error(userItems.errorMessage);
     }
@@ -131,7 +123,7 @@ async function addItem(req, res, next) {
 // 아이템 수정하기
 async function setItem(req, res, next) {
   try {
-    const itemId = ObjectId(req.params.itemId);
+    const itemId = new ObjectId(req.params.itemId);
     const toUpdate = req.body.toUpdate;
 
     const updatedItem = await itemService.setItem({ itemId, toUpdate });
@@ -150,14 +142,12 @@ async function setItem(req, res, next) {
 
 // 아이템 삭제하기
 async function deleteItem(req, res, next) {
-  // console.log(req.body.itemId);
   // const itemId = ObjectId(req.params.itemId);
   // delete 로직 수정 필요
   try {
     const item = new ObjectId(req.params.itemId);
     const deleteItem = await itemService.deleteById({ itemId: item });
-    await Image.imageDelete({ imageUrl: deleteItem.itemImgUrl });
-    // console.log(deleteImage);
+    // await Image.imageDelete({ imageUrl: deleteItem.itemImgUrl });
     // const [deleteItem, deleteImage] = await imageDeleteAndItem({ imageUrl: deleteItem.itemImgUrl });
     // 이미지 URL까지 같이 삭제
 
