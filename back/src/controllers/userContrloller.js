@@ -12,7 +12,7 @@ async function register(req, res, next) {
       user,
     });
 
-    res.status(201).json(newUser);
+    res.status(201).json({ ok: true });
   } catch (error) {
     next(error);
   }
@@ -51,7 +51,7 @@ async function login(req, res, next) {
       httpOnly: true,
     });
 
-    res.status(200).send({ user: user });
+    res.status(200).send({ ok: true });
   } catch (error) {
     next(error);
   }
@@ -76,7 +76,7 @@ async function currentInfo(req, res, next) {
       userId,
     });
 
-    res.status(200).send(currentUserInfo);
+    res.status(200).send({ user: currentUserInfo });
   } catch (error) {
     next(error);
   }
@@ -91,7 +91,7 @@ async function currentInfoUpdate(req, res, next) {
     // 해당 사용자 이메일로 사용자 정보를 db에서 찾아 업데이트함.
     const updatedUser = await userAuthService.setUser({ userId, user });
 
-    res.status(200).json(updatedUser);
+    res.status(200).json({ user: updatedUser });
   } catch (error) {
     next(error);
   }
@@ -105,7 +105,7 @@ async function currentPointInfo(req, res, next) {
 
     const points = await pointService.getAllUserPoint({ userId });
 
-    res.status(200).send(points);
+    res.status(200).send({ points: points });
   } catch (error) {
     next(error);
   }
@@ -118,7 +118,7 @@ async function profileUpdate(req, res, next) {
     // 해당 사용자 이메일로 사용자 정보를 db에서 찾아 업데이트함.
     //const updatedUser = await userAuthService.setUserProfile({ userId, img });
 
-    res.status(200).json(updatedUser);
+    res.status(200).json({ user: updatedUser });
   } catch (error) {
     next(error);
   }
@@ -132,7 +132,7 @@ async function addPoint(req, res, next) {
 
     const updatedUser = await pointService.addPoint({ pointdetails });
 
-    res.status(200).json(updatedUser);
+    res.status(200).json({ user: updatedUser });
   } catch (error) {
     next(error);
   }
