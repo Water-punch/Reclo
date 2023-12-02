@@ -1,12 +1,14 @@
 import { create } from 'zustand'
 
 //관리할 상태: 전역상태만! 
-export const createUserSlice = (set) => ({
+const useUserStore = create((set) => ({
   login: false,
-  setLogin: (state) => set({ login: !state.login }),
-  setLogout: (state) => set({ logout: !state.logout }),
+  setLogin: () => set({ login: true }), 
+  setLogout: () => set({ login: false }),
 
-  userId: 0,
-  setUserId: (id) => set({ userId: id})
+  user: {},
+  setUser: (data) => set({ user: data })
+}))
 
-})
+export default useUserStore
+
