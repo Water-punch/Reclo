@@ -105,15 +105,11 @@ async function addItem(req, res, next) {
       itemInfo,
     });
 
-    // const itemImgUrl = req.files[0].location;
-
     if (!newItem) {
       throw new Error(newItem.errorMessage);
     }
     res.status(201).send({
       itemId: newItem._id,
-      // itemImgUrl: newItem.itemImgUrl,
-      // message: '아이템 추가에 성공했습니다.',
     });
   } catch (error) {
     next(error);
@@ -147,17 +143,9 @@ async function deleteItem(req, res, next) {
   try {
     const item = new ObjectId(req.params.itemId);
     const deleteItem = await itemService.deleteById({ itemId: item });
-    // await Image.imageDelete({ imageUrl: deleteItem.itemImgUrl });
-    // const [deleteItem, deleteImage] = await imageDeleteAndItem({ imageUrl: deleteItem.itemImgUrl });
-    // 이미지 URL까지 같이 삭제
-
     if (!deleteItem) {
       throw new Error(findItem.errorMessage);
     }
-
-    // if (!deletedImageResult) {
-    //   throw new Error(deleteImageResult.errorMessage);
-    // }
 
     res.status(200).send({
       message: '아이템 삭제에 성공했습니다.',
