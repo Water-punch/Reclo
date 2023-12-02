@@ -12,6 +12,9 @@ const itemRouter = Router();
 // 카테고리별 아이템 조회
 itemRouter.get('/items', itemController.getItemsByCategory);
 
+// 검색으로 아이템 조회
+itemRouter.get('/itemsearch', itemController.getItemsBySearch);
+
 //  유저별 품목 조회
 itemRouter.get('/items/user/:userId', asyncHandler(login_required), itemController.getUserItems);
 

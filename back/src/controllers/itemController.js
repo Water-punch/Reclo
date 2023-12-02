@@ -46,16 +46,12 @@ async function getItemsByCategory(req, res, next) {
 
 // 검색으로 아이템 조회
 async function getItemsBySearch(req, res, next) {
-  const { itemSearch } = req.query;
+  let items;
   try {
-    let items;
-
-    if (itemSearch) {
-      items = await itemService.getItems({ itemSearch });
-    } else {
-      items = await itemService.getItems({});
+    const searchItem = req.query.searchItem;
+    if (searchItem) {
+      items = await itemService.getItemsBySearch({ searchItem });
     }
-
     res.status(200).json({ items });
   } catch (error) {
     next(error);
