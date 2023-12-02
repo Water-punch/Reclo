@@ -25,7 +25,7 @@ class wishItemService {
   static async addLike({ likeInfo }) {
     const item = await Item.findByItemId({ itemId: likeInfo.itemId });
     if (!item) {
-      throw new BadRequestError('관심상품으로 등록되지 않았습니다.');
+      throw new INVALID_ITEM_Error('해당 상품이 존재하지 않습니다.');
     }
     const AddLike = await wishItem.addLike({ newItem: likeInfo });
     if (AddLike) {
@@ -41,7 +41,7 @@ class wishItemService {
   static async deleteLike({ likeInfo }) {
     const item = await Item.findByItemId({ itemId: likeInfo.itemId });
     if (!item) {
-      throw new BadRequestError('관심상품에서 해제되지 않았습니다.');
+      throw new INVALID_ITEM_Error('해당 상품이 존재하지 않습니다.');
     }
     const DeleteLike = await wishItem.deleteLike({ deleteItem: likeInfo });
     if (DeleteLike) {

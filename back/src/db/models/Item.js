@@ -20,6 +20,17 @@ class Item {
     return item;
   }
 
+  // 검색으로 아이템 찾기
+  static async findItemsBySearch({ searchItem }) {
+    const items = await ItemModel.find(
+      { $text: { $search: searchItem, $caseSensitive: false } }, // 대소문자 구분 안 함
+      { score: { $meta: 'textScore' }, deleted: false }
+    ).sort({ score: { $meta: 'textScore' } });
+    if (items.length > 0) {
+      return items;
+    }
+    return items;
+  }
   // 전체 조회
   static async findAll({}) {
     const items = await ItemModel.find({ deleted: false }).sort({ createdAt: 'asc' });
