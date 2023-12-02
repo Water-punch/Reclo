@@ -23,30 +23,47 @@ class Item {
   // 전체 조회
   static async findAll({}) {
     const items = await ItemModel.find({ deleted: false }).sort({ createdAt: 'asc' });
-    // const sortedItems = items
-    //   .map(({ ...rest }) =>
-    //     [rest._doc].map(
-    //       ({ userId, price, description, category, state, email, createdAt, updatedAt, __v, ...rest }) => rest
-    //     )
-    //   )
-    //   .flat();
     return items;
   }
 
-  // // userId로 아이템 찾기
-  // static async findByUserId({ userId }) {
-  //   const items = await ItemModel.findAll({ userId: ObjectId(userId) });
-  //   return items;
-  // }
+  //userId로 아이템 찾기
+  static async findUserItems({ userId }) {
+    const items = await ItemModel.find({ userId: new ObjectId(userId) });
+    return items;
+  }
 
+  // 아이템 수정
   static async update({ itemId, fieldToUpdate, newValue }) {
-    const filter = { _id: ObjectId(itemId) };
+    const filter = { _id: new ObjectId(itemId) };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
     const updatedItem = await ItemModel.findOneAndUpdate(filter, update, option);
     return updatedItem;
   }
 
+  // 관심상품 추가
+  static async likeUpdate({ itemId }) {
+    const filter = { _id: new ObjectId(itemId) };
+    const update = {
+      $inc: { like: 1 },
+    };
+    const option = { returnOriginal: false };
+    const updatedItem = await ItemModel.findOneAndUpdate(filter, update, option);
+    return updatedItem;
+  }
+
+  // 관심상품 삭제
+  static async likeDelete({ itemId }) {
+    const filter = { _id: new ObjectId(itemId), like: { $gt: 0 } };
+    const update = {
+      $inc: { like: -1 },
+    };
+    const option = { returnOriginal: false };
+    const deleteItem = await ItemModel.findOneAndUpdate(filter, update, option);
+    return deleteItem;
+  }
+
+  // 아이템 삭제
   static async deleteItem({ itemId }) {
     const filter = { _id: itemId };
     // deleted 필드를 true로 업데이트하여 Soft delete 표시
