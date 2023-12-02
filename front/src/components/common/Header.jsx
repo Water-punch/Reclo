@@ -9,17 +9,17 @@ import * as Api from '../../api/api'
 
 const Header = () => {
     const navigate = useNavigate()
-    const [isLogin, setIsLogin] = useState(false)
-    const { login } = useUserStore()
+    const { login, setLogout, user } = useUserStore()
 
     const handleSubmit = async (e) => {
-      console.log(isLogin)
+      console.log(`로그아웃 이전 login ${login}`)
       e.preventDefault()
       try {
         await Api.post('user/logout')
+        await setLogout()
+        console.log(`로그아웃 이후 login ${login}`)
         alert('로그아웃 완료')
-        setIsLogin(false)
-
+    
       } catch (err) {
         console.log('로그아웃 실패')
         navigate('/login')
@@ -27,7 +27,10 @@ const Header = () => {
     }
 
     const handleMyPage = () => {
-      if(login) navigate('/mypage')
+      console.log('mypage 클릭은 됨, login: ', login)
+      if(login) {
+        navigate('/mypage', { state: { user: user }})
+      }
       else {
         alert('로그인이 필요한 서비스입니다')
         navigate('/login')
@@ -44,7 +47,7 @@ const Header = () => {
           <ButtonGroup 
           color='success'
           variant="text" aria-label="text button group">
-            {isLogin===false ? (<Button 
+            {login==false ? (<Button 
               sx={{ color: 'black'}} 
               variant="text" 
               onClick={() => {
@@ -65,7 +68,7 @@ const Header = () => {
             </Button>
             <Button 
               sx={{ color: 'black'}} 
-              onClick={() => {handleMyPage}}>
+              onClick={handleMyPage}>
               마이페이지
             </Button>
           </ButtonGroup>

@@ -2,8 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import '../../../styles/MyPage.css'
 import UserPoint from './UserPoint';
 
-const UserInfo = (user) => {
+const UserInfo = ({ user }) => {
   const navigate = useNavigate()
+  console.log(user)
+  console.log(user.email)
+  console.log(user.nickname)
 
     return (
       <div className="userinfoContainer">
@@ -19,8 +22,9 @@ const UserInfo = (user) => {
             <div className="userInfo">
               <p>{user.email}</p>
               <p>{user.nickname}</p>
+
               <button className="change" onClick={() => navigate("/point")}>
-                변경
+                point 조회
               </button>
             </div>
           </div>

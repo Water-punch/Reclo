@@ -9,7 +9,7 @@ import useUserStore from "../../../stores/user";
 export default function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { setLogin, login, setUser } = useUserStore()
+  const { setLogin, login, setUser, user } = useUserStore()
   const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
@@ -17,17 +17,15 @@ export default function LoginForm() {
     
     try {
       const res = await Api.post('user/login', {email, password})
-      const user = res.data
 
-      setLogin()
-      setUser(user)
-      console.log(login)
-      console.log(`로그인 성공` )
+      await setLogin()
+      await setUser(res.data)
+      console.log(login) //login logout 상태는 바로 반영 되는데 콘솔이 못따라올 때가 있음 
+      console.log(user)
+      console.log(`로그인 성공`)
             
       navigate('/', { replace: true })
-
     } catch (error) {
-
       alert('로그인에 실패했습니다.')
       console.error("로그인 실패:", error);
     }

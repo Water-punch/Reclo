@@ -34,7 +34,7 @@ const ContentEditForm = ({item}) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try{
-      editMutation.mutate({ userId: item.userId, title, price, description, category, state })
+      editMutation.mutate({ title, price, description, category, state })
       alert('게시글이 업로드되었습니다.')
     } catch (err) {
       alert(`게시글 등록에 실패했습니다. 모든 항목을 채워주세요.`)

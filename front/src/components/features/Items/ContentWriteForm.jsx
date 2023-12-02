@@ -290,13 +290,6 @@ const ContentWriteForm = ({ userId }) => {
                 onChange={text=>setDescription(text)}
                 style={{width: '82%', height: '60vh', marginBottom: '5vh', marginTop: '2.5vh'}}
               />
-    
-              <TextField
-                value={tag} 
-                onChange={e=>setTag(e.target.value)}
-                id="tag" label="태그"
-                sx={{ marginBottom: '5vh' }}
-                variant="standard" /> 
               
               <Button 
                 variant="contained"
