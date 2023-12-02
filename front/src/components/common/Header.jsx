@@ -7,6 +7,29 @@ import "../../styles/home.css";
 
 const Header = () => {
   const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(false);
+  const { login } = useUserStore();
+
+  const handleSubmit = async (e) => {
+    console.log(isLogin);
+    e.preventDefault();
+    try {
+      await Api.post("user/logout");
+      alert("로그아웃 완료");
+      setIsLogin(false);
+    } catch (err) {
+      console.log("로그아웃 실패");
+      navigate("/login");
+    }
+  };
+
+  const handleMyPage = () => {
+    if (login) navigate("/mypage");
+    else {
+      alert("로그인이 필요한 서비스입니다");
+      navigate("/login");
+    }
+  };
 
   return (
     <>

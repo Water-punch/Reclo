@@ -12,8 +12,8 @@ import {
   Select,
 } from "@mui/material";
 import "../../../styles/contents.css";
-// import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 import * as Api from "../../../api/api";
+import { useMutation } from "@tanstack/react-query";
 
 const ContentWriteForm = ({ userId }) => {
   const [name, setName] = useState("");

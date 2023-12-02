@@ -7,7 +7,7 @@ import { ChatListPage, ChattingRoomPage } from "./components/pages/Chat";
 import {
   EventPage,
   ContentsPage,
-  ContentsAddPage,
+  ContentsWritePage,
   ContentsDetailPage,
 } from "./components/pages/Items";
 import {
@@ -42,8 +42,8 @@ function App() {
           <Route path="/test" element={<TestPage />} />
 
           <Route path="/contents" element={<ContentsPage />} />
-          <Route path="/add" element={<ContentsAddPage />} />
-          <Route path="/detail:itemId" element={<ContentsDetailPage />} />
+          <Route path="/write" element={<ContentsWritePage />} />
+          <Route path="/detail/:itemId" element={<ContentsDetailPage />} />
           <Route path="/event" element={<EventPage />} />
 
           <Route path="/chatlist" element={<ChatListPage />} />
