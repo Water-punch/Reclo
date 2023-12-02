@@ -28,12 +28,11 @@ async function getAllItems(req, res, next) {
 
 // 카테고리별 아이템 조회
 async function getItemsByCategory(req, res, next) {
-  let items;
   try {
     const category = req.query.category;
     if (category) {
-      items = await itemService.getItemsByCategory({ category });
-      // res.status(200).json({ items });
+      const items = await itemService.getItemsByCategory({ category });
+      res.status(200).json({ items });
     } else if (!category) {
       items = await itemService.getAllItems();
     }
@@ -133,7 +132,7 @@ async function setItem(req, res, next) {
 
     res.status(200).send({
       // itemImgUrl: updatedItem.itemImgUrl,
-      // message: '아이템 수정에 성공했습니다.',
+      message: '아이템 수정에 성공했습니다.',
     });
   } catch (error) {
     next(error);
