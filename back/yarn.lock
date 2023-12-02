@@ -6000,12 +6000,7 @@ mongodb@5.9.1:
   optionalDependencies:
     "@mongodb-js/saslprep" "^1.1.0"
 
-mongoose-delete@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/mongoose-delete/-/mongoose-delete-1.0.1.tgz"
-  integrity sha512-vm24uep4UJOW3Ac8H/gDxURcwvl+1Cc2H7tIJ0O8ejDEFJIUoksKS9HzTOM4SvEJusAVQ0JpjhbttHpevUz71A==
-
-mongoose@^7.6.6, "mongoose@5.x || 6.x || 7.x":
+mongoose@^7.6.6:
   version "7.6.6"
   resolved "https://registry.npmjs.org/mongoose/-/mongoose-7.6.6.tgz"
   integrity sha512-xZDNhnpSUJH1r72g42ai4StVoLmcaLD74Gv6vbEqOKKDEphAjMCZxzS5WU8hFUZAogt8eocvPf/1um8jvkkZGQ==
