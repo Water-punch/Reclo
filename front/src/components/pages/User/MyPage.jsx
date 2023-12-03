@@ -1,51 +1,31 @@
 import { useNavigate } from "react-router-dom";
 import "../../../styles/MyPage.css";
-import Header from "../../common/Header";
+import useUserStore from "../../../stores/user";
+import { useQuery } from "@tanstack/react-query";
 
 const MyPage = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const { isPending, error, data } = useQuery({ 
+    queryKey: ['mypage'], 
+    queryFn: async () => {
+      try {
+        const res = await Api.get('user/current')
+        return res.data
+      } catch (error) {
+        throw error
+      }
+    },
+  })
 
-  function Userinfocomponents() {
-    return (
-      <div className="userinfoContainer">
-        <div className="mypage">
-          <h1>My Page</h1>
-          <div className="contentContainer">
-            <div className="profile"></div>
-            <div className="pointContainer">
-              <Point></Point>
-            </div>
-          </div>
-          <div className="userbox">
-            <div className="userInfo">
-              <p>이메일</p>
-              <input className="email"></input>
-              <p>주소</p>
-              <input className="address"></input>
-              <button className="change" onClick={() => navigate("/point")}>
-                변경
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  if (isPending) return 'Loading...'
+  if (error) return '오류가 발생했습니다.' + error.message
 
-  function Point() {
-    return (
-      <div className="pointbox">
-        <div>포인트 IMAGE</div>
-        <div>레벨 IMAGE</div>
-        <div>포인트 IMAGE</div>
-      </div>
-    );
-  }
+  console.log(data)
 
   return (
-    <>
-      <Userinfocomponents />
-    </>
+    <div>
+      <UserInfo user={data.user} />
+    </div>
   );
 };
 
