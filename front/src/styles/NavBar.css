@@ -1,0 +1,27 @@
+.navbar {
+  background-color: rgb(196, 251, 233);
+  height: 120px;
+  display: flex;
+}
+
+.navbar h1 {
+  font-size: 40px;
+  font-weight: 900;
+  margin-left: 3%;
+  font-style: italic;
+}
+
+.navbar .button_group {
+  width: 35%;
+}
+
+.navbar .button_group button {
+  height: 80px;
+  width: 140px;
+  border-radius: 10px;
+  margin: 0 1%;
+}
+
+.navbar .button_group button:hover {
+  background-color: aquamarine;
+}

@@ -22,7 +22,7 @@ const IntroPage = () => {
         data-aos="fade-right"
         data-aos-anchor-placement="center-center"
       >
-        <Chart />
+        {/* <Chart /> */}
         <a
           id="temp_url"
           href="https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/global/time-series/globe/land/1/12/1850-2023"
