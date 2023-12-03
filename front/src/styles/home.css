@@ -1,0 +1,61 @@
+.header {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    /* margin-left: 10rem; ->적용안됨 */
+    display: flex;
+    justify-content: flex-end;
+    
+}
+
+.logo_space {
+    width: 100%;
+}
+
+.navbar {
+    z-index: 1000;
+    width: 100%;
+    height: 20vh;
+    /* position: fixed; */
+    position: sticky;
+    display: flex;
+    align-items: center;
+    top: 0;
+    background-color: rgb(250, 244, 235);
+}
+
+.testbanner {
+    width: 100%;
+    height: 25vh;
+    background-color: blanchedalmond;
+}
+
+.trendbanner {
+    width: 100%;
+    height: 15vh;
+    background-color: rgb(208, 241, 230);
+}
+
+.introbanner {
+    width: 100%;
+    height: 15vh;
+    background-color: blanchedalmond;
+}
+
+.eventbanner {
+    width: 100%;
+    height: 20vh;
+    background-color: blanchedalmond;
+}
+
+.freespace {
+    width: 100%;
+    height: 20vh;
+    text-align: center;
+}
+
+.footer {
+    width: 100%;
+    height: 15vh;
+    background-color: blanchedalmond;
+}
+
