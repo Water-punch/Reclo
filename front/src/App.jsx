@@ -18,7 +18,7 @@ import {
   WishListPage,
 } from "./components/pages/User";
 import Header from "./components/common/Header";
-import NavBar from "./components/common/NavBar1";
+import NavBar from "./components/common/NavBar";
 
 function App() {
   const queryClient = new QueryClient();
