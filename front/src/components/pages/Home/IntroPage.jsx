@@ -1,11 +1,10 @@
 import "../../../styles/IntroPage.css";
-// import Chart from "./Chart";
 
-import intro_indonesia from "./img/intro_indonesia.jpg";
-import intro_nowater from "./img/intro_nowater.jpg";
-import intro_Heatwave from "./img/intro_Heatwave.webp";
-import intro_clothwaste from "./img/intro_clothwaste.jpg";
-import cloth_waste from "./img/cloth_waste.jpg";
+import intro_indonesia from "./intropage/img/intro_indonesia.jpg";
+import intro_nowater from "./intropage/img/intro_nowater.jpg";
+import intro_Heatwave from "./intropage/img/intro_Heatwave.webp";
+import intro_clothwaste from "./intropage/img/intro_clothwaste.jpg";
+import cloth_waste from "./intropage/img/cloth_waste.jpg";
 
 import { useEffect } from "react";
 
