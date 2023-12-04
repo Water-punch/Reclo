@@ -13,6 +13,14 @@ class INVALID_USER_Error extends Error {
   }
 }
 
+// 400: 존재하지 않는 아이템
+class INVALID_ITEM_Error extends Error {
+  constructor(message) {
+    super(message);
+    this.status = 400;
+  }
+}
+
 // 401: 권한 없음
 class UnauthorizedError extends Error {
   constructor(message) {
@@ -53,5 +61,13 @@ class InternalServerError extends Error {
   }
 }
 
-export { BadRequestError, INVALID_USER_Error, UnauthorizedError, ForbiddenError, NotFoundError, ConflictError };
+export {
+  BadRequestError,
+  INVALID_USER_Error,
+  INVALID_ITEM_Error,
+  UnauthorizedError,
+  ForbiddenError,
+  NotFoundError,
+  ConflictError,
+};
 export { InternalServerError };

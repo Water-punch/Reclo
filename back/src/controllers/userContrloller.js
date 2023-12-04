@@ -1,5 +1,7 @@
+const ObjectId = require('mongoose').Types.ObjectId;
 const { userAuthService } = require('../services/userService');
 const { pointService } = require('../services/pointService');
+const { wishItemService } = require('../services/wishItemService');
 
 async function register(req, res, next) {
   try {
@@ -91,7 +93,7 @@ async function currentInfoUpdate(req, res, next) {
     // 해당 사용자 이메일로 사용자 정보를 db에서 찾아 업데이트함.
     const updatedUser = await userAuthService.setUser({ userId, user });
 
-    res.status(200).json({ ok : true });
+    res.status(200).json({ ok: true });
   } catch (error) {
     next(error);
   }
@@ -146,7 +148,7 @@ async function InfoByNickname(req, res, next) {
       nickname: userNickname,
     });
 
-    res.status(200).json({user : currentUserInfo});
+    res.status(200).json({ user: currentUserInfo });
   } catch (error) {
     next(error);
   }

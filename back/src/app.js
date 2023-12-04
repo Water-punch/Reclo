@@ -3,6 +3,7 @@ import express from 'express';
 import { userAuthRouter } from './routers/userRouter';
 import { itemRouter } from './routers/itemRouter';
 import { chatRouter } from './routers/chatRouter';
+import { wishItemRouter } from './routers/wishItemRouter';
 import { errorMiddleware } from './middlewares/errorMiddleware';
 
 const cookieParser = require('cookie-parser');
@@ -35,8 +36,8 @@ app.get('/', (req, res) => {
 
 app.use(userAuthRouter);
 app.use(itemRouter);
-
-app.use(userAuthRouter);
+app.use(wishItemRouter);
+app.use(chatRouter);
 
 // 에러 핸들링
 app.use(errorMiddleware);

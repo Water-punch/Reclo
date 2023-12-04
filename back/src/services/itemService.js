@@ -1,51 +1,71 @@
 import { Item } from '../db';
 // const { ObjectId } = require('mongodb');
+import { BadRequestError, INVALID_ITEM_Error } from '../utils/customError';
 
 class itemService {
   // 아이템 상세내용 조회
   static async getItemDetails({ itemId }) {
     const item = await Item.findByItemId({ itemId });
+    if (!item) {
+      throw new INVALID_ITEM_Error('해당 상품이 존재하지 않습니다.');
+    }
     return item;
   }
 
-  // 전체 아이템 조회
-  static async getAllItems() {
-    const items = await Item.findAll({});
-    return items;
+  // 커서 기반 페이지 조회
+  static async getCursorItems({ itemCursor, limit }) {
+    const cursor = itemCursor ? { $lt: itemCursor } : {};
+    const items = await Item.findCursor({ cursor, limit });
+    if (!items || items.length === 0) {
+      throw new INVALID_ITEM_Error('해당 위치의 상품이 존재하지 않습니다.');
+    }
+    const newCursor = items.length > 0 ? items[items.length - 1]._id : null;
+    return { items, cursor: newCursor };
   }
 
   // 유저별 아이템 조회
   static async getUserItems({ userId }) {
-    const items = await Item.findAll({ userId });
+    const items = await Item.findUserItems({ userId });
+    if (!items) {
+      throw new INVALID_ITEM_Error('해당 유저의 상품이 존재하지 않습니다.');
+    }
     return items;
   }
 
   // 카테고리별 아이템 조회
   static async getItemsByCategory({ category }) {
     const items = await Item.findItemsByCategory({ category });
+    if (!items) {
+      throw new INVALID_ITEM_Error('해당 카테고리의 상품이 존재하지 않습니다.');
+    }
     return items;
   }
 
   // 검색으로 아이템 조회
-  static async getItemsBySearch({ search }) {
-    const items = await Item.findItemsBySearch({ search });
+  static async getItemsBySearch({ searchItem }) {
+    const items = await Item.findItemsBySearch({ searchItem });
+    if (!items) {
+      throw new INVALID_ITEM_Error('해당 검색어와 관련된 상품이 존재하지 않습니다.');
+    }
     return items;
   }
 
-  // 아이템 추가
+  // 아이템 등록
   static async addItem({ itemInfo }) {
     const newItem = { ...itemInfo };
     const createdNewItem = await Item.createItem({ newItem });
+    if (!createdNewItem) {
+      throw new BadRequestError('해당 상품이 등록되지 않았습니다.');
+    }
     return createdNewItem;
   }
 
   //아이템 수정
   static async setItem({ itemId, toUpdate }) {
-    let item = await Item.findByItemId({ itemId });
+    const item = await Item.findByItemId({ itemId });
 
     if (!item) {
-      const errorMessage = '해당 id의 상품이 없습니다. 다시 한 번 확인해 주세요.';
-      return { errorMessage };
+      throw new BadRequestError('해당 상품의 수정사항이 반영되지 않았습니다.');
     }
 
     const itemFieldMapping = {
@@ -54,7 +74,7 @@ class itemService {
       category: 'category',
       price: 'price',
       state: 'state',
-      itemsImgUrl: 'itemsImgUrl',
+      // itemsImgUrl: 'itemsImgUrl',
     };
 
     let updatedItem = {};
@@ -70,22 +90,14 @@ class itemService {
     return updatedItem;
   }
 
+  // 아이템 삭제
   static async deleteById({ itemId }) {
-    // const item = await Item.findOne({ _id: ObjectId(itemId) });
     const deletedItem = await Item.deleteItem({ itemId });
+    if (!deletedItem) {
+      throw new BadRequestError('해당 상품이 삭제되지 않았습니다.');
+    }
     return deletedItem;
   }
-
-  // await Item.softDelete({ item });
-  // const result = await Item.save(item);
-
-  // } else if (itemId.userId !== user) {
-  //   const errorMessage = '해당 아이템 삭제 권한이 없습니다.';
-  //   return { errorMessage };
-  // }
-  // const result = await Item.deleteItem({ itemId });
-  // return result.isDeleted ? true : false;
-  // return {};
 }
 
 export { itemService };
