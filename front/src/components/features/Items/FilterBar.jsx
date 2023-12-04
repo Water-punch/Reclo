@@ -8,29 +8,23 @@ import * as Api from '../../../api/api'
 
 function FilterBar() {
   const [value, setValue] = useState('1')
+  const [condition, setCondition] = useState('')
   const [searchParams, setSearchParams] = useSearchParams()
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
 
-  const findByCategory = async (condition) => { //조건 = 성별, 분류1 이후에 선택한 **분류2**
+  const findByCategory = async (e) => { //조건 = 성별, 분류1 이후에 선택한 **분류2**
+    setCondition(e.target.value)
     searchParams.set('category', condition)
     setSearchParams(searchParams)
 
-    try {
-      const res = await Api.get('items')
-      console.log(res.data)
-      return res.data
-    } catch (error) {
-      throw error
-    }
-
     // const { isPending, error, data } = useQuery({ 
-    //   queryKey: ['contentspage'], 
+    //   queryKey: ['filterBar'], 
     //   queryFn: async () => {
     //     try {
-    //       const res = await Api.get('items')
+    //       const res = await Api.get(`items?category=${encodeURIComponent(condition)}`)
     //       console.log(res.data)
     //       return res.data
     //     } catch (error) {
@@ -41,6 +35,14 @@ function FilterBar() {
   
     // if (isPending) return 'Loading...'
     // if (error) return '오류가 발생했습니다.' + error.message
+
+    // try {
+    //   const res = await Api.get(`items?category=${encodeURIComponent(condition)}`)
+    //   console.log(res.data)
+    //   return res.data
+    // } catch (error) {
+    //   throw error
+    // } 
   }
 
   return (
@@ -66,7 +68,7 @@ function FilterBar() {
               <List>
                 {['티셔츠', '셔츠', '니트', '맨투맨', '후드'].map((text, index) => (
                   <ListItem key={text} disablePadding>
-                    <ListItemButton onClick={(text) => findByCategory(text)}>
+                    <ListItemButton value={text} onClick={findByCategory}>
                       <ListItemText primary={text} />
                     </ListItemButton>
                   </ListItem>
@@ -77,7 +79,7 @@ function FilterBar() {
               <List>
                 {['데님', '반바지', '슬랙스', '면바지', '트레이닝'].map((text, index) => (
                   <ListItem key={text} disablePadding>
-                    <ListItemButton onClick={(text) => findByCategory(text)}>
+                    <ListItemButton value={text} onClick={findByCategory}>
                       <ListItemText primary={text} />
                     </ListItemButton>
                   </ListItem>
@@ -88,7 +90,7 @@ function FilterBar() {
               <List>
                 {['자켓', '패딩', '코트', '점퍼', '정장'].map((text, index) => (
                   <ListItem key={text} disablePadding>
-                    <ListItemButton onClick={(text) => findByCategory(text)}>
+                    <ListItemButton value={text} onClick={findByCategory}>
                       <ListItemText primary={text} />
                     </ListItemButton>
                   </ListItem>
@@ -107,7 +109,7 @@ function FilterBar() {
               <List>
                 {['티셔츠', '셔츠', '니트', '맨투맨', '후드'].map((text, index) => (
                   <ListItem key={text} disablePadding>
-                    <ListItemButton onClick={(text) => findByCategory(text)}>
+                    <ListItemButton value={text} onClick={findByCategory}>
                       <ListItemText primary={text} />
                     </ListItemButton>
                   </ListItem>
@@ -118,7 +120,7 @@ function FilterBar() {
               <List>
                 {['데님', '반바지', '슬랙스', '면바지', '트레이닝'].map((text, index) => (
                   <ListItem key={text} disablePadding>
-                    <ListItemButton onClick={(text) => findByCategory(text)}>
+                    <ListItemButton value={text} onClick={findByCategory}>
                       <ListItemText primary={text} />
                     </ListItemButton>
                   </ListItem>
@@ -129,7 +131,7 @@ function FilterBar() {
               <List>
                 {['자켓', '패딩', '코트', '점퍼', '정장'].map((text, index) => (
                   <ListItem key={text} disablePadding>
-                    <ListItemButton onClick={(text) => findByCategory(text)}>
+                    <ListItemButton value={text} onClick={findByCategory}>
                       <ListItemText primary={text} />
                     </ListItemButton>
                   </ListItem>

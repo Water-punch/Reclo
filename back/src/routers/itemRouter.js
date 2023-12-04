@@ -25,18 +25,11 @@ itemRouter.get('/item/:itemId', itemController.getItemDetails);
 
 // 아이템 추가하기
 itemRouter.post('/item/:userId', asyncHandler(login_required), itemController.addItem);
-itemRouter.post('/item/:userId', asyncHandler(login_required), itemController.addItem);
 
 // 아이템 수정하기
 itemRouter.put('/item/:itemId', asyncHandler(login_required), itemController.setItem);
 
 // 아이템 삭제하기
-itemRouter.post('/item/:userId', asyncHandler(login_required), itemController.addItem);
-
-itemRouter.put('/item/:itemId', asyncHandler(login_required), itemController.setItem);
-
-// 아이템 삭제하기
-itemRouter.delete('/item/:itemId', asyncHandler(login_required), itemController.deleteItem);
 itemRouter.delete('/item/:itemId', asyncHandler(login_required), itemController.deleteItem);
 
 export { itemRouter };
