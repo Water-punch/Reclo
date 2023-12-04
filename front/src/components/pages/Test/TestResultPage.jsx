@@ -3,7 +3,7 @@ import TestResult from "../../../stores/testresult";
 const TestResultPage = () => {
   return (
     <>
-      <TestResult></TestResult>
+      <TestResult />
     </>
   );
 };

@@ -1,7 +1,5 @@
-import { useNavigate } from "react-router-dom"
-import React from 'react';
-import {Stack, Button, Typography, Box} from '@mui/material'
-import SearchBar from "./SearchBar";
+import { useNavigate } from 'react-router-dom';
+import '../../styles/NavBar.css';
 
 const NavBar = () => {
   const navigate = useNavigate()
@@ -50,4 +48,4 @@ const NavBar = () => {
     )
 }
 
-export default NavBar
+export default NavBar;

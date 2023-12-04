@@ -25,11 +25,11 @@ function App() {
       setUser(res.data.user)
       console.log(user)
     }
-  }
+  };
 
   useEffect(() => {
-    checkLogin()
-  }, [setLogin])
+    checkLogin();
+  }, [setLogin]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -60,7 +60,7 @@ function App() {
         </Routes>
       </Router>
     </QueryClientProvider>
-  )
+  );
 }
 
-export default App
+export default App;
