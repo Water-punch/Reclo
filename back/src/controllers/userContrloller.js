@@ -26,7 +26,7 @@ async function resign(req, res, next) {
     res.clearCookie('accessToken');
     res.clearCookie('refreshToken');
 
-    res.status(201).json({ message: '회원 탈퇴에 성공했습니다' });
+    res.status(201).json({ ok: true });
   } catch (error) {
     next(error);
   }
@@ -64,7 +64,6 @@ async function logout(req, res, next) {
     res.clearCookie('refreshToken');
 
     res.status(201).json({ ok: true });
-    console.log('로그아웃 성공')
   } catch (error) {
     next(error);
   }
@@ -79,7 +78,7 @@ async function currentInfo(req, res, next) {
       userId,
     });
 
-    res.status(200).send({ user: currentUserInfo });
+    res.status(200).json({ user: currentUserInfo });
   } catch (error) {
     next(error);
   }
@@ -94,7 +93,7 @@ async function currentInfoUpdate(req, res, next) {
     // 해당 사용자 이메일로 사용자 정보를 db에서 찾아 업데이트함.
     const updatedUser = await userAuthService.setUser({ userId, user });
 
-    res.status(200).json({ user: updatedUser });
+    res.status(200).json({ ok: true });
   } catch (error) {
     next(error);
   }
@@ -108,7 +107,7 @@ async function currentPointInfo(req, res, next) {
 
     const points = await pointService.getAllUserPoint({ userId });
 
-    res.status(200).send({ points: points });
+    res.status(200).json({ points });
   } catch (error) {
     next(error);
   }
@@ -144,12 +143,12 @@ async function addPoint(req, res, next) {
 // 닉네임으로 유저정보 조회, 넘겨주는 데이터에서 개인정보와 관련된부분 없애야할 필요가 있을듯
 async function InfoByNickname(req, res, next) {
   try {
-    const user_nickname = req.params.nickname;
+    const userNickname = req.params.nickname;
     const currentUserInfo = await userAuthService.getUserInfobyNickname({
-      nickname: user_nickname,
+      nickname: userNickname,
     });
 
-    res.status(200).send(currentUserInfo);
+    res.status(200).json({ user: currentUserInfo });
   } catch (error) {
     next(error);
   }
