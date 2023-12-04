@@ -38,8 +38,8 @@ const UserSchema = new Schema(
       default: false,
     },
     deleted: {
-      type: Boolean,
-      default: false,
+      type: Date,
+      default: null,
     },
   },
   {

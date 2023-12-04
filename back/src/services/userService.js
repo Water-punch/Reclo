@@ -34,7 +34,7 @@ class userAuthService {
 
     const updateduser = {
       ...duplication._doc,
-      deleted: true,
+      deleted: Date.now(),
     };
     // user의 deleted를 true로 설정
     const updatedUser = await User.update({ user: updateduser });

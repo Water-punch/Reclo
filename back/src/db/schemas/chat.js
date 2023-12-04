@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const chatRoomSchema = new mongoose.Schema({
+const chatRoomSchema = new Schema({
   itemId: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -11,16 +11,26 @@ const chatRoomSchema = new mongoose.Schema({
     required: true,
     ref: 'User',
   },
+  hostuserDeleted : {type : Boolean, default : false},
   user: {
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'User',
   },
+  userDeleted : {type : Boolean, default : false}
 });
+
+chatRoomSchema.index(
+  {
+    itemId: 1,
+    user: 1,
+  },
+  { unique: true }
+);
 
 const RoomModel = model('Room', chatRoomSchema);
 
-const chatMessageSchema = new mongoose.Schema(
+const chatMessageSchema = new Schema(
   {
     room: { type: Schema.Types.ObjectId, required: true, ref: 'Room' },
     message: {
