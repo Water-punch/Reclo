@@ -14,7 +14,7 @@ const QuestionStore = create((set) => ({
     },
     {
       text: "구제 의류를 구매하는 비중이 얼마나 되시나요?",
-      type: "multiple",
+      type: "range",
       options: ["10%", "50%", "100%"],
     },
     {
@@ -54,10 +54,8 @@ const QuestionStore = create((set) => ({
     },
   ],
   currentQuestionIndex: 0,
-  userAnswers: [],
+  userAnswers: [0, null, 0, null, 0, null, null, null, null, null],
   setCurrentQuestionIndex: (index) => set({ currentQuestionIndex: index }),
-  addUserAnswer: (answer) =>
-    set((state) => ({ userAnswers: [...state.userAnswers, answer] })),
 }));
 
 export default QuestionStore;
