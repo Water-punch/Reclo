@@ -17,10 +17,9 @@ export default function LoginForm() {
     
     try {
       const res = await Api.post('user/login', {email, password})
-      await setLogin(true)
-      await setUser(res.data.user)
-      console.log(login) 
-      console.log(user)
+      setLogin(true) //promise를 반환하지 않는 비동기 코드
+      setUser(res.data.user)
+
       console.log(`로그인 성공`)
       
       const token = res.data.token
