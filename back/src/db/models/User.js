@@ -7,7 +7,7 @@ class User {
   }
 
   static async findByEmail({ email }) {
-    const user = await UserModel.find({ $and: [{ email: email }, { deleted: null }] });
+    const user = await UserModel.findOne({ $and: [{ email: email }, { deleted: null }] });
     return user;
   }
 

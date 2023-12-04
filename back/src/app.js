@@ -2,7 +2,9 @@ import cors from 'cors';
 import express from 'express';
 import { userAuthRouter } from './routers/userRouter';
 import { itemRouter } from './routers/itemRouter';
+import { chatRouter } from './routers/chatRouter';
 import { errorMiddleware } from './middlewares/errorMiddleware';
+
 const cookieParser = require('cookie-parser');
 
 const app = express();
@@ -33,6 +35,8 @@ app.get('/', (req, res) => {
 
 app.use(userAuthRouter);
 app.use(itemRouter);
+
+app.use(userAuthRouter);
 
 // 에러 핸들링
 app.use(errorMiddleware);
