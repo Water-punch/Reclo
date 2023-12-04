@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router-dom"
-import * as React from 'react';
+import React from 'react';
 import {Stack, Button, Typography} from '@mui/material'
 
 const NavBar = () => {
-
   const navigate = useNavigate()
 
     return (

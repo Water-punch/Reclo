@@ -1,7 +1,4 @@
-import { useState } from 'react';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Box from '@mui/material/Box';
+import { Button, ButtonGroup, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/home.css'
 import useUserStore from '../../stores/user';
@@ -9,26 +6,40 @@ import * as Api from '../../api/api'
 
 const Header = () => {
     const navigate = useNavigate()
-    const { login, setLogout, user } = useUserStore()
+    const { user, setUser, login, setLogin } = useUserStore()
+    const state = false
 
-    const handleSubmit = async (e) => {
+    const handleLogout = async (event) => {
+      event.preventDefault()
+    
       console.log(`로그아웃 이전 login ${login}`)
-      e.preventDefault()
+    
       try {
         await Api.post('user/logout')
-        await setLogout()
+        setLogin(false)
+        setUser({})
+    
+        console.log(user)
+        localStorage.removeItem('accessToken')
         console.log(`로그아웃 이후 login ${login}`)
         alert('로그아웃 완료')
     
       } catch (err) {
-        console.log('로그아웃 실패')
+        console.log('로그아웃 실패 현재 login: ', login)
         navigate('/login')
       }
     }
 
+    const handleRegister = () => {
+      if(login===false) {
+        navigate('/register')
+      }
+      else alert('로그아웃 이후 가입해주세요.')
+    }
+
     const handleMyPage = () => {
       console.log('mypage 클릭은 됨, login: ', login)
-      if(login) {
+      if(login===true) {
         navigate('/mypage', { state: { user: user }})
       }
       else {
@@ -42,7 +53,7 @@ const Header = () => {
         <Box 
           component='form'
           className='header'
-          onSubmit={handleSubmit}
+          onSubmit={handleLogout}
         >
           <ButtonGroup 
           color='success'
@@ -62,8 +73,7 @@ const Header = () => {
             </Button>)}
             <Button
               sx={{ color: 'black'}} 
-              onClick={() => {
-                navigate('/register')}}>
+              onClick={handleRegister}>
               회원가입
             </Button>
             <Button 

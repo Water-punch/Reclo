@@ -4,7 +4,7 @@ import FilterBar from '../../features/Items/FilterBar'
 import ContentsCard from '../../features/Items/ContentsCard'
 import * as Api from '../../../api/api'
 import { useQuery } from '@tanstack/react-query'
-import { Grid, Box } from '@mui/material'
+import { Grid, Box, Button } from '@mui/material'
 import useUserStore from '../../../stores/user'
 
 const ContentsPage = () => {
@@ -15,6 +15,7 @@ const ContentsPage = () => {
     queryFn: async () => {
       try {
         const res = await Api.get('items')
+        console.log(res.data)
         return res.data
       } catch (error) {
         throw error
@@ -35,7 +36,10 @@ const ContentsPage = () => {
           sx={{ flexGrow: 1, marginLeft: '20vh' }}
           // sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
         >
-          {(<button onClick={() => {navigate('/write', { state : { edit: false } })}}>물품 등록</button>)}
+          <Button 
+            onClick={() => {navigate('/write', { state : { edit: false } })}}>
+              물품 등록
+          </Button>
           <Grid container spacing={2} mx={5} my={5} >
             {data.items.map((item) => ( // 테스트용임
               <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>

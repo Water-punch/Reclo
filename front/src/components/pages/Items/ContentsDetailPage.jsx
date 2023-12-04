@@ -1,4 +1,4 @@
-import { useState, Suspense } from "react"
+import { useState, Suspense, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { Card, Chip, Stack, Box, Button, Grid, Checkbox, Divider, Typography, MenuItem, Menu, IconButton } from '@mui/material'
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder'
@@ -33,21 +33,51 @@ const ContentsDetailPage = () => {
   const item = data.itemDetails
   console.log(data)
   
-  // const deleteMutation = useMutation(() => Api.del(`item/${itemId}`))
-  // const deleteItem = async () => {
-  //   deleteMutation.mutate()
-  // }
+  const deleteMutation = useMutation({
+    mutationFn: async () => {
+      try {
+        const result = await Api.del(`item/${item.userId}`)
+        console.log('API 호출 결과:', result)
+        return result
+      } catch (error) {
+        console.error('API 호출 중 오류:', error)
+      }
+    }
+  })
+
+  const deleteItem = (e) => {
+    e.preventDefault()
+    try { 
+      deleteMutation.mutate()
+      alert('게시글이 삭제되었습니다.')
+    } catch (err) {
+      alert('게시글 삭제에 실패했습니다.')
+    }
+  }
   
-  // const likeUpdateMutation = useMutation((endpoint, data) => Api.put(endpoint, data))
+  const likeUpdateMutation = useMutation({
+    mutationFn: async () => {
+      try {
+        const result = await Api.put(`item/${itemId}`, data)
+        console.log('like update 결과:', result)
+        return result
+      } catch (error) {
+        console.error('like update 오류:', error)
+      }
+    }
+  })
 
-    // const updateLikeOnPageChange = async () => { //페이지 이동 시 좋아요 상태 업데이트
-  //   try {
-  //     likeUpdateMutation.mutate(`/item/${itemId}`, updatedLike)
-  //   } catch {
-  //     console.log('likeUpdateMutation 실패')
-  //   }
-  // }
+    const updateLikeOnPageChange = async () => { //페이지 이동 시 좋아요 상태 업데이트
+    try {
+      likeUpdateMutation.mutate(`/item/${itemId}`, { title, price, description, category, state, like : updatedLike}) // like만 보내도 되나?
+    } catch {
+      console.log('likeUpdateMutation 실패')
+    }
+  }
 
+  useEffect(() => {
+    updateLikeOnPageChange()
+  }, [navigate])
 
   const editItem = () => {
     navigate('/write', { state: { edit: true, item: item } })
@@ -73,6 +103,9 @@ const ContentsDetailPage = () => {
           }}>
             <Button onClick={editItem}>
               수정
+            </Button>
+            <Button onClick={deleteItem}>
+              삭제
             </Button>
 
             {/* <>

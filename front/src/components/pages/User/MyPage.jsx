@@ -10,7 +10,7 @@ const MyPage = () => {
   //   queryKey: ['mypage'], 
   //   queryFn: async () => {
   //     try {
-  //       const res = await Api.get('/user/current')
+  //       const res = await Api.get('user/current')
   //       return res.data
   //     } catch (error) {
   //       throw error
@@ -20,9 +20,10 @@ const MyPage = () => {
 
   // if (isPending) return 'Loading...'
   // if (error) return '오류가 발생했습니다.' + error.message
+
   const location = useLocation()
-  const userInfo = location.state.user.user //user안에 user가 객체로 담겨있음
-  console.log(userInfo)
+  const userInfo = location.state.user //user안에 user가 객체로 담겨있음
+  console.log(location)
 
   return (
     <div>
