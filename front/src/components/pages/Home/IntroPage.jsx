@@ -9,9 +9,9 @@ import cloth_waste from "./intropage/img/cloth_waste.jpg";
 import { useEffect } from "react";
 
 const IntroPage = () => {
-  useEffect(() => {
-    AOS.init({ duration: 1500 });
-  });
+  // useEffect(() => {
+  //   AOS.init({ duration: 1500 });
+  // });
 
   return (
     <div className="IntroPage">

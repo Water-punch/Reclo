@@ -12,13 +12,15 @@ class itemService {
     return item;
   }
 
-  // 전체 아이템 조회
-  static async getAllItems() {
-    const items = await Item.findAll({});
-    if (!items) {
-      throw new INVALID_ITEM_Error('상품이 존재하지 않습니다.');
+  // 커서 기반 페이지 조회
+  static async getCursorItems({ itemCursor, limit }) {
+    const cursor = itemCursor ? { $lt: itemCursor } : {};
+    const items = await Item.findCursor({ cursor, limit });
+    if (!items || items.length === 0) {
+      throw new INVALID_ITEM_Error('해당 위치의 상품이 존재하지 않습니다.');
     }
-    return items;
+    const newCursor = items.length > 0 ? items[items.length - 1]._id : null;
+    return { items, cursor: newCursor };
   }
 
   // 유저별 아이템 조회
@@ -60,7 +62,7 @@ class itemService {
 
   //아이템 수정
   static async setItem({ itemId, toUpdate }) {
-    let item = await Item.findByItemId({ itemId });
+    const item = await Item.findByItemId({ itemId });
 
     if (!item) {
       throw new BadRequestError('해당 상품의 수정사항이 반영되지 않았습니다.');
@@ -72,7 +74,7 @@ class itemService {
       category: 'category',
       price: 'price',
       state: 'state',
-      itemsImgUrl: 'itemsImgUrl',
+      // itemsImgUrl: 'itemsImgUrl',
     };
 
     let updatedItem = {};

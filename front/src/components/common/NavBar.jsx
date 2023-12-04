@@ -1,43 +1,43 @@
-import { useNavigate } from "react-router-dom";
-import "../../styles/NavBar.css";
+import { useNavigate } from 'react-router-dom';
+import '../../styles/NavBar.css';
 
 const NavBar = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="navbar">
+    <div className='navbar'>
       <h1
         onClick={() => {
-          navigate("/");
+          navigate('/');
         }}
       >
         RE:CLO
       </h1>
-      <div className="button_group">
+      <div className='button_group'>
         <button
           onClick={() => {
-            navigate("/intro");
+            navigate('/intro');
           }}
         >
           서비스 소개
         </button>
         <button
           onClick={() => {
-            navigate("/contents");
+            navigate('/contents');
           }}
         >
           거래/나눔
         </button>
         <button
           onClick={() => {
-            navigate("/event");
+            navigate('/event');
           }}
         >
           이벤트
         </button>
         <button
           onClick={() => {
-            navigate("/activity");
+            navigate('/activity');
           }}
         >
           💬거래진행

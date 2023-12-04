@@ -22,11 +22,11 @@ const ContentEditForm = ({item}) => {
     mutationFn: async (data) => {
       try {
         const result = await Api.put(`item/${itemId}`, data);
-        console.log('API 호출 결과:', result);  // 콘솔에 결과를 출력해봅니다.
+        console.log('API 호출 결과:', result); 
         return result;
       } catch (error) {
-        console.error('API 호출 중 오류:', error);  // 오류 발생 시 콘솔에 출력합니다.
-        throw error;  // 오류를 다시 throw하여 상위 수준에서도 처리할 수 있도록 합니다.
+        console.error('API 호출 중 오류:', error);  
+        throw error;  
       }
     }
   })
@@ -34,7 +34,7 @@ const ContentEditForm = ({item}) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try{
-      editMutation.mutate({ title, price, description, category, state })
+      editMutation.mutate({ title, price, description, category, state, like })
       alert('게시글이 업로드되었습니다.')
     } catch (err) {
       alert(`게시글 등록에 실패했습니다. 모든 항목을 채워주세요.`)
@@ -169,6 +169,7 @@ const ContentEditForm = ({item}) => {
                 >
                   <MenuItem value={'티셔츠'}>티셔츠</MenuItem>
                   <MenuItem value={'맨투맨'}>맨투맨</MenuItem>
+                  <MenuItem value={'후드'}>후드</MenuItem>
                   <MenuItem value={'셔츠'}>셔츠</MenuItem>
                   <MenuItem value={'니트'}>니트</MenuItem>
                   <MenuItem value={'원피스'}>원피스</MenuItem>
@@ -232,6 +233,7 @@ const ContentEditForm = ({item}) => {
                 >
                   <MenuItem value={'티셔츠'}>티셔츠</MenuItem>
                   <MenuItem value={'맨투맨'}>맨투맨</MenuItem>
+                  <MenuItem value={'후드'}>후드</MenuItem>
                   <MenuItem value={'셔츠'}>셔츠</MenuItem>
                   <MenuItem value={'니트'}>니트</MenuItem>
                 </Select>
