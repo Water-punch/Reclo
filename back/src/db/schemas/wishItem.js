@@ -14,6 +14,11 @@ const wishItemSchema = new Schema(
       uniqe: true,
       ref: 'Item',
     },
+
+    likeStatus: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     strictPopulate: false,

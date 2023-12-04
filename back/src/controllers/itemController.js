@@ -2,24 +2,24 @@ const ObjectId = require('mongoose').Types.ObjectId;
 const { itemService } = require('../services/itemService');
 
 // 페이징을 적용한 전체 품목 조회
-async function getAllItems(req, res, next) {
-  const currentPage = req.query.page || 1;
-  const itemsPerPage = parseInt(req.query.itemsPerPage) || 10;
-
+async function getPagedItems(req, res, next) {
   try {
-    const items = await itemService.getAllItems();
+    const itemCursor = req.query.itemCursor;
+    const limit = req.query.limit;
+    const items = await itemService.getCursorItems({ itemCursor, limit });
+    res.status(200).json(items);
+  } catch (error) {
+    next(error);
+  }
+}
 
-    // 페이징을 적용한 응답
-    const totalItems = items.length;
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = currentPage * itemsPerPage;
-
-    const paginatedItems = items.slice(startIndex, endIndex);
-
-    if (paginatedItems) {
-      res.status(200).json({ items: paginatedItems, totalItems });
-    } else {
-      res.status(404).json({ message: '페이지에 대한 아이템이 없습니다.' });
+// 검색으로 아이템 조회
+async function getItemsBySearch(req, res, next) {
+  try {
+    const searchItem = req.query.searchItem;
+    if (searchItem) {
+      const items = await itemService.getItemsBySearch({ searchItem });
+      res.status(200).json({ items });
     }
   } catch (error) {
     next(error);
@@ -37,20 +37,6 @@ async function getItemsByCategory(req, res, next) {
       items = await itemService.getAllItems();
     }
 
-    res.status(200).json({ items });
-  } catch (error) {
-    next(error);
-  }
-}
-
-// 검색으로 아이템 조회
-async function getItemsBySearch(req, res, next) {
-  let items;
-  try {
-    const searchItem = req.query.searchItem;
-    if (searchItem) {
-      items = await itemService.getItemsBySearch({ searchItem });
-    }
     res.status(200).json({ items });
   } catch (error) {
     next(error);
@@ -121,7 +107,6 @@ async function setItem(req, res, next) {
     const itemId = new ObjectId(req.params.itemId);
 
     const toUpdate = req.body.toUpdate;
-
     const updatedItem = await itemService.setItem({ itemId, toUpdate });
     if (!updatedItem) {
       throw new Error(updatedItem.errorMessage);
@@ -156,7 +141,7 @@ async function deleteItem(req, res, next) {
 }
 
 module.exports = {
-  getAllItems,
+  getPagedItems,
   getItemsByCategory,
   getItemsBySearch,
   getUserItems,

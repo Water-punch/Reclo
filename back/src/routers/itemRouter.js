@@ -5,8 +5,8 @@ const itemController = require('../controllers/itemController');
 
 const itemRouter = Router();
 
-// 전체 품목 조회
-// itemRouter.get('/items', itemController.getAllItems);
+// 커서 기반 페이징으로 품목 조회
+itemRouter.get('/items', itemController.getPagedItems);
 
 // 카테고리별 아이템 조회
 itemRouter.get('/items', itemController.getItemsByCategory);
