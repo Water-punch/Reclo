@@ -14,7 +14,4 @@ wishItemRouter.get('/item/like-detail/:itemId', asyncHandler(login_required), wi
 // 관심상품 추가 & 삭제
 wishItemRouter.put('/item/:itemId/likes', asyncHandler(login_required), wishItemController.toggleItemLikes);
 
-// 관심상품 삭제
-// wishItemRouter.put('/item/:itemId/dislikes', asyncHandler(login_required), wishItemController.putItemDislikes);
-
 export { wishItemRouter };

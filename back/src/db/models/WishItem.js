@@ -1,5 +1,4 @@
 import { wishItemModel } from '../schemas/wishItem';
-import { ConflictError } from '../../utils/customError';
 
 class wishItem {
   // 유저 아이디로 관심상품 찾기
