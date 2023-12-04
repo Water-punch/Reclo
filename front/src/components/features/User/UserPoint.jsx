@@ -17,17 +17,17 @@ const UserPoint = () => {
   return (
     <div className='pointbox'>
       <div className='pointItem'>
-        <img src='/src/styles/point.png' alt='포인트 이미지' />
+        <img src='/public/point.png' alt='포인트 이미지' />
         <p>포인트</p>
         <p>{pointData.point}</p>
       </div>
       <div className='pointItem'>
-        <img src='/src/styles/level.png' alt='레벨 이미지' />
+        <img src='/public/level.png' alt='레벨 이미지' />
         <p>레벨</p>
         <p></p>
       </div>
       <div className='pointItem'>
-        <img src='/src/styles/check.png' alt='포인트 이미지' />
+        <img src='/public/check.png' alt='포인트 이미지' />
         <p>포인트조회</p>
         <p></p>
       </div>
