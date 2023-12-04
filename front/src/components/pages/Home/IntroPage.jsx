@@ -1,10 +1,10 @@
 import '../../../styles/IntroPage.css';
 
-import intro_indonesia from './intropage/img/intro_indonesia.jpg';
-import intro_nowater from './intropage/img/intro_nowater.jpg';
-import intro_Heatwave from './intropage/img/intro_Heatwave.webp';
-import intro_clothwaste from './intropage/img/intro_clothwaste.jpg';
-import cloth_waste from './intropage/img/cloth_waste.jpg';
+import intro_indonesia from '../../../../public/img/intro_indonesia.jpg'
+import intro_nowater from '../../../../public/img/intro_nowater.jpg';
+import intro_Heatwave from '../../../../public/img/intro_Heatwave.webp';
+import intro_clothwaste from '../../../../public/img/intro_clothwaste.jpg';
+import cloth_waste from '../../../../public/img/cloth_waste.jpg';
 
 import Chart from './intropage/Chart';
 
