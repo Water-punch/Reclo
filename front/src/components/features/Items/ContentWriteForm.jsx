@@ -393,3 +393,5 @@ const ContentWriteForm = ({ userId }) => {
     </div>
   );
 };
+
+export default ContentWriteForm;

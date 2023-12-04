@@ -19,39 +19,44 @@ import {
 } from "./components/pages/User";
 import Header from "./components/common/Header";
 import NavBar from "./components/common/NavBar";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const defaultTheme = createTheme();
 
 function App() {
   const queryClient = new QueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <Header />
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/intro" element={<IntroPage />} />
-          <Route path="/activity" element={<ActivityAdmin />} />
+    <ThemeProvider theme={defaultTheme}>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <Header />
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/intro" element={<IntroPage />} />
+            <Route path="/activity" element={<ActivityAdmin />} />
 
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/wishlist" element={<WishListPage />} />
-          <Route path="/point" element={<PointPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/wishlist" element={<WishListPage />} />
+            <Route path="/point" element={<PointPage />} />
 
-          <Route path="/test" element={<TestPage />} />
+            <Route path="/test" element={<TestPage />} />
 
-          <Route path="/contents" element={<ContentsPage />} />
-          <Route path="/write" element={<ContentsWritePage />} />
-          <Route path="/detail/:itemId" element={<ContentsDetailPage />} />
-          <Route path="/event" element={<EventPage />} />
+            <Route path="/contents" element={<ContentsPage />} />
+            <Route path="/write" element={<ContentsWritePage />} />
+            <Route path="/detail/:itemId" element={<ContentsDetailPage />} />
+            <Route path="/event" element={<EventPage />} />
 
-          <Route path="/chatlist" element={<ChatListPage />} />
-          <Route path="/chatting" element={<ChattingRoomPage />} />
-          {/* <Route path='*' element={<NotFound />} /> */}
-        </Routes>
-      </Router>
-    </QueryClientProvider>
+            <Route path="/chatlist" element={<ChatListPage />} />
+            <Route path="/chatting" element={<ChattingRoomPage />} />
+            {/* <Route path='*' element={<NotFound />} /> */}
+          </Routes>
+        </Router>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 
