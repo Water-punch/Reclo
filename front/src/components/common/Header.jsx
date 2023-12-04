@@ -16,8 +16,8 @@ const Header = () => {
     
       try {
         await Api.post('user/logout')
-        setLogin(false)
-        setUser({})
+        await setLogin(false)
+        await setUser({})
     
         console.log(user)
         localStorage.removeItem('accessToken')

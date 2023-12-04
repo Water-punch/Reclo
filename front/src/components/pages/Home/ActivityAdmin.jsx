@@ -1,7 +1,7 @@
 import { Button } from "@mui/material"
 import useUserStore from "../../../stores/user"
 import { useNavigate } from "react-router-dom"
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useMutation } from "@tanstack/react-query"
 
 // 여기서 게시글 & 거래 신청 관리
 const ActivityAdmin = () => {

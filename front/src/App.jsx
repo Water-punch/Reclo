@@ -9,16 +9,21 @@ import { PointPage, MyPage, WishListPage } from './components/pages/User'
 import Header from './components/common/Header'
 import NavBar from './components/common/NavBar'
 import useUserStore from './stores/user'
+import * as Api from './api/api'
 
 function App() {
   const queryClient = new QueryClient()
-  const { login, setLogin, user } = useUserStore()
+  const { login, setLogin, user, setUser } = useUserStore()
 
-  const checkLogin = () => {
+  const checkLogin = async () => {
     if(localStorage.getItem('accessToken')) {
       setLogin(true)
       console.log('로그인 여부 확인: ', login)
-      console.log(localStorage.getItem('accessToken'))
+      
+      const res = await Api.get('user/current')
+      console.log(res)
+      setUser(res.data.user)
+      console.log(user)
     }
   }
 

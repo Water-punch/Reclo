@@ -1,6 +1,7 @@
 import { TextField, Button, Box, Stack } from "@mui/material"
 import { useState } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
+import * as Api from '../../api/api'
 
 const SearchBar = () => {
   const [keyword, setKeyword] = useState('')
@@ -16,11 +17,9 @@ const SearchBar = () => {
       const res = await Api.get(`itemsearch?searchItem=${encodeURIComponent(keyword)}`)
       console.log(`"${keyword}" 검색결과:`,res.data)
       navigate(`/contents?${searchParams}`, { state : { items : res.data }})
-    } catch (error) {
-      throw error
+    } catch (error) { //ErrorBoundary 설정도 고려
+      alert('검색결과를 찾지 못했습니다.')
     }
-
-
   }
 
   return (

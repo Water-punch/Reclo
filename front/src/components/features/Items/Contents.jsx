@@ -1,7 +1,8 @@
+import { Grid } from "@mui/material"
 import ContentsCard from "./ContentsCard"
 
  const Contents = (items) => {
-
+    console.log(items)
     return (
         <Grid container spacing={2} mx={5} my={5} >
           {items.map((item) => ( // 테스트용임

@@ -85,7 +85,7 @@ const ContentsDetailPage = () => {
 
   const handleLike = () => {
     setCheckLike(prev => !prev)
-    checkLike ? (setUpdatedLike(prev => prev + 1)) : (setUpdatedLike(prev => prev - 1))  
+    setUpdatedLike(prev => prev + (checkLike ? 1 : -1))
   }
 
   const sendRequest = () => {
@@ -107,16 +107,6 @@ const ContentsDetailPage = () => {
             <Button onClick={deleteItem}>
               삭제
             </Button>
-
-            {/* <>
-            {deleteMutation.isError && <p>삭제 실패</p>}
-            {deleteMutation.isLoading && <p>삭제중..</p>}
-            {deleteMutation.isSuccess && <p>삭제가 완료되었습니다.</p>}
-            </>
-            <Button onClick={deleteItem}>
-              삭제
-            </Button> */}
-
             <Grid container spacing={2} mx={5} my={5}>
               <Grid item xs={12} sm={8} md={6} lg={5}>
               <Card sx={{ height: '50%'}}>

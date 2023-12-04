@@ -5,6 +5,7 @@ import SearchBar from "./SearchBar";
 
 const NavBar = () => {
   const navigate = useNavigate()
+  const navMenus = [ {variant:'text', color:"success", size:"large", } ] // map으로 정리하기
 
     return (
         <Box className='navbar'>
@@ -33,7 +34,6 @@ const NavBar = () => {
                 variant="text" 
                 color="success"
                 size="large"
-                sx={{ flexShrink: 0 }}
                 onClick={() => {navigate('/event')}}>
                 이벤트
               </Button>
@@ -41,7 +41,6 @@ const NavBar = () => {
                 variant="text" 
                 color="success"
                 size="large"
-                sx={{ flexShrink: 0 }}
                 onClick={() => {navigate('/activity')}}>
                 💬거래진행
               </Button>

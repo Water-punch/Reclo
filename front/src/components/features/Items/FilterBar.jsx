@@ -19,30 +19,6 @@ function FilterBar() {
     setCondition(e.target.value)
     searchParams.set('category', condition)
     setSearchParams(searchParams)
-
-    // const { isPending, error, data } = useQuery({ 
-    //   queryKey: ['filterBar'], 
-    //   queryFn: async () => {
-    //     try {
-    //       const res = await Api.get(`items?category=${encodeURIComponent(condition)}`)
-    //       console.log(res.data)
-    //       return res.data
-    //     } catch (error) {
-    //       throw error
-    //     }
-    //   },
-    // })
-  
-    // if (isPending) return 'Loading...'
-    // if (error) return '오류가 발생했습니다.' + error.message
-
-    // try {
-    //   const res = await Api.get(`items?category=${encodeURIComponent(condition)}`)
-    //   console.log(res.data)
-    //   return res.data
-    // } catch (error) {
-    //   throw error
-    // } 
   }
 
   return (

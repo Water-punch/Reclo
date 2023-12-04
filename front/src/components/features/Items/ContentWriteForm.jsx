@@ -11,9 +11,7 @@ const ContentWriteForm = ({ userId }) => {
   const [price, setPrice] = useState(0)
   const [description, setDescription] = useState('')
   const [state, setState] = useState('거래가능')
-  const [category1, setCategory1] = useState('')
-  const [category2, setCategory2] = useState('')
-  const [category3, setCategory3] = useState('')
+  const [categories, setCategories] = useState({1: '', 2: '', 3: ''})
   const [category, setCategory] = useState('')
 
   const postMutation = useMutation({
@@ -30,7 +28,6 @@ const ContentWriteForm = ({ userId }) => {
       ['link', 'image'],
       ['clean']
     ],
-    // ImageResize: { modules: ['Resize'] },
   }
 
   const formats = [
@@ -49,25 +46,6 @@ const ContentWriteForm = ({ userId }) => {
         alert(`게시글 등록에 실패했습니다.\n 필수항목을 채워주세요.`)
         }
       } 
-      
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault()
-  //   try {
-  //     await Api.post(`item/${userId}`, {
-  //         userId,
-  //         title,
-  //         price,
-  //         description,
-  //         category,
-  //         state,
-  //       })
-
-  //     console.log(`category: ${category}`)
-  //     alert('게시글이 업로드되었습니다.')
-  //   } catch {
-  //       alert(`게시글 등록에 실패했습니다.\n 필수항목을 채워주세요.`)
-  //   }
-  // }
 
   return (
     <div className="addBox">
@@ -92,21 +70,6 @@ const ContentWriteForm = ({ userId }) => {
                 onChange={e=> setTitle(e.target.value)}
                 id="title" label="제목" 
                 sx={{ width: '100%' }} variant="standard" />
-              {/* <FormControl sx={{ minWidth: '20%'}}>
-                    <InputLabel id="demo-simple-select-autowidth-label">나눔/판매</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-autowidth-label"
-                      id="demo-simple-select-autowidth"
-                      value={share}
-                      label="나눔/판매"
-                      onChange={e => {
-                        setShare(e.target.value)
-                      }}
-                    >
-                      <MenuItem id='share' value={true}>나눔</MenuItem>
-                      <MenuItem id='sell' value={false}>판매</MenuItem>
-                    </Select>
-                  </FormControl> */}
             </Stack>
             
             <Box>   
@@ -116,10 +79,10 @@ const ContentWriteForm = ({ userId }) => {
               <Select
                 labelId="demo-simple-select-autowidth-label"
                 id="demo-simple-select-autowidth"
-                value={category1}
+                value={categories[1]}
                 label="성별"
                 onChange={e => {
-                  setCategory1(e.target.value)
+                  setCategories[1](e.target.value)
                   setCategory(prev=> [...prev, e.target.value])
                 }}
               >
@@ -134,10 +97,10 @@ const ContentWriteForm = ({ userId }) => {
                 <Select
                   labelId="demo-simple-select-autowidth-label"
                   id="demo-simple-select-autowidth"
-                  value={category2}
+                  value={categories[2]}
                   label="분류1"
                   onChange={e => {
-                    setCategory2(e.target.value)
+                    setCategories[2](e.target.value)
                     setCategory(prev=> [...prev, e.target.value])
                   }}
                 >
@@ -153,10 +116,10 @@ const ContentWriteForm = ({ userId }) => {
                 <Select
                   labelId="demo-simple-select-autowidth-label"
                   id="demo-simple-select-autowidth"
-                  value={category3}
+                  value={categories[3]}
                   label="분류2"
                   onChange={e => {
-                    setCategory3(e.target.value)
+                    setCategories[3](e.target.value)
                     setCategory(prev=> [...prev, e.target.value])
                   }}
                 >
@@ -173,10 +136,10 @@ const ContentWriteForm = ({ userId }) => {
                   <Select
                     labelId="demo-simple-select-autowidth-label"
                     id="demo-simple-select-autowidth"
-                    value={category3}
+                    value={categories[3]}
                     label="분류2"
                     onChange={e => {
-                      setCategory3(e.target.value)
+                      setCategories[3](e.target.value)
                       setCategory(prev=> [...prev, e.target.value])
                     }}
                   >
@@ -194,10 +157,10 @@ const ContentWriteForm = ({ userId }) => {
                   <Select
                     labelId="demo-simple-select-autowidth-label"
                     id="demo-simple-select-autowidth"
-                    value={category3}
+                    value={categories[3]}
                     label="분류2"
                     onChange={e => {
-                      setCategory3(e.target.value)
+                      setCategories[3](e.target.value)
                       setCategory(prev=> [...prev, e.target.value])
                     }}
                   >
@@ -216,10 +179,10 @@ const ContentWriteForm = ({ userId }) => {
                 <Select
                   labelId="demo-simple-select-autowidth-label"
                   id="demo-simple-select-autowidth"
-                  value={category3}
+                  value={categories[3]}
                   label="분류2"
                   onChange={e => {
-                    setCategory3(e.target.value)
+                    setCategories[3](e.target.value)
                     setCategory(prev=> [...prev, e.target.value])
                   }}
                 >
@@ -236,10 +199,10 @@ const ContentWriteForm = ({ userId }) => {
                   <Select
                     labelId="demo-simple-select-autowidth-label"
                     id="demo-simple-select-autowidth"
-                    value={category3}
+                    value={categories[3]}
                     label="분류2"
                     onChange={e => {
-                      setCategory3(e.target.value)
+                      setCategories[3](e.target.value)
                       setCategory(prev=> [...prev, e.target.value])
                     }}
                   >
@@ -256,10 +219,10 @@ const ContentWriteForm = ({ userId }) => {
                   <Select
                     labelId="demo-simple-select-autowidth-label"
                     id="demo-simple-select-autowidth"
-                    value={category3}
+                    value={categories[3]}
                     label="분류2"
                     onChange={e => {
-                      setCategory3(e.target.value)
+                      setCategories[3](e.target.value)
                       setCategory(prev=> [...prev, e.target.value])
                     }}
                   >
