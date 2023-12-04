@@ -1,5 +1,7 @@
-import { useNavigate } from 'react-router-dom';
-import '../../styles/NavBar.css';
+import { useNavigate } from 'react-router-dom'
+import '../../styles/NavBar.css'
+import { Box, Stack, Typography, Button } from '@mui/material'
+import SearchBar from './SearchBar'
 
 const NavBar = () => {
   const navigate = useNavigate()
