@@ -1,13 +1,38 @@
-import '../../../styles/MyPage.css'
+import React, { useEffect } from 'react';
+import '../../../styles/MyPage.css';
+import usePointStore from '../../../stores/point';
+import * as Api from '../../../api/api';
 
 const UserPoint = () => {
-    return (
-        <div className="pointbox">
-          <div>포인트 IMAGE</div>
-          <div>레벨 IMAGE</div>
-          <div>포인트 IMAGE</div>
-        </div>
-      );
-}
+  const pointData = usePointStore((state) => state.userData);
+  const setPointData = usePointStore((state) => state.setUserData);
 
-export default UserPoint
+  useEffect(() => {
+    Api.get('user/current/point')
+      .then((response) => response.json())
+      .then((data) => setPointData(data))
+      .catch((error) => console.error('Error', error));
+  }, [setPointData]);
+
+  return (
+    <div className='pointbox'>
+      <div className='pointItem'>
+        <img src='/public/point.png' alt='포인트 이미지' />
+        <p>포인트</p>
+        <p>{pointData.point}</p>
+      </div>
+      <div className='pointItem'>
+        <img src='/public/level.png' alt='레벨 이미지' />
+        <p>레벨</p>
+        <p></p>
+      </div>
+      <div className='pointItem'>
+        <img src='/public/check.png' alt='포인트 이미지' />
+        <p>포인트조회</p>
+        <p></p>
+      </div>
+    </div>
+  );
+};
+
+export default UserPoint;
