@@ -18,7 +18,7 @@ const UserPoint = () => {
 
         setPointData(data);
       } catch (error) {
-        console.error('데이터를 불러오는 중 에러 발생:', error);
+        console.error('error:', error);
       }
     };
 
