@@ -1,45 +1,53 @@
 import { useNavigate } from "react-router-dom"
 import React from 'react';
-import {Stack, Button, Typography} from '@mui/material'
+import {Stack, Button, Typography, Box} from '@mui/material'
+import SearchBar from "./SearchBar";
 
 const NavBar = () => {
   const navigate = useNavigate()
 
     return (
-        <div className="navbar">
-          <Stack spacing={2} direction="row" my={3}>
-              <Typography variant='h3' onClick={()=>{navigate('/')}}>
-                RE:CLO
-              </Typography>
+        <Box className='navbar'>
+          <Stack spacing={30} direction="row" my={3}>
+            <Typography variant='h3' onClick={()=>{navigate('/')}}>
+              RE:CLO
+            </Typography>
+            <SearchBar />
+            <Stack direction='row'>
               <Button 
                 variant="text" 
                 color="success"
+                size="large"
                 onClick={() => {navigate('/intro')}}
-                sx={{ flexShrink: 0 }}>
+                sx={{ maxHeight: 200 }}>
                 서비스 소개
               </Button>
-              <Button variant="contained"
+              <Button 
+                variant="text"
                 color="success"
-                sx={{ flexShrink: 0 }}
+                size="large"
                 onClick={() => {navigate('/contents')}}>
                 거래/나눔
               </Button>
               <Button 
-                variant="outlined" 
+                variant="text" 
                 color="success"
+                size="large"
                 sx={{ flexShrink: 0 }}
                 onClick={() => {navigate('/event')}}>
                 이벤트
               </Button>
               <Button 
-                variant="outlined" 
+                variant="text" 
                 color="success"
+                size="large"
                 sx={{ flexShrink: 0 }}
                 onClick={() => {navigate('/activity')}}>
                 💬거래진행
               </Button>
             </Stack>
-        </div>
+          </Stack>
+        </Box>
     )
 }
 

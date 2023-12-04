@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import FilterBar from '../../features/Items/FilterBar'
 import ContentsCard from '../../features/Items/ContentsCard'
@@ -6,10 +6,13 @@ import * as Api from '../../../api/api'
 import { useQuery } from '@tanstack/react-query'
 import { Grid, Box, Button } from '@mui/material'
 import useUserStore from '../../../stores/user'
+import Contents from '../../features/Items/Contents'
 
 const ContentsPage = () => {
   const navigate = useNavigate()
   const { user } = useUserStore()
+  const [filtered, setFiltered] = useState(false)
+
   const { isPending, error, data } = useQuery({ 
     queryKey: ['contentspage'], 
     queryFn: async () => {
@@ -28,9 +31,32 @@ const ContentsPage = () => {
 
   console.log(data)
 
+  useEffect(() => {
+    
+  }, [setFiltered])
+
+  // const { isPending, error, data } = useQuery({ 
+    //   queryKey: ['filterBar'], 
+    //   queryFn: async () => {
+    //     try {
+    //       const res = await Api.get(`items?category=${encodeURIComponent(condition)}`)
+    //       console.log(res.data)
+    //       return res.data
+    //     } catch (error) {
+    //       throw error
+    //     }
+    //   },
+    // })
+  
+    // if (isPending) return 'Loading...'
+    // if (error) return '오류가 발생했습니다.' + error.message
+
+    const handleFilter = () => {
+      setFiltered(true)
+    }
+
     return (
       <Box sx={{display: 'flex'}}>
-        <FilterBar />
         <Box 
           component="main"
           sx={{ flexGrow: 1, marginLeft: '20vh' }}
@@ -40,16 +66,8 @@ const ContentsPage = () => {
             onClick={() => {navigate('/write', { state : { edit: false } })}}>
               물품 등록
           </Button>
-          <Grid container spacing={2} mx={5} my={5} >
-            {data.items.map((item) => ( // 테스트용임
-              <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>
-                <ContentsCard
-                  mt={2} 
-                  item={item}
-                />
-              </Grid> 
-            ))}
-          </Grid>
+          <FilterBar />
+          <Contents items={data.items}/>
         </Box>   
       </Box>
     )
