@@ -35,15 +35,16 @@ class Chat {
         { $set: { userDeleted: true } },
         { returnOriginal: false }
       );
+      return leaveRoom;
     } else if (room.hostuser === userId) {
       const leaveRoom = await RoomModel.findByIdAndUpdate(
         { roomId },
         { $set: { hostuserDeleted: true } },
         { returnOriginal: false }
       );
-    }
 
-    return leaveRoom;
+      return leaveRoom;
+    }
   }
 
   static async findChatAll({ roomId }) {

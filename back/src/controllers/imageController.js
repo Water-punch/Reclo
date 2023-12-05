@@ -39,7 +39,6 @@ async function uploadImage(req, res, next) {
 async function setItemImage(req, res, next) {
   try {
     const imageId = req.params._id;
-    console.log(imageId);
     const toUpdate = req.body.toUpdate;
     const updatedItemImage = await imageService.updateItemImage({ imageId, toUpdate });
     if (!updatedItemImage) {
