@@ -7,7 +7,7 @@ class Chat {
   }
 
   static async findRoom({ roomId }) {
-    const room = await RoomModel.findById({ roomId });
+    const room = await RoomModel.findById(roomId);
     return room;
   }
 
@@ -23,7 +23,6 @@ class Chat {
 
     //rooms확인
     const Rooms = [...Rooms1, ...Rooms2];
-    console.log('rooms :', Rooms);
     return Rooms;
   }
 

@@ -1,36 +1,27 @@
 const { ChatService } = require('../services/chatService.js');
 
-const clients = {};
-
 async function getRoomslast(req, res, next) {
   try {
     const userId = req.currentUserId;
 
     // 서버에 연결되어 있는 클라이언트로 추가함, 클라이언트의 userId를 키로 연결되어있는 res를 value로 가짐
-
-    if (!clients[userId]) {
-      clients[userId] = {};
-    }
-    clients[userId] = res;
-
-    const lastchats = await ChatService.getRoomslast({ userId });
-
-    console.log('채팅방불러오기', lastchats);
+    let lastchats = await ChatService.getRoomslast({ userId });
 
     // Content-Type을 text/event-stream으로 설정
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
 
-    // 클라이언트로 초기 데이터 전송
-    //데이터 없는경우에는 어떻게 되지?
-    res.write(`data: ${JSON.stringify({ lastchats: lastchats })}\n\n`);
+    // 클라이언트에게 지속적으로 데이터를 보내줌, 현재는 2초주기
+    const chatsinterval = setInterval(async () => {
+      lastchats = await ChatService.getRoomslast({ userId });
+      res.write(`data: ${JSON.stringify({ lastchats: lastchats })}\n\n`);
+    }, 2000);
 
     // 클라이언트 연결이 끊어졌을 때
     req.on('close', () => {
       // 클라이언트 연결을 닫음
-      console.log('연결 종료됨');
-      delete clients.userId;
+      clearInterval(chatsinterval);
     });
   } catch (error) {
     next(error);
@@ -43,13 +34,11 @@ async function makeRoom(req, res, next) {
     const message = req.body.message;
     const userId = req.currentUserId;
 
-    console.log(message);
     // 새로운 채팅방을 생성해서 메시지를 전송함
     const createdroom = await ChatService.createRoom({ userId, itemId });
 
     if (createdroom) {
       const newMessage = { room: createdroom._id, message, sender: userId }; // 예시로 'user'라는 고정된 사용자로 지정
-      console.log(newMessage);
       const createdMessage = await ChatService.createChat({ newMessage });
     }
 
@@ -77,7 +66,6 @@ async function getRoomChats(req, res, next) {
 
     const chatsinterval = setInterval(async () => {
       chats = await ChatService.getRoomChats({ roomId });
-      console.log(chats);
       res.write(`data: ${JSON.stringify({ chats: chats })}\n\n`);
     }, 2000);
 
@@ -119,15 +107,12 @@ async function sendChat(req, res, next) {
 
     //roomId에 해당 하는 room이 존재하는지 확인하고 메시지를 저장
     const room = await ChatService.getRoom({ roomId });
-
     //
     //if (room !== null){}
 
     // 메시지를 데이터베이스에 저장
     const newMessage = { room: roomId, message: messageText, sender: userId }; // 예시로 'user'라는 고정된 사용자로 지정
     const createdMessage = await ChatService.createChat({ newMessage });
-
-    console.log('채팅 메시지 : ', createdMessage);
 
     res.sendStatus(200);
   } catch (error) {
