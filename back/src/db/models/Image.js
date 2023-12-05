@@ -26,12 +26,6 @@ class Image {
     return image;
   }
 
-  // imageId로 이미지 확인
-  // static async findByItemId({ itemId }) {
-  //   const image = await ImageModel.find({ $and: [{ itemId }, { deleted: false }] });
-  //   return image;
-  // }
-
   // 아이템 이미지 수정
   static async updateImage({ imageId, updateImg }) {
     const updatedImage = await ImageModel.findOneAndUpdate(

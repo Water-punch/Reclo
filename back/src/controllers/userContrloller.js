@@ -51,7 +51,7 @@ async function login(req, res, next) {
       httpOnly: true,
     });
 
-    res.status(201).json({ ok: true });
+    res.status(200).json({ user, token });
   } catch (error) {
     next(error);
   }
