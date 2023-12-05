@@ -3,8 +3,10 @@ import express from 'express';
 import { userAuthRouter } from './routers/userRouter';
 import { itemRouter } from './routers/itemRouter';
 import { imageRouter } from './routers/imgRouter';
+import { chatRouter } from './routers/chatRouter';
 import { wishItemRouter } from './routers/wishItemRouter';
 import { errorMiddleware } from './middlewares/errorMiddleware';
+
 const cookieParser = require('cookie-parser');
 
 const app = express();
@@ -37,6 +39,7 @@ app.use(userAuthRouter);
 app.use(itemRouter);
 app.use(imageRouter);
 app.use(wishItemRouter);
+app.use(chatRouter);
 
 // 에러 핸들링
 app.use(errorMiddleware);

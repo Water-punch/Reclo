@@ -45,44 +45,40 @@ class imageService {
     return url;
   }
 
-  // 이미지 업로드 후 응답을 받으면 데이터베이스에 이미지 정보 저장
-  static async uploadItemImage({ imageInfo }) {
+  // 아이템 이미지 업로드 후 응답을 받으면 데이터베이스에 이미지 정보 저장
+  static async uploadImage({ imageInfo }) {
     const newImage = { ...imageInfo };
-    const createImageData = await Image.createItem({ newImage });
+    const createImageData = await Image.createItem({ newImage, imageUrl: imageInfo.imageUrl });
     if (!createImageData) {
       throw new BadRequestError('해당 상품이 등록되지 않았습니다.');
     }
     return createImageData;
   }
 
-  // 이미지 조회
-  //   static async getItemDetails({ itemId }) {
-  //     const item = await Image.findByItemId({ itemId });
-  //     if (!item) {
-  //       throw new INVALID_ITEM_Error('해당 상품이 존재하지 않습니다.');
-  //     }
-  //     return item;
-  //   }
+  // 아이템 이미지 수정
+  static async updateItemImage({ imageId, toUpdate }) {
+    // 우선 해당 email 의 유저가 db에 존재하는지 여부 확인
 
-  //이미지 추가
-  //   static async addItem({ itemInfo }) {
-  //     const newItem = { ...itemInfo };
-  //     const createdNewItem = await Image.createItem({ newItem });
-  //     if (!createdNewItem) {
-  //       throw new BadRequestError('해당 상품이 등록되지 않았습니다.');
-  //     }
-  //     return createdNewItem;
-  //   }
-  //이미지 수정
+    const image = await Image.findByImageId({ imageId });
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!image) {
+      throw new INVALID_IMAGE_Error('해당 이미지가 존재하지 않습니다.');
+    }
 
-  //이미지 삭제
-  //   static async deleteById({ itemId }) {
-  //     const deletedItem = await Image.deleteItem({ itemId });
-  //     if (!deletedItem) {
-  //       throw new BadRequestError('해당 상품이 삭제되지 않았습니다.');
-  //     }
-  //     return deletedItem;
-  //   }
+    // user 업데이트 후 반환
+    const updatedImage = await Image.updateImage({ imageId, updateImg: toUpdate });
+
+    return updatedImage;
+  }
+
+  // 아이템 이미지 삭제
+  static async deleteById({ imageId, imageUrl }) {
+    const deletedItemImage = await Item.deleteImage({ imageId, imageUrl });
+    if (!deletedItemImage) {
+      throw new BadRequestError('해당 상품이 삭제되지 않았습니다.');
+    }
+    return deletedItemImage;
+  }
 }
 
 export { imageService };
