@@ -81,22 +81,22 @@ async function uploadUserImage(req, res, next) {
   }
 }
 
-// // 유저 이미지 수정
-// async function setUserImage(req, res, next) {
-//   try {
-//     const imageId = req.params._id;
-//     const toUpdate = req.body.toUpdate;
-//     const updatedUserImage = await imageService.updateUserImage({ imageId, toUpdate });
-//     if (!updatedUserImage) {
-//       throw new Error(updatedUserImage.errorMessage);
-//     }
-//     res.status(200).send({
-//       message: '아이템 이미지 수정에 성공했습니다.',
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// }
+// 유저 이미지 수정
+async function setUserImage(req, res, next) {
+  try {
+    const imageId = req.params._id;
+    const toUpdate = req.body.toUpdate;
+    const updatedUserImage = await imageService.updateUserImage({ imageId, toUpdate });
+    if (!updatedUserImage) {
+      throw new Error(updatedUserImage.errorMessage);
+    }
+    res.status(200).send({
+      message: '아이템 이미지 수정에 성공했습니다.',
+    });
+  } catch (error) {
+    next(error);
+  }
+}
 
 // // 유저 이미지 삭제
 // async function deleteUserImage(req, res, next) {
@@ -122,7 +122,7 @@ module.exports = {
   uploadItemImage,
   uploadUserImage,
   setItemImage,
-  //   setUserImage,
+  setUserImage,
   //   deleteUserImage,
   deletedItemImage,
 };

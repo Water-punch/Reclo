@@ -88,15 +88,15 @@ class imageService {
   }
 
   // 유저 이미지 수정
-  //   static async updateUserImage({ imageId, toUpdate }) {
-  //     const image = await Image.findByUserId({ userId });
-  //     if (!image) {
-  //       throw new INVALID_IMAGE_Error('해당 이미지가 존재하지 않습니다.');
-  //     }
-  //     const updatedImage = await Image.updateImage({ imageId, updateImg: toUpdate });
+  static async updateUserImage({ imageId, toUpdate }) {
+    const image = await Image.findByImageId({ imageId });
+    if (!image) {
+      throw new INVALID_IMAGE_Error('해당 이미지가 존재하지 않습니다.');
+    }
+    const updatedImage = await Image.updateImage({ imageId, updateImg: toUpdate });
 
-  //     return updatedImage;
-  //   }
+    return updatedImage;
+  }
 
   // 유저 이미지 삭제
   //   static async deleteById({ imageId, imageUrl }) {

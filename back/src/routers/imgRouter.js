@@ -27,7 +27,7 @@ imageRouter.delete('/itemImage/:_id', imageController.deletedItemImage);
 imageRouter.post('/userImage/:fileName', imageController.uploadUserImage);
 
 // 저장된 유저 이미지 정보 수정
-// imageRouter.put('/userImage/:_id', imageController.setUserImage);
+imageRouter.put('/userImage/:_id', imageController.setUserImage);
 
 // 저장된 유저 이미지 정보 삭제
 // imageRouter.delete('/userImage/:_id', imageController.deleteUserImage);
