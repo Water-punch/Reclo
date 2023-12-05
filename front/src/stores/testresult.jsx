@@ -1,117 +1,83 @@
-import React from "react";
-import useQuestionStore from "../../../front/src/stores/question";
+import React from 'react';
+import useQuestionStore from '../../../front/src/stores/question';
 
 const TestResult = () => {
-  const { questions, userAnswers } = useQuestionStore();
+  const { userAnswers } = useQuestionStore();
+
+  const a = (n) => {
+    return userAnswers[n];
+  };
+
+  const buyScore =
+    (a(0) * 12.26 + a(1) * 20.61 + a(2) * 48.44 + a(3) * 22.19 + a(4) * 13.3) * (1 - 0.01 * a(5)) +
+    (a(0) * 12.26 + a(1) * 20.61 + a(2) * 48.44 + a(3) * 22.19 + a(4) * 13.3) * 0.01 * a(5) * 0.25;
+
+  const washScore =
+    a(6) *
+      (() => {
+        if (a(7) === '세탁-찬물') {
+          return 0.1416;
+        } else {
+          return 0.197;
+        }
+      })() +
+    a(8) * 0.244;
+
+  const wayScore =
+    a(9) *
+    (() => {
+      if (a(10) === '리폼') {
+        return 0;
+      } else if (a(10) === '헌옷수거함') {
+        return 2.146;
+      } else {
+        return -6.4;
+      }
+    })();
+  console.log(wayScore);
+  const averageScore = buyScore + washScore + wayScore;
+
+  console.log(averageScore);
 
   const calculateResult = () => {
-    const scores = userAnswers.map((answer, index) => {
-      if (
-        questions[index] &&
-        questions[index].type &&
-        questions[index].type === "range"
-      ) {
-        // range
-        switch (answer) {
-          case "per month":
-            return 10;
-          case "per week":
-            return 5;
-          case "per year":
-            return 1;
-
-          default:
-            return 0;
-        }
-      } else if (
-        questions[index] &&
-        questions[index].type &&
-        questions[index].type === "multiple"
-      ) {
-        // multiple
-        switch (answer) {
-          case "상의":
-            return 10;
-          case "하의":
-            return 10;
-          case "외투":
-            return 5;
-          case "스웨터":
-            return 5;
-          case "드레스":
-            return 3;
-          default:
-            return 0;
-          case "10%":
-            return 1;
-          case "50%":
-            return 5;
-          case "100%":
-            return 10;
-          case "온라인 쇼핑":
-            return 7;
-          case "오프라인 쇼핑":
-            return 10;
-          case "1~3회":
-            return 3;
-          case "5~7회":
-            return 7;
-          case "10회 이상":
-            return 10;
-          case "세탁-찬물":
-            return 7;
-          case "세탁-온수":
-            return 5;
-          case "건조-자연건조":
-            return 10;
-          case "건조기":
-            return 5;
-          case "1~10회":
-            return 3;
-          case "20~30회":
-            return 5;
-          case "50회":
-            return 10;
-          case "리폼":
-            return 10;
-          case "헌옷수거함":
-            return 10;
-          case "쓰레기":
-            return 3;
-          case "판매 혹은 기부함":
-            return 10;
-        }
-      }
-      return 0;
-    });
-
-    const totalScore = scores.reduce((acc, score) => acc + score, 0);
-    const averageScore = totalScore / questions.length;
-
     // 등급 반환
-    if (averageScore >= 8) {
-      return "환경 수호자";
-    } else if (averageScore >= 6) {
-      return "환경 수비대";
-    } else if (averageScore >= 4) {
-      return "환경 지킴이";
-    } else if (averageScore >= 2) {
-      return "환경 방관자";
+    if (averageScore <= 30) {
+      return (
+        <div>
+          지구를 사랑하시는 군요. 당신은 지구를 지키니는 <strong>지구 수호자</strong>입니다.
+        </div>
+      );
+    } else if (averageScore <= 50) {
+      return (
+        <div>
+          오! 지구를 생각하는 당신. 당신은 <strong>지구 lover</strong>입니다.
+        </div>
+      );
+    } else if (averageScore <= 70) {
+      return (
+        <div>
+          평범하군요. 조금 더 노력하면 지구를 위해 노력해봐요 <strong>인간</strong>.
+        </div>
+      );
+    } else if (averageScore <= 90) {
+      return (
+        <div>
+          음.... 당신은 지구를 아프게하는 <strong>나쁜 사람</strong>입니다.
+        </div>
+      );
     } else {
-      return "환경 파괴자";
+      return (
+        <div>
+          검사 결과 실화인가요....;; <br />
+          당신은 지구를 파괴하고 있는 <strong>인간 쓰레기</strong> 그 자체이군요.
+        </div>
+      );
     }
   };
 
   return (
     <div>
-      <h2>Test Result</h2>
-      {/* <ul>
-        {questions.map((question, index) => (
-          <li key={index}>
-            <strong>{question.text}</strong>: {userAnswers[index]}
-          </li>
-        ))}
-      </ul> */}
+      <h2>테스트 결과</h2>
       <p>{calculateResult()}</p>
     </div>
   );

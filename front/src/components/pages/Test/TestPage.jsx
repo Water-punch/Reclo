@@ -1,8 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import QuestionStore from '../../../stores/question';
 import './testpage/question.css';
 
 const TestPage = () => {
+  const navigate = useNavigate();
   const { questions, currentQuestionIndex, setCurrentQuestionIndex, userAnswers } = QuestionStore();
 
   const handleNext = () => {
@@ -25,19 +27,41 @@ const TestPage = () => {
 
   // 정답 작성 및 저장
   const num_answer = userAnswers[currentQuestionIndex];
-
   const [answer, setAnswer] = useState(num_answer);
 
+  // saveAnswer 함수 수정
   const saveAnswer = (e) => {
-    setAnswer(e);
+    // 현재 질문에 대한 사용자의 답변을 업데이트
+    const updatedUserAnswers = [...userAnswers];
+    updatedUserAnswers[currentQuestionIndex] = e.target.value;
+
+    // userAnswers 상태 업데이트
+    QuestionStore.setState({ userAnswers: updatedUserAnswers });
+
+    // answer 상태 업데이트
+    setAnswer(e.target.value);
   };
 
-  // 답안 확인
-  const isLastQuestion = currentQuestionIndex === questions.length - 1;
+  const checkNull = (x) => {
+    if (!Array.isArray(x)) {
+      // x가 배열이 아닌 경우
+      return false;
+    }
+    return !x.some((item) => item === null);
+  };
 
   const getResultButton = () => {
-    if (isLastQuestion) {
-      return <button className='result'>결과 보기</button>;
+    if (checkNull(userAnswers)) {
+      return (
+        <button
+          className='result'
+          onClick={() => {
+            navigate('/test/result');
+          }}
+        >
+          결과 보기
+        </button>
+      );
     }
     return null;
   };
@@ -46,18 +70,30 @@ const TestPage = () => {
     <div className='testPage'>
       <div className='question-container'>
         <h1>{getCurrentQuestion().text}</h1>
+        {getCurrentQuestion().type === 'range' &&
+          (currentQuestionIndex + 1 == 1) |
+            (currentQuestionIndex + 1 == 2) |
+            (currentQuestionIndex + 1 == 3) |
+            (currentQuestionIndex + 1 == 4) |
+            (currentQuestionIndex + 1 == 5) |
+            (currentQuestionIndex + 1 == 10) && (
+            <div className='rangeQ'>
+              <input type='range' min={0} max={20} step={1} value={answer} onInput={(e) => saveAnswer(e)} />
+              <span>{num_answer}개</span>
+            </div>
+          )}
 
-        {/* question type이 range인 경우*/}
-        {getCurrentQuestion().type === 'range' && currentQuestionIndex + 1 == 1 && (
+        {getCurrentQuestion().type === 'range' && currentQuestionIndex + 1 == 6 && (
           <div className='rangeQ'>
-            <input type='range' min={0} max={100} value={answer} onInput={(e) => saveAnswer(e.target.value)} />
-            <span>{userAnswers[currentQuestionIndex]}</span>
+            <input type='range' min={0} max={100} step={5} value={answer} onInput={(e) => saveAnswer(e)} />
+            <span>{num_answer}%</span>
           </div>
         )}
-        {getCurrentQuestion().type === 'range' && (currentQuestionIndex + 1 == 3) | (currentQuestionIndex + 1 == 5) && (
+
+        {getCurrentQuestion().type === 'range' && (currentQuestionIndex + 1 == 7) | (currentQuestionIndex + 1 == 9) && (
           <div className='rangeQ'>
-            <input type='range' min={0} max={100} value={answer} onInput={(e) => saveAnswer(e.target.value)} />
-            <span>{userAnswers[currentQuestionIndex]}</span>
+            <input type='range' min={0} max={30} step={5} value={answer} onInput={(e) => saveAnswer(e)} />
+            <span>{num_answer}회</span>
           </div>
         )}
 
@@ -66,13 +102,7 @@ const TestPage = () => {
           <div className='multiQ'>
             {getCurrentQuestion().options.map((option, index) => (
               <label key={index}>
-                <input
-                  type='radio'
-                  name={currentQuestionIndex + 1 + '번 질문'}
-                  value={option}
-                  onInput={() => saveAnswer(option)}
-                  // checked={userAnswers[currentQuestionIndex] === option} // 현재 선택된 옵션인지 확인
-                />
+                <input type='radio' name={currentQuestionIndex} value={option} onInput={(e) => saveAnswer(e)} />
                 {option}
               </label>
             ))}
