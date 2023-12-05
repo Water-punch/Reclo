@@ -82,7 +82,11 @@ const ContentWriteForm = ({ userId }) => {
                 value={categories[1]}
                 label="성별"
                 onChange={e => {
-                  setCategories[1](e.target.value)
+                  setCategories(prev => 
+                    ({
+                      ...prev,
+                      1: e.target.value 
+                    }))
                   setCategory(prev=> [...prev, e.target.value])
                 }}
               >
@@ -91,7 +95,7 @@ const ContentWriteForm = ({ userId }) => {
               </Select>
             </FormControl>
     
-            {category1 && (
+            {categories[1] && (
               <FormControl sx={{ minWidth: '30%' }}>
                 <InputLabel id="demo-simple-select-autowidth-label">분류1</InputLabel>
                 <Select
@@ -110,7 +114,7 @@ const ContentWriteForm = ({ userId }) => {
                 </Select>
               </FormControl>)}
     
-            {category2 && category1 == '여성' && (category2 == '상의' ? (
+            {categories[2] && categories[1] == '여성' && (categories[2] == '상의' ? (
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-autowidth-label">분류2</InputLabel>
                 <Select
@@ -130,7 +134,7 @@ const ContentWriteForm = ({ userId }) => {
                   <MenuItem value={'원피스'}>원피스</MenuItem>
                 </Select>
               </FormControl>
-              ) : category2 == '하의' ? (
+              ) : categories[2] == '하의' ? (
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-autowidth-label">분류2</InputLabel>
                   <Select
@@ -173,7 +177,7 @@ const ContentWriteForm = ({ userId }) => {
                 </FormControl>
                 ))}
     
-            {category1 == '남성' && (category2 == '상의' ? (
+            {categories[1] == '남성' && (categories[2] == '상의' ? (
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-autowidth-label">분류2</InputLabel>
                 <Select
@@ -193,7 +197,7 @@ const ContentWriteForm = ({ userId }) => {
                 </Select>
               </FormControl>
               ) :
-              category2 == '하의' ? (
+              categories[2] == '하의' ? (
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-autowidth-label">분류2</InputLabel>
                   <Select

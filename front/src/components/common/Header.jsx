@@ -21,6 +21,7 @@ const Header = () => {
 
       console.log(user);
       localStorage.removeItem('accessToken');
+      
       console.log(`로그아웃 이후 login ${login}`);
       alert('로그아웃 완료');
     } catch (err) {
