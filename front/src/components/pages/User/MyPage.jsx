@@ -3,6 +3,7 @@ import '../../../styles/MyPage.css';
 import useUserStore from '../../../stores/user';
 import { useQuery } from '@tanstack/react-query';
 import UserInfo from '../../features/User/UserInfo';
+import ChangeInfo from '../../features/User/ChangeInfo';
 
 const MyPage = () => {
   const navigate = useNavigate();

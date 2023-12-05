@@ -23,7 +23,7 @@ const UserInfo = ({ user }) => {
             <p>{user.email}</p>
             <p>{user.nickname}</p>
 
-            <button className='change' onClick={() => navigate('/point')}>
+            <button className='change' onClick={() => navigate('/changeinfo', { state: { user: user } })}>
               유저 정보 변경
             </button>
           </div>
