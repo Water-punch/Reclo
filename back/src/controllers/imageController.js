@@ -53,11 +53,12 @@ async function setItemImage(req, res, next) {
 }
 
 // 아이템 이미지 삭제
-async function deleteItemImage(req, res, next) {
+async function deletedItemImage(req, res, next) {
   try {
-    const imageId = new ObjectId(req.params.imageId);
-    const imageUrl = req.params.imageUrl;
-    const deleteItem = await imageService.deleteById({ imageId, imageUrl });
+    const imageId = req.params._id;
+    // const imageUrl = req.params.imageUrl;
+
+    const deleteItem = await imageService.deleteItemImage({ imageId });
     if (!deleteItem) {
       throw new Error(findItem.errorMessage);
     }
@@ -97,22 +98,23 @@ async function setUserImage(req, res, next) {
   }
 }
 
-// 유저 이미지 삭제
-async function deleteUserImage(req, res, next) {
-  try {
-    const imageId = new ObjectId(req.params.imageId);
-    const imageUrl = req.params.imageUrl;
-    const deleteItem = await itemService.deleteById({ imageId, imageUrl });
-    if (!deleteItem) {
-      throw new Error(findItem.errorMessage);
-    }
-    res.status(200).send({
-      message: '아이템 이미지 삭제에 성공했습니다.',
-    });
-  } catch (error) {
-    next(error);
-  }
-}
+// // 유저 이미지 삭제
+// async function deleteUserImage(req, res, next) {
+//   try {
+//     const imageId = req.params.imageId;
+//     const imageUrl = req.params.imageUrl;
+//     console.log(imageUrl);
+//     const deleteItem = await itemService.deleteById({ imageId, imageUrl });
+//     if (!deleteItem) {
+//       throw new Error(findItem.errorMessage);
+//     }
+//     res.status(200).send({
+//       message: '아이템 이미지 삭제에 성공했습니다.',
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// }
 
 module.exports = {
   getItemPresignedUrl,
@@ -121,6 +123,6 @@ module.exports = {
   uploadUserImage,
   setItemImage,
   setUserImage,
-  deleteUserImage,
-  deleteItemImage,
+  //   deleteUserImage,
+  deletedItemImage,
 };
