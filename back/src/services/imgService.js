@@ -45,10 +45,11 @@ class imageService {
     return url;
   }
 
+  // 아이템 이미지
   // 아이템 이미지 업로드 후 응답을 받으면 데이터베이스에 이미지 정보 저장
   static async uploadImage({ imageInfo }) {
     const newImage = { ...imageInfo };
-    const createImageData = await Image.createItem({ newImage, imageUrl: imageInfo.imageUrl });
+    const createImageData = await Image.createItemImage({ newImage, imageUrl: imageInfo.imageUrl });
     if (!createImageData) {
       throw new BadRequestError('해당 상품이 등록되지 않았습니다.');
     }
@@ -67,17 +68,28 @@ class imageService {
   }
 
   // 아이템 이미지 삭제
-  static async deleteById({ imageId, imageUrl }) {
-    const deletedItemImage = await Image.deleteImage({ imageId, imageUrl });
+  static async deleteItemImage({ imageId }) {
+    const deletedItemImage = await Image.deleteImage({ imageId });
     if (!deletedItemImage) {
       throw new BadRequestError('해당 상품이 삭제되지 않았습니다.');
     }
     return deletedItemImage;
   }
 
-  // 아이템 이미지 수정
+  // 유저 이미지
+  //유저 이미지 추가
+  static async uploadImage({ imageInfo }) {
+    const newImage = { ...imageInfo };
+    const createImageData = await Image.createUserImage({ newImage, imageUrl: imageInfo.imageUrl });
+    if (!createImageData) {
+      throw new BadRequestError('해당 상품이 등록되지 않았습니다.');
+    }
+    return createImageData;
+  }
+
+  // 유저 이미지 수정
   //   static async updateUserImage({ imageId, toUpdate }) {
-  //     const image = await Image.findByImageId({ imageId });
+  //     const image = await Image.findByUserId({ userId });
   //     if (!image) {
   //       throw new INVALID_IMAGE_Error('해당 이미지가 존재하지 않습니다.');
   //     }

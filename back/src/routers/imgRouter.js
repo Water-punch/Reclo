@@ -20,16 +20,16 @@ imageRouter.post('/itemImage/:fileName', imageController.uploadItemImage);
 imageRouter.put('/itemImage/:_id', imageController.setItemImage);
 
 // // 저장된 아이템 이미지 정보 삭제
-imageRouter.delete('/itemImage/:_id', imageController.deleteItemImage);
+imageRouter.delete('/itemImage/:_id', imageController.deletedItemImage);
 
 // 유저 관련 콜렉션 라우터
 // 유저 이미지 업로드 후 응답을 받으면 데이터베이스에 이미지 정보 저장
 imageRouter.post('/userImage/:fileName', imageController.uploadUserImage);
 
 // 저장된 유저 이미지 정보 수정
-imageRouter.put('/userImage/:_id', imageController.setUserImage);
+// imageRouter.put('/userImage/:_id', imageController.setUserImage);
 
 // 저장된 유저 이미지 정보 삭제
-imageRouter.delete('/userImage/:_id', imageController.deleteUserImage);
+// imageRouter.delete('/userImage/:_id', imageController.deleteUserImage);
 
 export { imageRouter };
