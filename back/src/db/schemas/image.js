@@ -7,17 +7,31 @@ const ImageSchema = new Schema(
       required: true,
       ref: 'User',
     },
-    object: {
-      type: String,
+
+    itemId: {
+      type: Schema.Types.ObjectId,
       required: false,
+      ref: 'Item',
     },
+
+    imageUrl: {
+      type: String,
+      required: true,
+    },
+
     fileName: {
       type: String,
       required: true,
     },
+
     path: {
       type: String,
       required: true,
+    },
+
+    deleted: {
+      type: Boolean,
+      default: false,
     },
   },
   {

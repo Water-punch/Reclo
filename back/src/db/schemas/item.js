@@ -46,7 +46,7 @@ const ItemSchema = new Schema(
     },
 
     itemsImgUrl: {
-      type: String,
+      type: Array,
       required: false,
     },
   },

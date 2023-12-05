@@ -7,23 +7,23 @@ class User {
   }
 
   static async findByEmail({ email }) {
-    const user = await UserModel.findOne({ $and: [{ email: email }, { deleted: false }] });
+    const user = await UserModel.findOne({ $and: [{ email: email }, { deleted: null }] });
     return user;
   }
 
   static async findById({ userId }) {
-    const user = await UserModel.findOne({ $and: [{ _id: userId }, { deleted: false }] });
+    const user = await UserModel.findOne({ $and: [{ _id: userId }, { deleted: null }] });
     return user;
   }
 
   static async findByNickname({ nickname }) {
-    const user = await UserModel.findOne({ $and: [{ nickname: nickname }, { deleted: false }] });
+    const user = await UserModel.findOne({ $and: [{ nickname: nickname }, { deleted: null }] });
     return user;
   }
 
   static async update({ user }) {
     const updatedUser = await UserModel.findOneAndUpdate(
-      { $and: [{ _id: user._id }, { deleted: false }] },
+      { $and: [{ _id: user._id }, { deleted: null }] },
       { ...user },
       { new: true }
     );
@@ -31,10 +31,10 @@ class User {
     return updatedUser;
   }
 
-  static async updatePoint({ userId, point }) {
+  static async incresePoint({ userId, point }) {
     const updatedUser = await UserModel.findOneAndUpdate(
-      { $and: [{ _id: userId }, { deleted: false }] },
-      { $set: { point: point } },
+      { $and: [{ _id: userId }, { deleted: null }] },
+      { $inc: { point: point } },
       { new: true }
     );
 
