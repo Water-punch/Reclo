@@ -8,7 +8,7 @@ import ContentsCard from "./ContentsCard"
           {items.map((item) => ( // 테스트용임
             <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>
               <ContentsCard
-                mt={2} 
+                my={2} 
                 item={item}
               />
             </Grid> 
