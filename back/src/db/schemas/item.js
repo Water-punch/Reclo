@@ -55,15 +55,6 @@ const ItemSchema = new Schema(
   }
 );
 
-ItemSchema.index(
-  {
-    title: 'text',
-    description: 'text',
-    category: 'text',
-  },
-  { name: 'textScore' }
-);
-
 const ItemModel = model('Item', ItemSchema);
 
 export { ItemModel };
