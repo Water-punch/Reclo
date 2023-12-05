@@ -21,6 +21,12 @@ class INVALID_ITEM_Error extends Error {
   }
 }
 
+class INVALID_ROOM_Error extends Error {
+  constructor(message) {
+    super(message);
+    this.status = 400;
+  }
+}
 // 401: 권한 없음
 class UnauthorizedError extends Error {
   constructor(message) {
@@ -65,6 +71,7 @@ export {
   BadRequestError,
   INVALID_USER_Error,
   INVALID_ITEM_Error,
+  INVALID_ROOM_Error,
   UnauthorizedError,
   ForbiddenError,
   NotFoundError,

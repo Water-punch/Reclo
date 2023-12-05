@@ -19,7 +19,7 @@ userAuthRouter.get('/user/current', asyncHandler(login_required), userController
 userAuthRouter.put('/user/current', asyncHandler(login_required), userController.currentInfoUpdate);
 
 // 프로필 사진 등록
-userAuthRouter.put('/user/current/profile', userController.profileUpdate);
+// userAuthRouter.put('/user/current/profile', asyncHandler(login_required), userController.profileUpdate);
 
 // 포인트관련 api
 userAuthRouter.get('/user/current/point', asyncHandler(login_required), userController.currentPointInfo);
