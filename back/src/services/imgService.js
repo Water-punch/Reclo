@@ -57,15 +57,10 @@ class imageService {
 
   // 아이템 이미지 수정
   static async updateItemImage({ imageId, toUpdate }) {
-    // 우선 해당 email 의 유저가 db에 존재하는지 여부 확인
-
     const image = await Image.findByImageId({ imageId });
-    // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!image) {
       throw new INVALID_IMAGE_Error('해당 이미지가 존재하지 않습니다.');
     }
-
-    // user 업데이트 후 반환
     const updatedImage = await Image.updateImage({ imageId, updateImg: toUpdate });
 
     return updatedImage;
@@ -73,12 +68,32 @@ class imageService {
 
   // 아이템 이미지 삭제
   static async deleteById({ imageId, imageUrl }) {
-    const deletedItemImage = await Item.deleteImage({ imageId, imageUrl });
+    const deletedItemImage = await Image.deleteImage({ imageId, imageUrl });
     if (!deletedItemImage) {
       throw new BadRequestError('해당 상품이 삭제되지 않았습니다.');
     }
     return deletedItemImage;
   }
+
+  // 아이템 이미지 수정
+  //   static async updateUserImage({ imageId, toUpdate }) {
+  //     const image = await Image.findByImageId({ imageId });
+  //     if (!image) {
+  //       throw new INVALID_IMAGE_Error('해당 이미지가 존재하지 않습니다.');
+  //     }
+  //     const updatedImage = await Image.updateImage({ imageId, updateImg: toUpdate });
+
+  //     return updatedImage;
+  //   }
+
+  // 유저 이미지 삭제
+  //   static async deleteById({ imageId, imageUrl }) {
+  //     const deletedItemImage = await Item.deleteImage({ imageId, imageUrl });
+  //     if (!deletedItemImage) {
+  //       throw new BadRequestError('해당 상품이 삭제되지 않았습니다.');
+  //     }
+  //     return deletedItemImage;
+  //   }
 }
 
 export { imageService };
