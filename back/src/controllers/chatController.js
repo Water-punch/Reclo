@@ -15,6 +15,7 @@ async function getRoomslast(req, res, next) {
     // 클라이언트에게 지속적으로 데이터를 보내줌, 현재는 2초주기
     const chatsinterval = setInterval(async () => {
       lastchats = await ChatService.getRoomslast({ userId });
+      res.write('event: roomslast\n');
       res.write(`data: ${JSON.stringify({ lastchats: lastchats })}\n\n`);
     }, 2000);
 
@@ -31,7 +32,7 @@ async function getRoomslast(req, res, next) {
 async function makeRoom(req, res, next) {
   try {
     const itemId = req.params.itemId;
-    const message = req.body.message;
+    const message = req.body.message ?? '';
     const userId = req.currentUserId;
 
     // 새로운 채팅방을 생성해서 메시지를 전송함
@@ -42,9 +43,7 @@ async function makeRoom(req, res, next) {
       const createdMessage = await ChatService.createChat({ newMessage });
     }
 
-    // 룸이 제대로 생성되지 않은경우 오류처리
-
-    res.sendStatus(200);
+    res.status(201).json({ roomId: createdroom });
   } catch (error) {
     next(error);
   }
@@ -66,6 +65,7 @@ async function getRoomChats(req, res, next) {
 
     const chatsinterval = setInterval(async () => {
       chats = await ChatService.getRoomChats({ roomId });
+      res.write('event: chats\n');
       res.write(`data: ${JSON.stringify({ chats: chats })}\n\n`);
     }, 2000);
 
@@ -91,7 +91,7 @@ async function leaveRoom(req, res, next) {
 
     // 룸이 제대로 생성되지 않은경우 오류처리
 
-    res.sendStatus(200);
+    res.status(201).json({ ok: true });
   } catch (error) {
     next(error);
   }
@@ -101,7 +101,7 @@ async function leaveRoom(req, res, next) {
 async function sendChat(req, res, next) {
   try {
     const roomId = req.params.roomId;
-    const messageText = req.body.message;
+    const messageText = req.body.message ?? '';
     const userId = req.currentUserId;
 
     //roomId에 해당 하는 room이 존재하는지 확인하고 메시지를 저장
@@ -113,7 +113,7 @@ async function sendChat(req, res, next) {
     const newMessage = { room: roomId, message: messageText, sender: userId }; // 예시로 'user'라는 고정된 사용자로 지정
     const createdMessage = await ChatService.createChat({ newMessage });
 
-    res.sendStatus(200);
+    res.status(201).json({ ok: true });
   } catch (error) {
     next(error);
   }

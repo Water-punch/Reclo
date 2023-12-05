@@ -28,6 +28,13 @@ class INVALID_IMAGE_Error extends Error {
     this.status = 400;
   }
 }
+//존재하지 않는 채팅방
+class INVALID_ROOM_Error extends Error {
+  constructor(message) {
+    super(message);
+    this.status = 400;
+  }
+}
 
 // 401: 권한 없음
 class UnauthorizedError extends Error {
@@ -74,6 +81,7 @@ export {
   INVALID_USER_Error,
   INVALID_ITEM_Error,
   INVALID_IMAGE_Error,
+  INVALID_ROOM_Error,
   UnauthorizedError,
   ForbiddenError,
   NotFoundError,
