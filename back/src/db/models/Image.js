@@ -27,10 +27,10 @@ class Image {
   }
 
   // imageId로 이미지 확인
-  static async findByItemId({ itemId }) {
-    const image = await ImageModel.find({ $and: [{ itemId }, { deleted: false }] });
-    return image;
-  }
+  // static async findByItemId({ itemId }) {
+  //   const image = await ImageModel.find({ $and: [{ itemId }, { deleted: false }] });
+  //   return image;
+  // }
 
   // 아이템 이미지 수정
   static async updateImage({ imageId, updateImg }) {
@@ -39,15 +39,11 @@ class Image {
       { imageId, fileName: updateImg.fileName, path: updateImg.path, imageUrl: updateImg.imageUrl },
       { new: true }
     );
-    const updatedImages = await ImageModel.findByItemId({ itemId: updateImg.itemId });
+    const updatedImages = await ImageModel.find({ itemId: updateImg.itemId });
 
-    console.log(updatedImages);
+    const updatedURL = updatedImages.map((url) => url.imageUrl);
 
-    await ItemModel.findOneAndUpdate(
-      { itemId: updateImg.itemId },
-      { $set: { itemsImgUrl: updatedImages.map((imageUrl) => imageUrl) } },
-      { new: true }
-    );
+    await ItemModel.findOneAndUpdate({ _id: updateImg.itemId }, { $set: { itemsImgUrl: updatedURL } }, { new: true });
 
     return updatedImage;
   }
@@ -62,24 +58,6 @@ class Image {
     );
     return delImage;
   }
-
-  // static async find(itemId) {
-  //   const images = await ImageModel.find(itemId);
-  //   return images;
-  // }
-  // static async findAll() {
-  //   const images = await ImageModel.find();
-  //   return images;
-  // }
-  // static async findById(imageId) {
-  //   const imageId = await ImageModel.findById({ _id: imageId });
-  //   return imageId;
-  // }
-  // //
-  // static async findAllByUserId(userId) {
-  //   const userImages = await ImageModel.find(userId);
-  //   return userImages;
-  // }
 }
 
 export { Image };
