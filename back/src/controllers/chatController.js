@@ -43,8 +43,6 @@ async function makeRoom(req, res, next) {
       const createdMessage = await ChatService.createChat({ newMessage });
     }
 
-    console.log(createdroom);
-
     res.status(201).json({ roomId: createdroom });
   } catch (error) {
     next(error);
@@ -90,7 +88,6 @@ async function leaveRoom(req, res, next) {
 
     // 새로운 채팅방을 생성해서 메시지를 전송함
     const leaveRoom = await ChatService.leaveRoom({ roomId, userId });
-    console.log('채팅방 나가기', leaveRoom);
 
     // 룸이 제대로 생성되지 않은경우 오류처리
 
@@ -104,7 +101,7 @@ async function leaveRoom(req, res, next) {
 async function sendChat(req, res, next) {
   try {
     const roomId = req.params.roomId;
-    const messageText = req.body.message;
+    const messageText = req.body.message ?? '';
     const userId = req.currentUserId;
 
     //roomId에 해당 하는 room이 존재하는지 확인하고 메시지를 저장
