@@ -1,7 +1,7 @@
 import { User } from '../db'; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from 'bcrypt';
 import { makeToken, makeRefreshToken } from '../utils/token.js';
-import { BadRequestError, INVALID_USER_Error, InternalServerError } from '../utils/customError';
+import { BadRequestError, INVALID_USER_Error, InternalServerError } from '../utils/customError.js';
 
 class userAuthService {
   // 회원가입 서비스

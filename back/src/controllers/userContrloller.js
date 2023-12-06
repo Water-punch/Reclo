@@ -1,7 +1,7 @@
 const ObjectId = require('mongoose').Types.ObjectId;
-const { userAuthService } = require('../services/userService');
-const { pointService } = require('../services/pointService');
-const { wishItemService } = require('../services/wishItemService');
+const { userAuthService } = require('../services/userService.js');
+const { pointService } = require('../services/pointService.js');
+const { wishItemService } = require('../services/wishItemService.js');
 
 async function register(req, res, next) {
   try {

@@ -1,5 +1,5 @@
-import { makeToken, verify, refreshVerify } from '../utils/token';
-import { UnauthorizedError } from '../utils/customError';
+import { makeToken, verify, refreshVerify } from '../utils/token.js';
+import { UnauthorizedError } from '../utils/customError.js';
 
 async function login_required(req, res, next) {
   // cookie에서 access token을 받음

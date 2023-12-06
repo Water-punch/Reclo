@@ -1,4 +1,4 @@
-import { wishItemModel } from '../schemas/wishItem';
+import { wishItemModel } from '../schemas/wishItem.js';
 
 class wishItem {
   // 유저 아이디로 관심상품 찾기

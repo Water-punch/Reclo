@@ -1,4 +1,4 @@
-import { RefreshTokenModel } from "../schemas/refreshtoken";
+import { RefreshTokenModel } from '../schemas/refreshtoken.js';
 
 class RefreshToken {
   static async create({ userId, token }) {
