@@ -1,4 +1,3 @@
-const { now } = require('mongoose');
 const { ChatService } = require('../services/chatService.js');
 
 async function getRoomslast(req, res, next) {
