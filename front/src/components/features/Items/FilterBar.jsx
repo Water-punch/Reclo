@@ -60,8 +60,11 @@ function FilterBar() {
   }
 
   return (
-    <div style={{ position: 'static' }}>
-      <Box component="nav">
+    <div style={{ position: 'sticky' }}>
+      <Box 
+        position='sticky'
+        top={200}
+        component="nav">
         <Typography variant='h5'>카테고리</Typography>
         <TabContext value={tabValues[1]}>
 

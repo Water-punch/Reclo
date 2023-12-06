@@ -1,11 +1,12 @@
-import { useState, Suspense, useEffect } from "react"
+import { useState, Suspense, useEffect, Fragment } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { Card, Chip, Stack, Box, Button, Grid, Checkbox, Divider, Typography, MenuItem, Menu, IconButton } from '@mui/material'
+import { Card, Chip, Stack, Box, Button, Grid, Checkbox, Divider, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder'
 import Favorite from '@mui/icons-material/Favorite'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useMutation, useQuery } from "@tanstack/react-query"
 import * as Api from '../../../api/api'
+import useUserStore from "../../../stores/user"
 
 const ContentsDetailPage = () => {
   const navigate = useNavigate()
@@ -14,64 +15,51 @@ const ContentsDetailPage = () => {
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
   const [checkLike, setCheckLike] = useState(false)
   const [updatedLike, setUpdatedLike] = useState(0)
+  const [item, setItem] = useState({})
+  const { user } = useUserStore()
+  const [open, setOpen] = useState(false)
 
-  const { isPending, error, data } = useQuery({ 
-    queryKey: ['detailpage', itemId], 
-    queryFn: async () => {
-      try {
-        const res = await Api.get(`item/${itemId}`)
-        return res.data
-      } catch (error) {
-        console.error('useQuery 에러:', error)
-      }
-    },
-  })
+  const getItemDetail = async () => {
+    const res = await Api.get(`item/${itemId}`)
+    setItem(res.data.itemDetails)
+    console.log(item)
+  }
 
-  if (isPending) return 'Loading...'
-  if (error) return '오류가 발생했습니다.' + error.message
-
-  const item = data.itemDetails
-  console.log(data)
+  useEffect(() => {
+    getItemDetail()
+  }, [])
   
-  const deleteMutation = useMutation({
-    mutationFn: async () => {
-      try {
-        const result = await Api.del(`item/${item.userId}`)
-        console.log('API 호출 결과:', result)
-        return result
-      } catch (error) {
-        console.error('API 호출 중 오류:', error)
-      }
+  const handleOpen = () => {
+    console.log(user._id)
+    if(user._id) {
+      setOpen(true)
+    } else {
+      alert('로그인이 필요한 서비스입니다.')
+      navigate('/login')
     }
-  })
+  }
 
-  const deleteItem = (e) => {
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const deleteItem = async (e) => {
     e.preventDefault()
     try { 
-      deleteMutation.mutate()
+      const res = await Api.del(`item/${item.userId}`)
+        console.log('API 호출 결과:', res)
       alert('게시글이 삭제되었습니다.')
     } catch (err) {
       alert('게시글 삭제에 실패했습니다.')
     }
   }
-  
-  const likeUpdateMutation = useMutation({
-    mutationFn: async () => {
-      try {
-        const result = await Api.put(`item/${itemId}`, data)
-        console.log('like update 결과:', result)
-        return result
-      } catch (error) {
-        console.error('like update 오류:', error)
-      }
-    }
-  })
 
-    const updateLikeOnPageChange = async () => { //페이지 이동 시 좋아요 상태 업데이트
+  const updateLikeOnPageChange = async () => { //페이지 이동 시 좋아요 상태 업데이트
     try {
-      likeUpdateMutation.mutate(`/item/${itemId}`, { title, price, description, category, state, like : updatedLike}) // like만 보내도 되나?
+      const res = await Api.put(`item/${itemId}/likes`, {likeInfo: {like: updatedLike}})
+      console.log('like update 성공:', res)
     } catch {
-      console.log('likeUpdateMutation 실패')
+      console.log('like Update 실패')
     }
   }
 
@@ -85,21 +73,26 @@ const ContentsDetailPage = () => {
 
   const handleLike = () => {
     setCheckLike(prev => !prev)
-    setUpdatedLike(prev => prev + (checkLike ? 1 : -1))
+    setUpdatedLike(prev => prev + (checkLike ? -1 : 1))
   }
 
-  const sendRequest = () => {
+  const sendRequest = async () => {
+    handleClose()
     console.log(`판매자에게 대화요청을 보냅니다.`)
+    navigate(`/chatting/${itemId}`, { state : { itemId : itemId, userId : user._id, prepare: true }})
   }
 
     return (
-      // <Suspense fallback={'loading...'}>
-      //   {error && <p></p>}
-      //   {data && (
-          <Box sx={{
+        <Box
+          my={5}
+          sx={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            minHeight: '80vh' }}>
+          <Box 
+            sx={{
             boxShadow: 2,
-            justifyContent: 'center',
-            width: '80%'
+            width: '80%',
           }}>
             <Button onClick={editItem}>
               수정
@@ -107,48 +100,82 @@ const ContentsDetailPage = () => {
             <Button onClick={deleteItem}>
               삭제
             </Button>
+           
+            <Card sx={{ minHeight: '30%', width: '70%' }}>
+              유저 정보 넣을 공간
+            </Card>
+
             <Grid container spacing={2} mx={5} my={5}>
               <Grid item xs={12} sm={8} md={6} lg={5}>
-              <Card sx={{ height: '50%'}}>
-                  <img/>
+                <Card sx={{ height: '100%', width: '100%'}}>
+                    <img/>
                 </Card>
               </Grid>
               <Grid item xs={12} sm={8} md={6} lg={5}>
-                <Card sx={{ height: '50%'}}>
-                  <Stack direction='row' spacing={1} mb={1}>
+                <Card sx={{ height: '100%', width: '100%'}}>
+                  <Stack direction='row' spacing={1} my={1} mx={3}>
                     <Typography gutterBottom variant="h6" component="div">
                       {item.title}
                     </Typography>
                     <Chip label={item.price == 0 ? '나눔' : '판매'}/>
-                    {item.state === '거래가능' ? (<Chip label={item.state}/>) : item.state === '거래중' ? (<Chip label={item.state} color='primary'/>) : (<Chip label={item.state} color='success'/>)}
+                    {item.state === '거래 가능' ? (<Chip label={item.state} color='success'/>) : item.state === '거래중' ? (<Chip label={item.state} color='primary'/>) : (<Chip label={item.state} />)}
                   </Stack>
-                  <Typography variant="body1" mb={1}>
-                    {item.category}
-                  </Typography>
-                  <Typography variant="body1" mb={1}>
-                    판매가 {item.price} 원
-                  </Typography>
-                  <Typography variant="body2" mb={1}>
-                    {item.description}
-                  </Typography>
+
+                  <Stack mx={1}>
+                    <Typography variant="body2" mb={1}>
+                      분류: [{item.category}]   판매가: {item.price} 원
+                    </Typography>
+                    <Typography variant="body2" mb={1}>
+                      <div dangerouslySetInnerHTML={{ __html: item.description }} />
+                    </Typography>
+                  </Stack>
                   <Divider />
-                  <Stack direction='row'>
-                    <Stack direction='row'>
-                      <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />} onClick={handleLike} />
+                  <Stack direction='row' spacing={5}
+                    sx={{display: 'flex', justifyContent: 'center'}}>
+                    <Stack direction='row' sx={{display: "flex", alignItems: 'center'}}>
+                      <Checkbox 
+                      {...label} 
+                      icon={<FavoriteBorder />} 
+                      checkedIcon={<Favorite />} 
+                      onClick={handleLike} />
                       <Typography variant="body2"> 좋아요 {updatedLike} </Typography>
                     </Stack>
-                    <Button variant="contained"
-                      color="success"
-                      onClick={sendRequest}>
-                      1:1 대화
-                    </Button>
+                    <Fragment>
+                      <Button variant="text"
+                        color="success"
+                        size="small"
+                        onClick={handleOpen}>
+                         [💬대화 신청]
+                      </Button>
+                      <Dialog
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                        <DialogTitle id="alert-dialog-title">
+                          {"판매자와 채팅을 시작하겠습니까?"}
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText id="alert-dialog-description">
+                            채팅창으로 이동해 판매자와 대화를 시작합니다. <br />
+                            매너있는 채팅을 부탁드립니다. 
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={sendRequest} autoFocus>
+                              확인
+                          </Button>
+                          <Button onClick={handleClose}>취소</Button>
+                        </DialogActions>
+                      </Dialog>
+                    </Fragment>
                   </Stack>
                 </Card>
               </Grid>
             </Grid>
-            </Box> 
-      //   )}
-      // </Suspense>
+          </Box>
+        </Box>
     )
 }
 

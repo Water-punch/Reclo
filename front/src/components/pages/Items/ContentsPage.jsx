@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import FilterBar from '../../features/Items/FilterBar'
 import ContentsCard from '../../features/Items/ContentsCard'
 import * as Api from '../../../api/api'
@@ -14,35 +14,42 @@ const ContentsPage = () => {
   const [items, setItems] = useState([])
   const [seachParams, setSearchParams] = useSearchParams()
   const filter = seachParams.get('category')
+  // const location = useLocation()
+  // const searchedData = location.state
+  // console.log('searchedData' , searchedData)
+
+  const filterSearch = async () => {
+    try {
+      const res = await Api.get(`items?category=${filter}`)
+      console.log(res.data)
+      setItems(res.data.items)
+    } catch (error) {
+      console.log('필터링에 실패했습니다.')
+    }
+  }
 
   // useEffect(() => {
-  //   if (filter) {
-  //     const { isPending, error, data } = useQuery({ 
-  //         queryKey: ['filterBar'], 
-  //         queryFn: async () => {
-  //           try {
-  //             const res = await Api.get(`items?category=${filter}`)
-  //             console.log(res.data)
-  //             setItems(res.data.items)
-  //             return res.data
-  //           } catch (error) {
-  //             throw error
-  //           }
-  //         },
-  //       })
-      
-  //       if (isPending) return 'Loading...'
-  //       if (error) return '오류가 발생했습니다.' + error.message
-  //       console.log(data)
+  //   if (searchedData) {
+  //     setItems(searchedData.items)
   //     }
-  // }, [filter])
 
-  console.log(filter)
+  //   if (filter) {
+  //     filterSearch()
+  //     }
+  // }, [filter, searchedData])
+
+  console.log('filter, searchedData : ' , filter)
+
+  // useEffect(() => {
+  //   if (searchedData) {
+  //     setItems(searchedData)
+  //     }
+  // }, [searchedData])
 
   return (
     <Box sx={{display: 'flex'}}>
       <Box>
-        <FilterBar />
+        <FilterBar/>
       </Box>
       <Box 
         sx={{ flexGrow: 1, marginLeft: '20vh' }}

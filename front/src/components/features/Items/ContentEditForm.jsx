@@ -12,16 +12,20 @@ const ContentEditForm = ({item}) => {
   const [price, setPrice] = useState(item.price)
   const [description, setDescription] = useState(item.description)
   const [state, setState] = useState(item.state)
-  const [categories, setCategories] = useState({
-    1: item.category.slice(0,1), 
-    2: item.category.includes('상의') ? '상의' : item.category.includes('하의') ? '하의': '아우터', 
-    3: item.category
-      .replace('남성', '')
-      .replace('여성', '')
-      .replace('상의', '')
-      .replace('하의', '')
-      .replace('아우터', '')
-  })
+  const [categories, setCategories] = useState(() => {
+    
+    return {
+      1: item.category.slice(0,1), 
+      2: item.category.includes('상의') ? '상의' : item.category.includes('하의') ? '하의': '아우터', 
+      3: item.category
+        .replace('남성', '')
+        .replace('여성', '')
+        .replace('상의', '')
+        .replace('하의', '')
+        .replace('아우터', '')
+    }
+  }
+ )
   const [category, setCategory] = useState(item.category)
   const itemId = item._id
   console.log('카테고리 잘 불러왔나 확인', categories[1], categories[2], categories[3])
@@ -69,220 +73,252 @@ const ContentEditForm = ({item}) => {
 
     return (
       <div className="addBox">
-      <Box
-        component='form'
-        onSubmit={handleSubmit} 
-        sx={{
-        bgcolor: '#fff',
-        boxShadow: 2,
-        borderRadius: 2,
-        display: 'flex',
-        justifyContent: 'center',
-        flexWrap: 'wrap',
-        '& > :not(style)': {
-          m: 1,
-          width: '80%',
-        },
-      }}>
-        <Stack spacing={'10%'} direction="row">
-          <TextField 
-            value={title}
-            onChange={e=> setTitle(e.target.value)}
-            id="title" label="제목" 
-            sx={{ width: '100%' }} variant="standard" />
-        </Stack>
-        
-        <Box>   
-      <Stack spacing={'3%'} direction="row">
-        <FormControl sx={{ minWidth: '30%' }}>
-          <InputLabel id="demo-simple-select-autowidth-label">분류: 성별</InputLabel>
-          <Select
-            labelId="demo-simple-select-autowidth-label"
-            id="demo-simple-select-autowidth"
-            value={categories[1]}
-            label="성별"
-            onChange={e => {
-              setCategories[1](e.target.value)
-              setCategory(prev=> [...prev, e.target.value])
-            }}
-          >
-            <MenuItem value={'남성'}>남성</MenuItem>
-            <MenuItem value={'여성'}>여성</MenuItem>
-          </Select>
-        </FormControl>
-
-        {category1 && (
-          <FormControl sx={{ minWidth: '30%' }}>
-            <InputLabel id="demo-simple-select-autowidth-label">분류1</InputLabel>
-            <Select
-              labelId="demo-simple-select-autowidth-label"
-              id="demo-simple-select-autowidth"
-              value={categories[2]}
-              label="분류1"
-              onChange={e => {
-                setCategories[2](e.target.value)
-                setCategory(prev=> [...prev, e.target.value])
-              }}
-            >
-              <MenuItem value={'상의'}>상의</MenuItem>
-              <MenuItem value={'하의'}>하의</MenuItem>
-              <MenuItem value={'아우터'}>아우터</MenuItem>
-            </Select>
-          </FormControl>)}
-
-        {category2 && category1 == '여성' && (category2 == '상의' ? (
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-autowidth-label">분류2</InputLabel>
-            <Select
-              labelId="demo-simple-select-autowidth-label"
-              id="demo-simple-select-autowidth"
-              value={categories[3]}
-              label="분류2"
-              onChange={e => {
-                setCategories[3](e.target.value)
-                setCategory(prev=> [...prev, e.target.value])
-              }}
-            >
-              <MenuItem value={'티셔츠'}>티셔츠</MenuItem>
-              <MenuItem value={'맨투맨'}>맨투맨</MenuItem>
-              <MenuItem value={'셔츠'}>셔츠</MenuItem>
-              <MenuItem value={'니트'}>니트</MenuItem>
-              <MenuItem value={'원피스'}>원피스</MenuItem>
-            </Select>
-          </FormControl>
-          ) : category2 == '하의' ? (
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-autowidth-label">분류2</InputLabel>
-              <Select
-                labelId="demo-simple-select-autowidth-label"
-                id="demo-simple-select-autowidth"
-                value={categories[3]}
-                label="분류2"
-                onChange={e => {
-                  setCategories[3](e.target.value)
-                  setCategory(prev=> [...prev, e.target.value])
-                }}
-              >
-                <MenuItem value={'치마'}>치마</MenuItem>
-                <MenuItem value={'데님'}>데님</MenuItem>
-                <MenuItem value={'반바지'}>반바지</MenuItem>
-                <MenuItem value={'슬랙스'}>슬랙스</MenuItem>
-                <MenuItem value={'면바지'}>면바지</MenuItem>
-                <MenuItem value={'트레이닝'}>트레이닝</MenuItem>
-              </Select>
-            </FormControl>
-            ) : (
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-autowidth-label">분류2</InputLabel>
-              <Select
-                labelId="demo-simple-select-autowidth-label"
-                id="demo-simple-select-autowidth"
-                value={categories[3]}
-                label="분류2"
-                onChange={e => {
-                  setCategories[3](e.target.value)
-                  setCategory(prev=> [...prev, e.target.value])
-                }}
-              >
-                <MenuItem value={'자켓'}>자켓</MenuItem>
-                <MenuItem value={'패딩'}>패딩</MenuItem>
-                <MenuItem value={'코트'}>코트</MenuItem>
-                <MenuItem value={'점퍼'}>점퍼</MenuItem>
-                <MenuItem value={'정장'}>정장</MenuItem>
-              </Select>
-            </FormControl>
-            ))}
-
-        {category1 == '남성' && (category2 == '상의' ? (
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-autowidth-label">분류2</InputLabel>
-            <Select
-              labelId="demo-simple-select-autowidth-label"
-              id="demo-simple-select-autowidth"
-              value={categories[3]}
-              label="분류2"
-              onChange={e => {
-                setCategories[3](e.target.value)
-                setCategory(prev=> [...prev, e.target.value])
-              }}
-            >
-              <MenuItem value={'티셔츠'}>티셔츠</MenuItem>
-              <MenuItem value={'맨투맨'}>맨투맨</MenuItem>
-              <MenuItem value={'셔츠'}>셔츠</MenuItem>
-              <MenuItem value={'니트'}>니트</MenuItem>
-            </Select>
-          </FormControl>
-          ) :
-          category2 == '하의' ? (
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-autowidth-label">분류2</InputLabel>
-              <Select
-                labelId="demo-simple-select-autowidth-label"
-                id="demo-simple-select-autowidth"
-                value={categories[3]}
-                label="분류2"
-                onChange={e => {
-                  setCategories[3](e.target.value)
-                  setCategory(prev=> [...prev, e.target.value])
-                }}
-              >
-                <MenuItem value={'데님'}>데님</MenuItem>
-                <MenuItem value={'반바지'}>반바지</MenuItem>
-                <MenuItem value={'슬랙스'}>슬랙스</MenuItem>
-                <MenuItem value={'면바지'}>면바지</MenuItem>
-                <MenuItem value={'트레이닝'}>트레이닝</MenuItem>
-              </Select>
-            </FormControl>
-            ) : (
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-autowidth-label">분류2</InputLabel>
-              <Select
-                labelId="demo-simple-select-autowidth-label"
-                id="demo-simple-select-autowidth"
-                value={categories[3]}
-                label="분류2"
-                onChange={e => {
-                  setCategories[3](e.target.value)
-                  setCategory(prev=> [...prev, e.target.value])
-                }}
-              >
-                <MenuItem value={'자켓'}>자켓</MenuItem>
-                <MenuItem value={'패딩'}>패딩</MenuItem>
-                <MenuItem value={'코트'}>코트</MenuItem>
-                <MenuItem value={'점퍼'}>점퍼</MenuItem>
-                <MenuItem value={'정장'}>정장</MenuItem>
-              </Select>
-            </FormControl>))}
-        </Stack>
-    </Box>
+            <Box
+              component='form'
+              onSubmit={handleSubmit} 
+              sx={{
+              bgcolor: '#fff',
+              boxShadow: 2,
+              borderRadius: 2,
+              display: 'flex',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+              '& > :not(style)': {
+                m: 1,
+                width: '80%',
+              },
+            }}>
+              <Stack spacing={'10%'} direction="row">
+                <TextField 
+                  value={title}
+                  onChange={e=> setTitle(e.target.value)}
+                  id="title" label="제목" 
+                  sx={{ width: '100%' }} variant="standard" />
+              </Stack>
+              
+              <Box>   
+              <Stack spacing={'3%'} direction="row">
+              <FormControl sx={{ minWidth: '30%' }}>
+                <InputLabel id="demo-simple-select-autowidth-label">분류: 성별</InputLabel>
+                <Select
+                  labelId="demo-simple-select-autowidth-label"
+                  id="demo-simple-select-autowidth"
+                  value={categories[1]}
+                  label="성별"
+                  onChange={e => {
+                    setCategories(prev => 
+                      ({
+                        ...prev,
+                        1: e.target.value 
+                      }))
+                    setCategory(prev=> prev + e.target.value)
+                  }}
+                >
+                  <MenuItem value={'남성'}>남성</MenuItem>
+                  <MenuItem value={'여성'}>여성</MenuItem>
+                </Select>
+              </FormControl>
       
-          <Stack spacing={'20%'} direction="row">
-            <TextField
-              value={price} 
-              onChange={e=>setPrice(e.target.value)}
-              id="price" label="가격(숫자를 입력하세요: ₩)" 
-              sx={{ width: '20%' }}
-              variant="standard" />
-          </Stack>
-
-          <ReactQuill
-            theme='snow'
-            modules={modules}
-            formats={formats}
-            value={description}
-            onChange={text=>setDescription(text)}
-            style={{width: '82%', height: '60vh', marginBottom: '5vh', marginTop: '2.5vh'}}
-          />
-          
-          <Button 
-            variant="contained"
-            color="success" size='small'
-            type='submit'>
-              등록
-          </Button>
-      </Box>
-    </div>  
-  )
+              {categories[1] && (
+                <FormControl sx={{ minWidth: '30%' }}>
+                  <InputLabel id="demo-simple-select-autowidth-label">분류1</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-autowidth-label"
+                    id="demo-simple-select-autowidth"
+                    value={categories[2]}
+                    label="분류1"
+                    onChange={e => {
+                      setCategories(prev => 
+                        ({
+                          ...prev,
+                          2: e.target.value 
+                        }))
+                      setCategory(prev=> prev + e.target.value)
+                    }}
+                  >
+                    <MenuItem value={'상의'}>상의</MenuItem>
+                    <MenuItem value={'하의'}>하의</MenuItem>
+                    <MenuItem value={'아우터'}>아우터</MenuItem>
+                  </Select>
+                </FormControl>)}
+      
+              {categories[2] && categories[1] == '여성' && (categories[2] == '상의' ? (
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-autowidth-label">분류2</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-autowidth-label"
+                    id="demo-simple-select-autowidth"
+                    value={categories[3]}
+                    label="분류2"
+                    onChange={e => {
+                      setCategories(prev => 
+                        ({
+                          ...prev,
+                          3: e.target.value 
+                        }))
+                      setCategory(prev=> prev + e.target.value)
+                    }}
+                  >
+                    <MenuItem value={'티셔츠'}>티셔츠</MenuItem>
+                    <MenuItem value={'맨투맨'}>맨투맨</MenuItem>
+                    <MenuItem value={'셔츠'}>셔츠</MenuItem>
+                    <MenuItem value={'니트'}>니트</MenuItem>
+                    <MenuItem value={'원피스'}>원피스</MenuItem>
+                  </Select>
+                </FormControl>
+                ) : categories[2] == '하의' ? (
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-autowidth-label">분류2</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-autowidth-label"
+                      id="demo-simple-select-autowidth"
+                      value={categories[3]}
+                      label="분류2"
+                      onChange={e => {
+                        setCategories(prev => 
+                          ({
+                            ...prev,
+                            3: e.target.value 
+                          }))
+                        setCategory(prev=> prev + e.target.value)
+                      }}
+                    >
+                      <MenuItem value={'치마'}>치마</MenuItem>
+                      <MenuItem value={'데님'}>데님</MenuItem>
+                      <MenuItem value={'반바지'}>반바지</MenuItem>
+                      <MenuItem value={'슬랙스'}>슬랙스</MenuItem>
+                      <MenuItem value={'면바지'}>면바지</MenuItem>
+                      <MenuItem value={'트레이닝'}>트레이닝</MenuItem>
+                    </Select>
+                  </FormControl>
+                  ) : (
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-autowidth-label">분류2</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-autowidth-label"
+                      id="demo-simple-select-autowidth"
+                      value={categories[3]}
+                      label="분류2"
+                      onChange={e => {
+                        setCategories(prev => 
+                          ({
+                            ...prev,
+                            3: e.target.value 
+                          }))
+                        setCategory(prev=> prev + e.target.value)
+                      }}
+                    >
+                      <MenuItem value={'자켓'}>자켓</MenuItem>
+                      <MenuItem value={'패딩'}>패딩</MenuItem>
+                      <MenuItem value={'코트'}>코트</MenuItem>
+                      <MenuItem value={'점퍼'}>점퍼</MenuItem>
+                      <MenuItem value={'정장'}>정장</MenuItem>
+                    </Select>
+                  </FormControl>
+                  ))}
+      
+              {categories[1] == '남성' && (categories[2] == '상의' ? (
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-autowidth-label">분류2</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-autowidth-label"
+                    id="demo-simple-select-autowidth"
+                    value={categories[3]}
+                    label="분류2"
+                    onChange={e => {
+                      setCategories(prev => 
+                        ({
+                          ...prev,
+                          3: e.target.value 
+                        }))
+                      setCategory(prev=> prev + e.target.value)
+                    }}
+                  >
+                    <MenuItem value={'티셔츠'}>티셔츠</MenuItem>
+                    <MenuItem value={'맨투맨'}>맨투맨</MenuItem>
+                    <MenuItem value={'셔츠'}>셔츠</MenuItem>
+                    <MenuItem value={'니트'}>니트</MenuItem>
+                  </Select>
+                </FormControl>
+                ) :
+                categories[2] == '하의' ? (
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-autowidth-label">분류2</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-autowidth-label"
+                      id="demo-simple-select-autowidth"
+                      value={categories[3]}
+                      label="분류2"
+                      onChange={e => {
+                        setCategories(prev => 
+                          ({
+                            ...prev,
+                            3: e.target.value 
+                          }))
+                        setCategory(prev=> prev + e.target.value)
+                      }}
+                    >
+                      <MenuItem value={'데님'}>데님</MenuItem>
+                      <MenuItem value={'반바지'}>반바지</MenuItem>
+                      <MenuItem value={'슬랙스'}>슬랙스</MenuItem>
+                      <MenuItem value={'면바지'}>면바지</MenuItem>
+                      <MenuItem value={'트레이닝'}>트레이닝</MenuItem>
+                    </Select>
+                  </FormControl>
+                  ) : (
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-autowidth-label">분류2</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-autowidth-label"
+                      id="demo-simple-select-autowidth"
+                      value={categories[3]}
+                      label="분류2"
+                      onChange={e => {
+                        setCategories(prev => 
+                          ({
+                            ...prev,
+                            3: e.target.value 
+                          }))
+                        setCategory(prev=> prev + e.target.value)
+                      }}
+                    >
+                      <MenuItem value={'자켓'}>자켓</MenuItem>
+                      <MenuItem value={'패딩'}>패딩</MenuItem>
+                      <MenuItem value={'코트'}>코트</MenuItem>
+                      <MenuItem value={'점퍼'}>점퍼</MenuItem>
+                      <MenuItem value={'정장'}>정장</MenuItem>
+                    </Select>
+                  </FormControl>))}
+              </Stack>
+          </Box>
+            
+                <Stack spacing={'20%'} direction="row">
+                  <TextField
+                    value={price} 
+                    onChange={e=>setPrice(e.target.value)}
+                    id="price" label="가격(숫자를 입력하세요: ₩)" 
+                    sx={{ width: '20%' }}
+                    variant="standard" />
+                </Stack>
+      
+                <ReactQuill
+                  theme='snow'
+                  modules={modules}
+                  formats={formats}
+                  value={description}
+                  onChange={text=>setDescription(text)}
+                  style={{width: '82%', height: '60vh', marginBottom: '5vh', marginTop: '2.5vh'}}
+                />
+                
+                <Button 
+                  variant="contained"
+                  color="success" size='small'
+                  type='submit'>
+                    등록
+                </Button>
+            </Box>
+          </div>  
+    )
 }
 
 export default ContentEditForm
