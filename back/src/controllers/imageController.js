@@ -98,23 +98,39 @@ async function setUserImage(req, res, next) {
   }
 }
 
-// // 유저 이미지 삭제
-// async function deleteUserImage(req, res, next) {
-//   try {
-//     const imageId = req.params.imageId;
-//     const imageUrl = req.params.imageUrl;
-//     console.log(imageUrl);
-//     const deleteItem = await itemService.deleteById({ imageId, imageUrl });
-//     if (!deleteItem) {
-//       throw new Error(findItem.errorMessage);
-//     }
-//     res.status(200).send({
-//       message: '아이템 이미지 삭제에 성공했습니다.',
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// }
+// S3에 유저 이미지 삭제를 위한 image url 요청
+async function getDelUserUrl(req, res, next) {
+  try {
+    const imageId = req.params._id;
+    console.log(imageId);
+    const deleteUserUrl = await imageService.getdeleteUrl({ imageId });
+    if (!deleteUserUrl) {
+      throw new Error(deleteUserUrl.errorMessage);
+    }
+    // console.log(deleteUserUrl);
+    res.status(200).send({
+      message: '유저 이미지 삭제를 위한 Image URL 요청에 성공했습니다',
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+// DB에 저장된 유저 이미지 삭제
+async function deleteUserImage(req, res, next) {
+  try {
+    const imageId = req.params._id;
+    const deleteItem = await imageService.deleteUserImage({ imageId });
+    if (!deleteItem) {
+      throw new Error(deleteItem.errorMessage);
+    }
+    res.status(200).send({
+      message: '유저 이미지 삭제에 성공했습니다.',
+    });
+  } catch (error) {
+    next(error);
+  }
+}
 
 module.exports = {
   getItemPresignedUrl,
@@ -123,6 +139,7 @@ module.exports = {
   uploadUserImage,
   setItemImage,
   setUserImage,
-  //   deleteUserImage,
+  deleteUserImage,
+  getDelUserUrl,
   deletedItemImage,
 };

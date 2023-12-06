@@ -59,9 +59,11 @@ class Image {
 
   // 이미지 업로드 후 응답을 받으면 데이터베이스에 유저 이미지 정보 저장
   static async createUserImage({ newImage, imageUrl }) {
+    console.log(newImage.userId);
     const findUser = await UserModel.findOne({ _id: newImage.userId });
+
     if (!findUser) {
-      throw new INVALID_ITEM_Error('해당 유저의 이미지를 찾을 수 없습니다.');
+      throw new INVALID_ITEM_Error('해당 유저를 찾을 수 없습니다.');
     }
     // image collection에 newImage 추가
     const createdImage = await ImageModel.create(newImage);
@@ -89,6 +91,28 @@ class Image {
     );
 
     return updatedImage;
+  }
+
+  // S3에 유저 이미지 삭제를 위한 image url 요청
+  static async getdelUrl({ imageId }) {
+    const user = await ImageModel.find({ _id: imageId });
+    const imageUrl = user[0].imageUrl;
+    return imageUrl;
+  }
+
+  //S3에서 이미지 삭제 후 DB에 저장된 유저 이미지 삭제
+  static async delUserImage({ imageId }) {
+    const findUserImage = await ImageModel.findOne({ _id: imageId });
+    const deleteUrl = findUserImage.imageUrl;
+
+    const userImageDelete = await ImageModel.deleteOne({ _id: imageId });
+    await UserModel.findOneAndUpdate(
+      { _id: findUserImage.userId },
+      { $pull: { userImgUrl: deleteUrl[0] } },
+      { new: true }
+    );
+
+    return userImageDelete;
   }
 }
 
