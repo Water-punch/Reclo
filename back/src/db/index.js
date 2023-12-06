@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { User } from './models/User.js';
 import { Item } from './models/Item.js';
 import { Image } from './models/Image.js';
-import { wishItem } from './models/wishItem.js';
+import { wishItem } from './models/WishItem.js';
 import { RefreshToken } from './models/RefreshToken.js';
 import { Point } from './models/Point.js';
 import { Chat } from './models/Chat.js';
