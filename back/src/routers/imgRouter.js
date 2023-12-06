@@ -29,7 +29,10 @@ imageRouter.post('/userImage/:fileName', imageController.uploadUserImage);
 // 저장된 유저 이미지 정보 수정
 imageRouter.put('/userImage/:_id', imageController.setUserImage);
 
+// S3에 유저 이미지 삭제를 위한 image url 요청
+imageRouter.get('/userImage/:_id', imageController.getDelUserUrl);
+
 // 저장된 유저 이미지 정보 삭제
-// imageRouter.delete('/userImage/:_id', imageController.deleteUserImage);
+imageRouter.delete('/userImage/:_id', imageController.deleteUserImage);
 
 export { imageRouter };

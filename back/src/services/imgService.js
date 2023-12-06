@@ -80,7 +80,8 @@ class imageService {
   //유저 이미지 추가
   static async uploadImage({ imageInfo }) {
     const newImage = { ...imageInfo };
-    const createImageData = await Image.createUserImage({ newImage, imageUrl: imageInfo.imageUrl });
+    // console.log(newImage);
+    const createImageData = await Image.createUserImage({ newImage, imageUrl: newImage.imageUrl });
     if (!createImageData) {
       throw new BadRequestError('해당 상품이 등록되지 않았습니다.');
     }
@@ -91,21 +92,32 @@ class imageService {
   static async updateUserImage({ imageId, toUpdate }) {
     const image = await Image.findByImageId({ imageId });
     if (!image) {
-      throw new INVALID_IMAGE_Error('해당 이미지가 존재하지 않습니다.');
+      throw new INVALID_IMAGE_Error('해당 유저의 이미지가 존재하지 않습니다.');
     }
     const updatedImage = await Image.updateImage({ imageId, updateImg: toUpdate });
 
     return updatedImage;
   }
 
-  // 유저 이미지 삭제
-  //   static async deleteById({ imageId, imageUrl }) {
-  //     const deletedItemImage = await Item.deleteImage({ imageId, imageUrl });
-  //     if (!deletedItemImage) {
-  //       throw new BadRequestError('해당 상품이 삭제되지 않았습니다.');
-  //     }
-  //     return deletedItemImage;
-  //   }
+  // S3에 유저 이미지 삭제를 위한 image url 요청
+  // 프론트에서 image url과 bucket name 만 있으면 된다.
+  static async getdeleteUrl({ imageId }) {
+    const deleteImage = await Image.getdelUrl({ imageId });
+
+    if (!deleteImage) {
+      throw new INVALID_IMAGE_Error('삭제 요청한 유저 이미지가 존재하지 않습니다.');
+    }
+    return deleteImage;
+  }
+
+  //S3에서 이미지 삭제 후 DB에 저장된 유저 이미지 삭제
+  static async deleteUserImage({ imageId }) {
+    const deletedUserImage = await Image.delUserImage({ imageId });
+    if (!deletedUserImage) {
+      throw new BadRequestError('해당 유저의 이미지가 삭제되지 않았습니다.');
+    }
+    return deletedUserImage;
+  }
 }
 
 export { imageService };
