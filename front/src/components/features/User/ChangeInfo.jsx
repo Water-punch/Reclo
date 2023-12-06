@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import * as Api from '../../../api/api';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ChangeInfo = () => {
   const [newNickname, setNewNickname] = useState('');
+  const [profileImage, setProfileImage] = useState(null);
   const [isChanging, setIsChanging] = useState(false);
 
   const location = useLocation();
+  const navigate = useNavigate();
   const user = location.state.user;
 
   useEffect(() => {
@@ -14,10 +16,6 @@ const ChangeInfo = () => {
       setNewNickname(user.nickname || '');
     }
   }, [user]);
-
-  useEffect(() => {
-    console.log('newNickname:', newNickname);
-  }, [newNickname]);
 
   const handleChangeUserInfo = async () => {
     try {
@@ -30,12 +28,16 @@ const ChangeInfo = () => {
         user: {
           _id: user._id,
           nickname: newNickname,
+          profileImage,
         },
       });
 
       setNewNickname(response.data.nickname);
+      setProfileImage(response.data.profileImage);
 
       console.log('서버 응답:', response.data);
+
+      navigate('/userinfo', { state: { updatedUser: response.data } });
     } catch (error) {
       console.error('유저 정보 에러:', error);
     }
@@ -57,6 +59,7 @@ const ChangeInfo = () => {
                 value={newNickname}
                 onChange={(e) => setNewNickname(e.target.value)}
               />
+              <input type='file' accept='image/*' onChange={(e) => setProfileImage(e.target.files[0])} />
               <button onClick={handleChangeUserInfo}>저장</button>
             </>
           ) : (

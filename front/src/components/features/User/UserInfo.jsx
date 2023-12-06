@@ -1,12 +1,17 @@
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../../../styles/MyPage.css';
 import UserPoint from './UserPoint';
 
 const UserInfo = ({ user }) => {
   const navigate = useNavigate();
-  console.log(user);
-  console.log(user.email);
-  console.log(user.nickname);
+  const location = useLocation();
+
+  const updatedUser = location.state?.updatedUser;
+
+  const displayUser = updatedUser || user;
+
+  console.log(displayUser);
 
   return (
     <div className='userinfoContainer'>
@@ -14,7 +19,11 @@ const UserInfo = ({ user }) => {
         <h1>My Page</h1>
         <div className='contentContainer'>
           <div className='profile'>
-            {user.profileImage ? <img src={user.profileImage} alt='프로필 이미지' /> : <p>No profile image</p>}
+            {displayUser.profileImage ? (
+              <img src={displayUser.profileImage} alt='프로필 이미지' />
+            ) : (
+              <p>No profile image</p>
+            )}
           </div>
           <div className='pointContainer'>
             <UserPoint />
@@ -22,10 +31,10 @@ const UserInfo = ({ user }) => {
         </div>
         <div className='userbox'>
           <div className='userInfo'>
-            <p>{user.email}</p>
-            <p>{user.nickname}</p>
+            <p>{displayUser.email}</p>
+            <p>{displayUser.nickname}</p>
 
-            <button className='change' onClick={() => navigate('/changeinfo', { state: { user: user } })}>
+            <button className='change' onClick={() => navigate('/changeinfo', { state: { user: displayUser } })}>
               유저 정보 변경
             </button>
           </div>

@@ -7,6 +7,7 @@ import { ChatListPage, ChattingRoomPage } from './components/pages/Chat';
 import { EventPage, ContentsPage, ContentsWritePage, ContentsDetailPage } from './components/pages/Items';
 import { PointPage, MyPage, WishListPage } from './components/pages/User';
 import ChangeInfo from './components/features/User/ChangeInfo';
+import UserInfo from './components/features/User/UserInfo';
 import Header from './components/common/Header';
 import NavBar from './components/common/NavBar';
 import useUserStore from './stores/user';
@@ -47,6 +48,7 @@ function App() {
           <Route path='/mypage' element={<MyPage />} />
           <Route path='/wishlist' element={<WishListPage />} />
           <Route path='/point' element={<PointPage />} />
+          <Route path='/userinfo' element={<UserInfo />} />
           <Route path='/changeinfo' element={<ChangeInfo />} />
 
           <Route path='/test' element={<TestPage />} />
