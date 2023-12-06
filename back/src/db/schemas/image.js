@@ -15,7 +15,7 @@ const ImageSchema = new Schema(
     },
 
     imageUrl: {
-      type: String,
+      type: Array,
       required: true,
     },
 
