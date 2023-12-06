@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { login_required } from '../middlewares/login_required.js';
 import { asyncHandler } from '../middlewares/asyncHandler.js';
 
-const chatController = require('../controllers/chatController');
+const chatController = require('../controllers/chatController.js');
 
 const chatRouter = Router();
 chatRouter.use(asyncHandler(login_required));

@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
-import { User } from './models/User';
-import { Item } from './models/Item';
-import { Image } from './models/Image';
-import { wishItem } from './models/wishItem';
-import { RefreshToken } from './models/RefreshToken';
-import { Point } from './models/Point';
-import { Chat } from './models/Chat';
+import { User } from './models/User.js';
+import { Item } from './models/Item.js';
+import { Image } from './models/Image.js';
+import { wishItem } from './models/wishItem.js';
+import { RefreshToken } from './models/RefreshToken.js';
+import { Point } from './models/Point.js';
+import { Chat } from './models/Chat.js';
 
 const DB_URL =
   process.env.MONGODB_URL || 'MongoDB 서버 주소가 설정되지 않았습니다.\n./db/index.ts 파일을 확인해 주세요.';
