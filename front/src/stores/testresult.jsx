@@ -91,11 +91,18 @@ const TestResult = () => {
   return (
     <div className='result_page'>
       <h2>테스트 결과</h2>
-      <div className='result_page_'>
+      <div className='result_page_test'>
         <p className='test_result'>{calculateResult()}</p>
-        <div>
-          <p>당신이 배출한 탄소량은 {averageScore}kgCO2eq/m2 입니다.</p>
-          <p>{averageScore / 140}개의 소나무가 당신이 배출한 이산화탄소를 제거하는데 필요합니다.</p>
+        <div className='calculate'>
+          <p>
+            당신이 배출한 탄소량은 <br />
+            <strong>{Math.round(averageScore)}</strong> kgCO2eq/m2 입니다.
+          </p>
+          <p>
+            <strong>{Math.round(averageScore / 140)}</strong> 개의 소나무가 당신이 배출한
+            <br />
+            이산화탄소를 제거하는데 필요합니다.
+          </p>
         </div>
       </div>
     </div>
