@@ -13,7 +13,9 @@ const UserInfo = ({ user }) => {
       <div className='mypage'>
         <h1>My Page</h1>
         <div className='contentContainer'>
-          <div className='profile'></div>
+          <div className='profile'>
+            {user.profileImage ? <img src={user.profileImage} alt='프로필 이미지' /> : <p>No profile image</p>}
+          </div>
           <div className='pointContainer'>
             <UserPoint />
           </div>

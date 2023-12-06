@@ -4,12 +4,11 @@ import { useLocation } from 'react-router-dom';
 
 const ChangeInfo = () => {
   const [newNickname, setNewNickname] = useState('');
-  //   const [newPassword, setNewPassword] = useState('');
+  const [profileImage, setProfileImage] = useState(null);
   const [isChanging, setIsChanging] = useState(false);
+
   const location = useLocation();
   const user = location.state.user;
-
-  console.log(user);
 
   useEffect(() => {
     if (user) {
@@ -17,23 +16,33 @@ const ChangeInfo = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    console.log('newNickname:', newNickname);
+  }, [newNickname]);
+
+  useEffect(() => {
+    console.log('profileImage:', profileImage);
+  }, [profileImage]);
+
   const handleChangeUserInfo = async () => {
-    // console.log(user.password);
     try {
       if (!user) {
-        console.error('error.');
+        console.error('에러 발생: 유저 정보가 없습니다.');
         return;
       }
 
       const response = await Api.put('user/current', {
-        id: user._id,
-        nickname: newNickname,
-        // password: newPassword,
+        user: {
+          _id: user._id,
+          nickname: newNickname,
+          profileImage,
+        },
       });
 
-      console.log('서버 응답:', response.data);
+      setNewNickname(response.data.nickname);
+      setProfileImage(response.data.profileImage);
 
-      setIsChanging(false);
+      console.log('서버 응답:', response.data);
     } catch (error) {
       console.error('유저 정보 에러:', error);
     }
@@ -42,6 +51,7 @@ const ChangeInfo = () => {
   return (
     <div>
       <h2>User Change Page</h2>
+
       {user ? (
         <>
           <p>현재 닉네임: {user.nickname}</p>
@@ -54,12 +64,7 @@ const ChangeInfo = () => {
                 value={newNickname}
                 onChange={(e) => setNewNickname(e.target.value)}
               />
-              {/* <input
-                type='password'
-                placeholder='새 비밀번호'
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-              /> */}
+              <input type='file' accept='image/*' onChange={(e) => setProfileImage(e.target.files[0])} />
               <button onClick={handleChangeUserInfo}>저장</button>
             </>
           ) : (
