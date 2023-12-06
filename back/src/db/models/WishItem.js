@@ -1,10 +1,9 @@
 import { wishItemModel } from '../schemas/wishItem';
-import { ConflictError } from '../../utils/customError';
 
 class wishItem {
   // 유저 아이디로 관심상품 찾기
   static async findLikeitems({ userId }) {
-    const userLikeditems = await wishItemModel.findOne({ userId });
+    const userLikeditems = await wishItemModel.find({ userId }).populate('Item');
     return userLikeditems;
   }
 

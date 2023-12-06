@@ -34,7 +34,18 @@ class Item {
 
   // 커서 기반 페이지 조회
   static async findCursor({ cursor, limit }) {
-    const items = await ItemModel.find({ _id: cursor }, { deleted: false }).sort({ _id: -1 }).limit(Number(limit));
+    if (cursor === '') {
+      const items = await ItemModel.find({ deleted: false }).sort({ _id: -1 }).limit(Number(limit));
+      return items;
+    } else {
+      const items = await ItemModel.find({ _id: cursor }, { deleted: false }).sort({ _id: -1 }).limit(Number(limit));
+      return items;
+    }
+  }
+
+  //null이 들어오면 보여주는 값
+  static async findFirstItems({ limit }) {
+    const items = await ItemModel.find({ deleted: false }).sort({ _id: -1 }).limit(Number(limit));
     return items;
   }
 

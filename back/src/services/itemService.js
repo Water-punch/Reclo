@@ -14,10 +14,10 @@ class itemService {
 
   // 커서 기반 페이지 조회
   static async getCursorItems({ itemCursor, limit }) {
-    const cursor = itemCursor ? { $lt: itemCursor } : {};
+    const cursor = itemCursor ? { $lte: itemCursor } : '';
     const items = await Item.findCursor({ cursor, limit });
-    if (!items || items.length === 0) {
-      throw new INVALID_ITEM_Error('해당 위치의 상품이 존재하지 않습니다.');
+    if (!items) {
+      throw new INVALID_ITEM_Error('현재 위치의 아이템이 존재하지 않습니다.');
     }
     const newCursor = items.length > 0 ? items[items.length - 1]._id : null;
     return { items, cursor: newCursor };
