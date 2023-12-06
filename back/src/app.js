@@ -17,7 +17,7 @@ app.use(
     origin: [
       'http://localhost:5173',
       'http://kdt-ai-9-team01.elicecoding.com/:5173',
-      'http://kdt-ai-9-team01.elicecoding.com/',
+      'http://kdt-ai-9-team01.elicecoding.com',
     ],
     methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
     credentials: true,
