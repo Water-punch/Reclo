@@ -52,6 +52,11 @@ const chatMessageSchema = new Schema(
   }
 );
 
+chatRoomSchema.index({
+  room: 1,
+  createdAt: -1,
+});
+
 const ChatModel = model('Chat', chatMessageSchema);
 
 export { RoomModel, ChatModel };

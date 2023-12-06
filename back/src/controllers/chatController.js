@@ -1,3 +1,4 @@
+const { now } = require('mongoose');
 const { ChatService } = require('../services/chatService.js');
 
 async function getRoomslast(req, res, next) {
@@ -53,7 +54,7 @@ async function getRoomChats(req, res, next) {
   try {
     const roomId = req.params.roomId;
 
-    let chats = await ChatService.getRoomChats({ roomId });
+    let chats = await ChatService.getRoomChatsNew({ roomId });
 
     // Content-Type을 text/event-stream으로 설정
     res.setHeader('Content-Type', 'text/event-stream');
@@ -64,7 +65,7 @@ async function getRoomChats(req, res, next) {
     // 주기적으로 채팅방의 채팅내역을 가져와 전송함
 
     const chatsinterval = setInterval(async () => {
-      chats = await ChatService.getRoomChats({ roomId });
+      chats = await ChatService.getRoomChatsNew({ roomId });
       res.write('event: chats\n');
       res.write(`data: ${JSON.stringify({ chats: chats })}\n\n`);
     }, 2000);
@@ -75,6 +76,26 @@ async function getRoomChats(req, res, next) {
     });
     // 클라이언트 연결이 끊어졌을 때 반복을 중단함
     //
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function getRoomChatsOld(req, res, next) {
+  try {
+    // 마지막 채팅부분 클라이언트에서 가져옴 -> 추가적인 채팅부분 서버에서 가져옴 -> 추가할 부분 전달
+    const roomId = req.params.roomId;
+    const cursor = req.query.cursor ? req.query.cursor : Date.now();
+    const pageSize = 10;
+
+    const oldChats = await ChatService.getRoomChatsOld({ roomId, cursor, pageSize });
+
+    const resdata = {
+      oldchats: oldChats,
+      cursor: oldChats[oldChats.length - 1] ? oldChats[oldChats.length - 1].createdAt : cursor,
+    };
+
+    res.status(201).json(resdata);
   } catch (error) {
     next(error);
   }
@@ -106,8 +127,6 @@ async function sendChat(req, res, next) {
 
     //roomId에 해당 하는 room이 존재하는지 확인하고 메시지를 저장
     const room = await ChatService.getRoom({ roomId });
-    //
-    //if (room !== null){}
 
     // 메시지를 데이터베이스에 저장
     const newMessage = { room: roomId, message: messageText, sender: userId }; // 예시로 'user'라는 고정된 사용자로 지정
@@ -119,4 +138,4 @@ async function sendChat(req, res, next) {
   }
 }
 
-module.exports = { getRoomslast, getRoomChats, sendChat, makeRoom, leaveRoom };
+module.exports = { getRoomslast, getRoomChats, sendChat, makeRoom, leaveRoom, getRoomChatsOld };
