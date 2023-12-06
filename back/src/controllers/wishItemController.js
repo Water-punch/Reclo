@@ -1,5 +1,5 @@
 const ObjectId = require('mongoose').Types.ObjectId;
-const { wishItemService } = require('../services/wishItemService');
+const { wishItemService } = require('../services/wishItemService.js');
 
 // 유저별 관심상품 찾기
 async function getLikedItems(req, res, next) {

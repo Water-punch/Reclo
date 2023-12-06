@@ -1,6 +1,6 @@
 import { Point } from '../db'; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
-import { userAuthService } from './userService';
-import { ConflictError } from '../utils/customError';
+import { userAuthService } from './userService.js';
+import { ConflictError } from '../utils/customError.js';
 
 class pointService {
   static async getAllUserPoint({ userId }) {

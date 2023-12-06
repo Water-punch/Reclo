@@ -1,5 +1,5 @@
 const ObjectId = require('mongoose').Types.ObjectId;
-const { imageService } = require('../services/imgService');
+const { imageService } = require('../services/imgService.js');
 
 // 아이템 이미지 업로드를 위한 presigned URL 요청
 async function getItemPresignedUrl(req, res, next) {

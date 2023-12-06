@@ -1,5 +1,5 @@
 const ObjectId = require('mongoose').Types.ObjectId;
-const { itemService } = require('../services/itemService');
+const { itemService } = require('../services/itemService.js');
 
 // 페이징을 적용한 전체 품목 조회
 async function getPagedItems(req, res, next) {
