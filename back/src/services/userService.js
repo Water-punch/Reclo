@@ -82,8 +82,7 @@ class userAuthService {
     if (!duplication) {
       throw new INVALID_USER_Error('유저가 존재하지 않습니다.');
     }
-
-    if (user.password) {
+    if (user.password != null) {
       user.password = await bcrypt.hash(user.password, 10);
     }
 

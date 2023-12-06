@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 
 const ChangeInfo = () => {
   const [newNickname, setNewNickname] = useState('');
-  const [profileImage, setProfileImage] = useState(null);
   const [isChanging, setIsChanging] = useState(false);
 
   const location = useLocation();
@@ -20,10 +19,6 @@ const ChangeInfo = () => {
     console.log('newNickname:', newNickname);
   }, [newNickname]);
 
-  useEffect(() => {
-    console.log('profileImage:', profileImage);
-  }, [profileImage]);
-
   const handleChangeUserInfo = async () => {
     try {
       if (!user) {
@@ -35,12 +30,10 @@ const ChangeInfo = () => {
         user: {
           _id: user._id,
           nickname: newNickname,
-          profileImage,
         },
       });
 
       setNewNickname(response.data.nickname);
-      setProfileImage(response.data.profileImage);
 
       console.log('서버 응답:', response.data);
     } catch (error) {
@@ -64,7 +57,6 @@ const ChangeInfo = () => {
                 value={newNickname}
                 onChange={(e) => setNewNickname(e.target.value)}
               />
-              <input type='file' accept='image/*' onChange={(e) => setProfileImage(e.target.files[0])} />
               <button onClick={handleChangeUserInfo}>저장</button>
             </>
           ) : (
