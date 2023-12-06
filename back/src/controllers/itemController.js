@@ -77,12 +77,6 @@ async function getItemDetails(req, res, next) {
 // 아이템 추가하기
 async function addItem(req, res, next) {
   try {
-    // 이미지 업로드
-    // imageUploader_item.array('image')(req, res, async function (err) {
-    // if (err) {
-    //   return next(err);
-    // }
-
     const itemInfo = req.body.itemInfo;
 
     // DB에 데이터 추가

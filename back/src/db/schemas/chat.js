@@ -11,13 +11,13 @@ const chatRoomSchema = new Schema({
     required: true,
     ref: 'User',
   },
-  hostuserDeleted : {type : Boolean, default : false},
+  hostuserDeleted: { type: Boolean, default: false },
   user: {
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'User',
   },
-  userDeleted : {type : Boolean, default : false}
+  userDeleted: { type: Boolean, default: false },
 });
 
 chatRoomSchema.index(
@@ -42,11 +42,20 @@ const chatMessageSchema = new Schema(
       required: true,
       ref: 'User',
     },
+    isSystem: {
+      type: Boolean,
+      defalut: false,
+    },
   },
   {
     timestamps: true,
   }
 );
+
+chatRoomSchema.index({
+  room: 1,
+  createdAt: -1,
+});
 
 const ChatModel = model('Chat', chatMessageSchema);
 

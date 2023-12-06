@@ -56,7 +56,7 @@ function App() {
           <Route path='/event' element={<EventPage />} />
 
           <Route path='/chatlist' element={<ChatListPage />} />
-          <Route path='/chatting' element={<ChattingRoomPage />} />
+          <Route path='/chatting/:roomId' element={<ChattingRoomPage />} />
           {/* <Route path='*' element={<NotFound />} /> */}
         </Routes>
       </Router>

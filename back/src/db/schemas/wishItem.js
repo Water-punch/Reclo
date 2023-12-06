@@ -15,6 +15,12 @@ const wishItemSchema = new Schema(
       ref: 'Item',
     },
 
+    imageUrl: {
+      type: Array,
+      require: false,
+      ref: 'Item',
+    },
+
     likeStatus: {
       type: Boolean,
       default: false,

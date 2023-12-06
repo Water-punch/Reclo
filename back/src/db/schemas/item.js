@@ -46,22 +46,13 @@ const ItemSchema = new Schema(
     },
 
     itemsImgUrl: {
-      type: String,
+      type: Array,
       required: false,
     },
   },
   {
     timestamps: true,
   }
-);
-
-ItemSchema.index(
-  {
-    title: 'text',
-    description: 'text',
-    category: 'text',
-  },
-  { name: 'textScore' }
 );
 
 const ItemModel = model('Item', ItemSchema);

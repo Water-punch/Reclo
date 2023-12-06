@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom"
-import { Divider, Card, CardActionArea, CardContent, CardMedia, Chip, Grid, Stack, Typography} from '@mui/material'
+import { Box, Divider, Card, CardActionArea, CardContent, CardMedia, Chip, Grid, Stack, Typography} from '@mui/material'
 
 const ContentsCard = ({item}) => {
   const navigate = useNavigate()
-  console.log(item._id)
 
   return (
-    <Card sx={{ width: '30vh' }}>
+    <Box>
+      <Card sx={{ width: '30vh' }}>
       <CardActionArea onClick={() => navigate(`/detail/${item._id}`) }>
         <CardMedia
           component="img"
@@ -38,6 +38,7 @@ const ContentsCard = ({item}) => {
         </CardContent>
       </CardActionArea>
     </Card>
+  </Box>  
   );
 }
 
