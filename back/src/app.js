@@ -2,6 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import { userAuthRouter } from './routers/userRouter';
 import { itemRouter } from './routers/itemRouter';
+import { imageRouter } from './routers/imgRouter';
 import { chatRouter } from './routers/chatRouter';
 import { wishItemRouter } from './routers/wishItemRouter';
 import { errorMiddleware } from './middlewares/errorMiddleware';
@@ -36,6 +37,7 @@ app.get('/', (req, res) => {
 
 app.use(userAuthRouter);
 app.use(itemRouter);
+app.use(imageRouter);
 app.use(wishItemRouter);
 app.use(chatRouter);
 

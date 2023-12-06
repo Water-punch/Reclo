@@ -1,7 +1,7 @@
 import { User } from '../db'; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from 'bcrypt';
 import { makeToken, makeRefreshToken } from '../utils/token.js';
-import { BadRequestError, INVALID_USER_Error } from '../utils/customError';
+import { BadRequestError, INVALID_USER_Error, InternalServerError } from '../utils/customError';
 
 class userAuthService {
   // 회원가입 서비스
@@ -21,6 +21,10 @@ class userAuthService {
     // db에 저장
     const createdNewUser = await User.create({ newUser });
 
+    if (!createdNewUser) {
+      throw new InternalServerError('회원 가입에 실패하였습니다.');
+    }
+
     return createdNewUser;
   }
 
@@ -38,7 +42,9 @@ class userAuthService {
     };
     // user의 deleted를 true로 설정
     const updatedUser = await User.update({ user: updateduser });
-
+    if (!updatedUser) {
+      throw new InternalServerError('회원 탈퇴에 실패하였습니다.');
+    }
     return updatedUser;
   }
 
@@ -64,6 +70,9 @@ class userAuthService {
     const token = makeToken({ user_id: user._id });
     const refreshtoken = await makeRefreshToken({ user_id: user._id });
 
+    if (!refreshtoken) {
+      throw new InternalServerError('로그인에 실패하였습니다.');
+    }
     // 반환할 loginuser 객체를 위한 변수 설정
     const loginUser = {
       token,
@@ -83,7 +92,7 @@ class userAuthService {
       throw new INVALID_USER_Error('유저가 존재하지 않습니다.');
     }
 
-    if (user.password) {
+    if (user.password != null) {
       user.password = await bcrypt.hash(user.password, 10);
     }
 
@@ -93,7 +102,9 @@ class userAuthService {
     };
     // user 업데이트 후 반환
     const updatedUser = await User.update({ user: updateduser });
-
+    if (!updatedUser) {
+      throw new InternalServerError('유저 정보 수정에 실패하였습니다.');
+    }
     return updatedUser;
   }
 
@@ -129,6 +140,9 @@ class userAuthService {
 
     const updatedUser = await User.incresePoint({ userId, point: Number(point) });
 
+    if (!updatedUser) {
+      throw new InternalServerError('포인트 추가에 실패하였습니다.');
+    }
     return updatedUser;
   }
 }

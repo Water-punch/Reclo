@@ -19,6 +19,9 @@ class pointService {
 
     if (newPoint !== null) {
       const user = userAuthService.addUserPoint({ userId: pointdetails.userId, point: pointdetails.point });
+      if (!user) {
+        throw new InternalServerError('포인트 정보 수정에 실패하였습니다.');
+      }
       return user;
     }
   }

@@ -7,7 +7,7 @@ class Chat {
   }
 
   static async findRoom({ roomId }) {
-    const room = await RoomModel.findById({ roomId });
+    const room = await RoomModel.findById(roomId);
     return room;
   }
 
@@ -23,7 +23,6 @@ class Chat {
 
     //rooms확인
     const Rooms = [...Rooms1, ...Rooms2];
-    console.log('rooms :', Rooms);
     return Rooms;
   }
 
@@ -36,25 +35,44 @@ class Chat {
         { $set: { userDeleted: true } },
         { returnOriginal: false }
       );
+      return leaveRoom;
     } else if (room.hostuser === userId) {
       const leaveRoom = await RoomModel.findByIdAndUpdate(
         { roomId },
         { $set: { hostuserDeleted: true } },
         { returnOriginal: false }
       );
-    }
 
-    return leaveRoom;
+      return leaveRoom;
+    }
   }
 
   static async findChatAll({ roomId }) {
-    const chats = await ChatModel.find({ room: roomId }).sort({ createdAt: 'asc' });
+    const chats = await ChatModel.find({ room: roomId });
+    return chats;
+  }
+
+  static async findChatNews({ roomId }) {
+    const chats = await ChatModel.find({ room: roomId }).sort({ createdAt: -1 }).limit(10);
+    return chats;
+  }
+
+  static async findChatOlds({ roomId, cursor, pageSize }) {
+    // 커서식으로 불러오기
+
+    const chats = await ChatModel.find({
+      $and: [{ room: roomId }, { createdAt: cursor }],
+    })
+      .sort({ createdAt: -1 })
+      .limit(pageSize);
+
+    // 더이상 불러올 chat이 없는경우?
     return chats;
   }
 
   static async findChatLast({ roomId }) {
     //안되면 findone -> find + limit
-    const chat = await ChatModel.findOne({ room: roomId }).sort({ createdAt: -1 });
+    const chat = await ChatModel.find({ room: roomId }).sort({ createdAt: -1 }).limit(1);
     return chat;
   }
 }
