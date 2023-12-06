@@ -1,5 +1,5 @@
 const ObjectId = require('mongoose').Types.ObjectId;
-const { wishItemService } = require('../services/wishItemService');
+const { wishItemService } = require('../services/wishItemService.js');
 
 // 유저별 관심상품 찾기
 async function getLikedItems(req, res, next) {
@@ -32,14 +32,14 @@ async function getLikedItemDetails(req, res, next) {
   }
 }
 
-// 관심상품 등록
-async function putItemLikes(req, res, next) {
+// 관심상품 등록 & 삭제
+async function toggleItemLikes(req, res, next) {
   try {
     const likeInfo = req.body.likeInfo;
-    const updateLike = await wishItemService.addLike({
+    const updateLike = await wishItemService.toggleLike({
       likeInfo,
     });
-    if (updateLike.errorMessage) {
+    if (!updateLike) {
       throw new Error(updateLike.errorMessage);
     }
 
@@ -50,25 +50,25 @@ async function putItemLikes(req, res, next) {
 }
 
 // 관심상품 삭제
-async function putItemDislikes(req, res, next) {
-  try {
-    const likeInfo = req.body.likeInfo;
-    const deletedLike = await wishItemService.deleteLike({
-      likeInfo,
-    });
-    if (deletedLike.errorMessage) {
-      throw new Error(deletedLike.errorMessage);
-    }
+// async function putItemDislikes(req, res, next) {
+//   try {
+//     const likeInfo = req.body.likeInfo;
+//     const deletedLike = await wishItemService.deleteLike({
+//       likeInfo,
+//     });
+//     if (deletedLike.errorMessage) {
+//       throw new Error(deletedLike.errorMessage);
+//     }
 
-    return res.status(201).send(deletedLike);
-  } catch (error) {
-    next(error);
-  }
-}
+//     return res.status(201).send(deletedLike);
+//   } catch (error) {
+//     next(error);
+//   }
+// }
 
 module.exports = {
   getLikedItems,
   getLikedItemDetails,
-  putItemLikes,
-  putItemDislikes,
+  toggleItemLikes,
+  // putItemDislikes,
 };

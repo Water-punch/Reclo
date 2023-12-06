@@ -1,6 +1,6 @@
 import { Point } from '../db'; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
-import { userAuthService } from './userService';
-import { ConflictError } from '../utils/customError';
+import { userAuthService } from './userService.js';
+import { ConflictError } from '../utils/customError.js';
 
 class pointService {
   static async getAllUserPoint({ userId }) {
@@ -19,6 +19,9 @@ class pointService {
 
     if (newPoint !== null) {
       const user = userAuthService.addUserPoint({ userId: pointdetails.userId, point: pointdetails.point });
+      if (!user) {
+        throw new InternalServerError('포인트 정보 수정에 실패하였습니다.');
+      }
       return user;
     }
   }

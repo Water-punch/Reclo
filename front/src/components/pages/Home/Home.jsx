@@ -18,7 +18,7 @@ const Home = () => {
             style={{ textAlign: "center" }}
           >
             <img
-              src="/src/styles/Test.png"
+              src="/public/img/Test.png"
               alt="Test Image"
               style={{ width: "50%", height: "100%", margin: "auto" }}
             />

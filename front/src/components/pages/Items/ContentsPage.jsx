@@ -1,52 +1,68 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import FilterBar from '../../features/Items/FilterBar'
 import ContentsCard from '../../features/Items/ContentsCard'
 import * as Api from '../../../api/api'
 import { useQuery } from '@tanstack/react-query'
-import { Grid, Box } from '@mui/material'
+import { Grid, Box, Button } from '@mui/material'
+import useUserStore from '../../../stores/user'
+import Contents from '../../features/Items/Contents'
+import ScrollPagination from '../../features/Items/ScrollPagination'
 
 const ContentsPage = () => {
   const navigate = useNavigate()
-  const { isPending, error, data } = useQuery({ 
-    queryKey: ['contentspage'], 
-    queryFn: async () => {
-      try {
-        const res = await Api.get('items')
-        return res.data
-      } catch (error) {
-        throw error
-      }
-    },
-  })
+  const [items, setItems] = useState([])
+  const [seachParams, setSearchParams] = useSearchParams()
+  const filter = seachParams.get('category')
+  // const location = useLocation()
+  // const searchedData = location.state
+  // console.log('searchedData' , searchedData)
 
-  if (isPending) return 'Loading...'
-  if (error) return '오류가 발생했습니다.' + error.message
+  const filterSearch = async () => {
+    try {
+      const res = await Api.get(`items?category=${filter}`)
+      console.log(res.data)
+      setItems(res.data.items)
+    } catch (error) {
+      console.log('필터링에 실패했습니다.')
+    }
+  }
 
-  console.log(data)
+  // useEffect(() => {
+  //   if (searchedData) {
+  //     setItems(searchedData.items)
+  //     }
 
-    return (
-      <Box sx={{display: 'flex'}}>
-        <FilterBar />
-        <Box 
-          component="main"
-          sx={{ flexGrow: 1, marginLeft: '20vh' }}
-          // sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
-        >
-          <button onClick={() => {navigate('/add')}}>물품 등록</button>
-          <Grid container spacing={2} mx={5} my={5} >
-            {data.items.map((item) => ( // 테스트용임
-              <Grid item xs={12} sm={6} md={4} lg={3} key={item.itemId}>
-                <ContentsCard
-                  mt={2} 
-                  item={item}
-                />
-              </Grid> 
-            ))}
-          </Grid>
-        </Box>   
+  //   if (filter) {
+  //     filterSearch()
+  //     }
+  // }, [filter, searchedData])
+
+  console.log('filter, searchedData : ' , filter)
+
+  // useEffect(() => {
+  //   if (searchedData) {
+  //     setItems(searchedData)
+  //     }
+  // }, [searchedData])
+
+  return (
+    <Box sx={{display: 'flex'}}>
+      <Box>
+        <FilterBar/>
       </Box>
-    )
+      <Box 
+        sx={{ flexGrow: 1, marginLeft: '20vh' }}
+        // sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+      >
+        <Button 
+          onClick={() => {navigate('/write', { state : { edit: false } })}}>
+            물품 등록
+        </Button>
+        {filter ? (<Contents items={items}/>) : (<ScrollPagination />)}
+      </Box>   
+    </Box>
+  )
 }
 
 export default ContentsPage

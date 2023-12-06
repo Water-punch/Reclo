@@ -1,4 +1,4 @@
-import { ItemModel } from '../schemas/item';
+import { ItemModel } from '../schemas/item.js';
 const ObjectId = require('mongoose').Types.ObjectId;
 
 class Item {
@@ -10,7 +10,7 @@ class Item {
 
   // 아이템 아이디로 찾기
   static async findByItemId({ itemId }) {
-    const item = await ItemModel.findOne({ $and: [{ _id: itemId }, { deleted: false }] });
+    const item = await ItemModel.findOne({ $and: [{ _id: new ObjectId(itemId) }, { deleted: false }] });
     return item;
   }
 
@@ -31,9 +31,21 @@ class Item {
     }
     return items;
   }
-  // 전체 조회
-  static async findAll({}) {
-    const items = await ItemModel.find({ deleted: false }).sort({ createdAt: 'asc' });
+
+  // 커서 기반 페이지 조회
+  static async findCursor({ cursor, limit }) {
+    if (cursor === '') {
+      const items = await ItemModel.find({ deleted: false }).sort({ _id: -1 }).limit(Number(limit));
+      return items;
+    } else {
+      const items = await ItemModel.find({ _id: cursor }, { deleted: false }).sort({ _id: -1 }).limit(Number(limit));
+      return items;
+    }
+  }
+
+  //null이 들어오면 보여주는 값
+  static async findFirstItems({ limit }) {
+    const items = await ItemModel.find({ deleted: false }).sort({ _id: -1 }).limit(Number(limit));
     return items;
   }
 

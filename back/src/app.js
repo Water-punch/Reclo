@@ -1,9 +1,12 @@
 import cors from 'cors';
 import express from 'express';
-import { userAuthRouter } from './routers/userRouter';
-import { itemRouter } from './routers/itemRouter';
-import { wishItemRouter } from './routers/wishItemRouter';
-import { errorMiddleware } from './middlewares/errorMiddleware';
+import { userAuthRouter } from './routers/userRouter.js';
+import { itemRouter } from './routers/itemRouter.js';
+import { imageRouter } from './routers/imgRouter.js';
+import { chatRouter } from './routers/chatRouter.js';
+import { wishItemRouter } from './routers/wishItemRouter.js';
+import { errorMiddleware } from './middlewares/errorMiddleware.js';
+
 const cookieParser = require('cookie-parser');
 
 const app = express();
@@ -11,7 +14,11 @@ const app = express();
 // CORS 에러 방지
 app.use(
   cors({
-    origin: ['http://localhost:5001', 'http://localhost:5173'],
+    origin: [
+      'http://localhost:5173',
+      'http://kdt-ai-9-team01.elicecoding.com/:5173',
+      'http://kdt-ai-9-team01.elicecoding.com',
+    ],
     methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
     credentials: true,
     allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
@@ -34,7 +41,9 @@ app.get('/', (req, res) => {
 
 app.use(userAuthRouter);
 app.use(itemRouter);
+app.use(imageRouter);
 app.use(wishItemRouter);
+app.use(chatRouter);
 
 // 에러 핸들링
 app.use(errorMiddleware);

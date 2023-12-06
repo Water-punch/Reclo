@@ -1,140 +1,182 @@
+import { useState, Suspense, useEffect, Fragment } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { Card, Chip, Stack, Box, Button, Grid, Checkbox, Divider, Typography, MenuItem, Menu, IconButton } from '@mui/material'
+import { Card, Chip, Stack, Box, Button, Grid, Checkbox, Divider, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder'
 import Favorite from '@mui/icons-material/Favorite'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useMutation } from "@tanstack/react-query"
-import { useEffect, useState } from "react"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import * as Api from '../../../api/api'
+import useUserStore from "../../../stores/user"
 
 const ContentsDetailPage = () => {
   const navigate = useNavigate()
   const params = useParams()
-  const itemId = params
-  const buttonOptions = ['수정', '삭제', '공유']
-  
-  const likeUpdateMutation = useMutation((endpoint, data) => Api.put(endpoint, data))
-  const editMutation = useMutation((endpoint, data) => Api.put(endpoint, data))
-  const deleteMutation = useMutation((endpoint, data) => Api.del(endpoint, data))
-
+  const itemId = params.itemId
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
-  const [checkLike, setCheckLike] = useState(false);
-  const [updatedLike, setUpdatedLike] = useState(1)
-  const [anchorEl, setAnchorEl] = useState(null)
-  const open = Boolean(anchorEl)
+  const [checkLike, setCheckLike] = useState(false)
+  const [updatedLike, setUpdatedLike] = useState(0)
+  const [item, setItem] = useState({})
+  const { user } = useUserStore()
+  const [open, setOpen] = useState(false)
 
-  const handleVertIcon = (e) => {
-    navigate(``)
+  const getItemDetail = async () => {
+    const res = await Api.get(`item/${itemId}`)
+    setItem(res.data.itemDetails)
+    console.log(item)
   }
 
-  const handleLike = () => {
-    setCheckLike(prev => !prev)
-    checkLike ? setUpdatedLike(prev => prev + 1) : setUpdatedLike(prev => prev - 1)  
+  useEffect(() => {
+    getItemDetail()
+  }, [])
+  
+  const handleOpen = () => {
+    console.log(user._id)
+    if(user._id) {
+      setOpen(true)
+    } else {
+      alert('로그인이 필요한 서비스입니다.')
+      navigate('/login')
+    }
   }
 
-  const sendRequest = () => {
-    console.log(`판매자에게 대화요청을 보냅니다.`)
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const deleteItem = async (e) => {
+    e.preventDefault()
+    try { 
+      const res = await Api.del(`item/${item.userId}`)
+        console.log('API 호출 결과:', res)
+      alert('게시글이 삭제되었습니다.')
+    } catch (err) {
+      alert('게시글 삭제에 실패했습니다.')
+    }
   }
 
   const updateLikeOnPageChange = async () => { //페이지 이동 시 좋아요 상태 업데이트
     try {
-      likeUpdateMutation.mutate(`/item/${itemId}`, updatedLike)
+      const res = await Api.put(`item/${itemId}/likes`, {likeInfo: {like: updatedLike}})
+      console.log('like update 성공:', res)
     } catch {
-      console.log('likeUpdateMutation 실패')
+      console.log('like Update 실패')
     }
   }
 
-  // useEffect(() => {
-  //   // 페이지 이동 감지를 위해 useEffect 사용
-  //   const unlisten = navigate(updateLikeOnPageChange) 
-  
-  //   return () => { unlisten } // 메모리 누수 방지를 위한 클린업 함수
-  // }, [navigate, updateLikeOnPageChange]);
+  useEffect(() => {
+    updateLikeOnPageChange()
+  }, [navigate])
 
-    return true ? <></> : (
-      <>
-        <Box sx={{
-          boxShadow: 2,
-          justifyContent: 'center',
-          width: '80%'
-        }}>
-          <div>
-            <IconButton
-              aria-label="more"
-              id="long-button"
-              aria-controls={open ? 'long-menu' : undefined}
-              aria-expanded={open ? 'true' : undefined}
-              aria-haspopup="true"
-            >
-              <MoreVertIcon />
-            </IconButton>
-            <Menu
-              id="long-menu"
-              MenuListProps={{
-                'aria-labelledby': 'long-button',
-              }}
-              open={open}
-            >
-                <MenuItem key={option}  onClick={handleClose}>
-                  {option}
-                </MenuItem>
-                <MenuItem key={option}  onClick={handleClose}>
-                  {option}
-                </MenuItem>
-                <MenuItem key={option}  onClick={handleClose}>
-                  {option}
-                </MenuItem>
-            </Menu>
-          </div>
+  const editItem = () => {
+    navigate('/write', { state: { edit: true, item: item } })
+  }
 
-          <Grid container spacing={2} mx={5} my={5}>
-            <Grid item xs={12} sm={8} md={6} lg={5}>
-            <Card sx={{ height: '50%'}}>
-                <img/>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={8} md={6} lg={5}>
-              <Card sx={{ height: '50%'}}>
-                <Stack direction='row' spacing={1} mb={1}>
-                  <Typography gutterBottom variant="h6" component="div">
-                    {name}
-                  </Typography>
-                  <Chip label={share ? '나눔' : '판매'}/>
-                  {tradeState === '거래가능' ? (<Chip label={tradeState}/>) : tradeState === '거래중' ? (<Chip label={tradeState} color='primary'/>) : (<Chip label={tradeState} color='success'/>)}
-                </Stack>
-                <Typography variant="body1" mb={1}>
-                  {categorySave}
-                </Typography>
-                <Typography variant="body1" mb={1}>
-                  {title}
-                </Typography>
-                <Typography variant="body1" mb={1}>
-                  판매가 {price} 원
-                </Typography>
-                <Typography variant="body2" mb={1}>
-                  {content}
-                </Typography>
-                <Divider />
-                <Stack direction='row'>
-                  <Stack direction='row'>
-                    <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />} onClick={handleLike} />
-                    <Typography variant="body2"> 좋아요 {updatedLike} </Typography>
+  const handleLike = () => {
+    setCheckLike(prev => !prev)
+    setUpdatedLike(prev => prev + (checkLike ? -1 : 1))
+  }
+
+  const sendRequest = async () => {
+    handleClose()
+    console.log(`판매자에게 대화요청을 보냅니다.`)
+    navigate(`/chatting/${itemId}`, { state : { itemId : itemId, userId : user._id, prepare: true }})
+  }
+
+    return (
+        <Box
+          my={5}
+          sx={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            minHeight: '80vh' }}>
+          <Box 
+            sx={{
+            boxShadow: 2,
+            width: '80%',
+          }}>
+            <Button onClick={editItem}>
+              수정
+            </Button>
+            <Button onClick={deleteItem}>
+              삭제
+            </Button>
+           
+            <Card sx={{ minHeight: '30%', width: '70%' }}>
+              유저 정보 넣을 공간
+            </Card>
+
+            <Grid container spacing={2} mx={5} my={5}>
+              <Grid item xs={12} sm={8} md={6} lg={5}>
+                <Card sx={{ height: '100%', width: '100%'}}>
+                    <img/>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={8} md={6} lg={5}>
+                <Card sx={{ height: '100%', width: '100%'}}>
+                  <Stack direction='row' spacing={1} my={1} mx={3}>
+                    <Typography gutterBottom variant="h6" component="div">
+                      {item.title}
+                    </Typography>
+                    <Chip label={item.price == 0 ? '나눔' : '판매'}/>
+                    {item.state === '거래 가능' ? (<Chip label={item.state} color='success'/>) : item.state === '거래중' ? (<Chip label={item.state} color='primary'/>) : (<Chip label={item.state} />)}
                   </Stack>
-                  <Button variant="contained"
-                    color="success"
-                    onClick={sendRequest}>
-                    1:1 대화
-                  </Button>
-                </Stack>
-              </Card>
+
+                  <Stack mx={1}>
+                    <Typography variant="body2" mb={1}>
+                      분류: [{item.category}]   판매가: {item.price} 원
+                    </Typography>
+                    <Typography variant="body2" mb={1}>
+                      <div dangerouslySetInnerHTML={{ __html: item.description }} />
+                    </Typography>
+                  </Stack>
+                  <Divider />
+                  <Stack direction='row' spacing={5}
+                    sx={{display: 'flex', justifyContent: 'center'}}>
+                    <Stack direction='row' sx={{display: "flex", alignItems: 'center'}}>
+                      <Checkbox 
+                      {...label} 
+                      icon={<FavoriteBorder />} 
+                      checkedIcon={<Favorite />} 
+                      onClick={handleLike} />
+                      <Typography variant="body2"> 좋아요 {updatedLike} </Typography>
+                    </Stack>
+                    <Fragment>
+                      <Button variant="text"
+                        color="success"
+                        size="small"
+                        onClick={handleOpen}>
+                         [💬대화 신청]
+                      </Button>
+                      <Dialog
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                        <DialogTitle id="alert-dialog-title">
+                          {"판매자와 채팅을 시작하겠습니까?"}
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText id="alert-dialog-description">
+                            채팅창으로 이동해 판매자와 대화를 시작합니다. <br />
+                            매너있는 채팅을 부탁드립니다. 
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={sendRequest} autoFocus>
+                              확인
+                          </Button>
+                          <Button onClick={handleClose}>취소</Button>
+                        </DialogActions>
+                      </Dialog>
+                    </Fragment>
+                  </Stack>
+                </Card>
+              </Grid>
             </Grid>
-           </Grid>
-          </Box> 
-      </>
+          </Box>
+        </Box>
     )
-
-
-
 }
 
 export default ContentsDetailPage

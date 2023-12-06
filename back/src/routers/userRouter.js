@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { login_required } from '../middlewares/login_required';
-import { asyncHandler } from '../middlewares/asyncHandler';
+import { login_required } from '../middlewares/login_required.js';
+import { asyncHandler } from '../middlewares/asyncHandler.js';
 
-const userController = require('../controllers/userContrloller');
+const userController = require('../controllers/userContrloller.js');
 
 const userAuthRouter = Router();
 
@@ -19,7 +19,7 @@ userAuthRouter.get('/user/current', asyncHandler(login_required), userController
 userAuthRouter.put('/user/current', asyncHandler(login_required), userController.currentInfoUpdate);
 
 // 프로필 사진 등록
-userAuthRouter.put('/user/current/profile', userController.profileUpdate);
+// userAuthRouter.put('/user/current/profile', asyncHandler(login_required), userController.profileUpdate);
 
 // 포인트관련 api
 userAuthRouter.get('/user/current/point', asyncHandler(login_required), userController.currentPointInfo);

@@ -2,37 +2,36 @@ import { useState } from "react";
 import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Link, Grid, Box, Typography, Container, Checkbox } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import * as Api from '../../../api/api'
-import { useNavigate } from "react-router-dom";
 import useUserStore from "../../../stores/user";
+import { useNavigate } from "react-router-dom";
+import * as Api from '../../../api/api'
 
 export default function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { setLogin, login, setUser } = useUserStore()
+  const { user, setUser, login, setLogin } = useUserStore()
   const navigate = useNavigate()
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleLogin = async (event) => {
+    event.preventDefault()
     
     try {
       const res = await Api.post('user/login', {email, password})
-      const user = res.data
+      setLogin(true) //promise를 반환하지 않는 비동기 코드
+      setUser(res.data.user)
 
-      setLogin()
-      setUser(user)
-      console.log(login)
-      console.log(`로그인 성공` )
-            
+      console.log(`로그인 성공`)
+      
+      const token = res.data.token
+      localStorage.setItem('accessToken', token)
+    
       navigate('/', { replace: true })
-
+      
     } catch (error) {
-
       alert('로그인에 실패했습니다.')
-      console.error("로그인 실패:", error);
+      console.error("로그인 실패:", error)
     }
-  };
-
+  }
   const defaultTheme = createTheme();
 
   return (
@@ -55,7 +54,7 @@ export default function LoginForm() {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={handleLogin}
             noValidate
             sx={{ mt: 1 }}
           >

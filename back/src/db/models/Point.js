@@ -1,4 +1,4 @@
-import { PointModel } from '../schemas/point';
+import { PointModel } from '../schemas/point.js';
 
 class Point {
   static async create({ newPoint }) {
@@ -8,7 +8,7 @@ class Point {
 
   static async findAll({ userId }) {
     // ItemModel에서 주어진 userId에 해당하는 모든 아이템을 거래글 생성일 순으로 정렬해서 찾기
-    const points = await PointModel.findAll({ userId: userId }).sort({ createdAt: 'desc' });
+    const points = await PointModel.find({ userId: userId }).sort({ createdAt: 'desc' });
     return points;
   }
 

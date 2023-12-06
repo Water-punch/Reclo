@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 const JWT_KEY = process.env.JWT_SECRET_KEY;
 import { RefreshToken } from '../db';
-import { UnauthorizedError } from './customError';
+import { UnauthorizedError } from './customError.js';
 // accessToken 발급 함수
 const makeToken = ({ user_id }) => {
   const token = jwt.sign({ user_id }, JWT_KEY, { expiresIn: '20m' });
