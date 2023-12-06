@@ -1,7 +1,7 @@
 const { Router } = require('express');
-const { login_required } = require('../middlewares/login_required');
-const { asyncHandler } = require('../middlewares/asyncHandler');
-const imageController = require('../controllers/imageController');
+const { login_required } = require('../middlewares/login_required.js');
+const { asyncHandler } = require('../middlewares/asyncHandler.js');
+const imageController = require('../controllers/imageController.js');
 
 const imageRouter = Router();
 imageRouter.use(asyncHandler(login_required));

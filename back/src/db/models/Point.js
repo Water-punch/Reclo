@@ -1,4 +1,4 @@
-import { PointModel } from '../schemas/point';
+import { PointModel } from '../schemas/point.js';
 
 class Point {
   static async create({ newPoint }) {

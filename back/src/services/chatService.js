@@ -1,7 +1,7 @@
 import { Chat } from '../db';
 import { User } from '../db';
 import { Item } from '../db';
-import { INVALID_ITEM_Error, INVALID_ROOM_Error, InternalServerError } from '../utils/customError';
+import { INVALID_ITEM_Error, INVALID_ROOM_Error, InternalServerError } from '../utils/customError.js';
 
 class ChatService {
   //특정 채팅방의 대화를 가져옴

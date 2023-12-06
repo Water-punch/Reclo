@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { login_required } from '../middlewares/login_required';
-import { asyncHandler } from '../middlewares/asyncHandler';
+import { login_required } from '../middlewares/login_required.js';
+import { asyncHandler } from '../middlewares/asyncHandler.js';
 
-const userController = require('../controllers/userContrloller');
+const userController = require('../controllers/userContrloller.js');
 
 const userAuthRouter = Router();
 

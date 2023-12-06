@@ -1,4 +1,4 @@
-import { ItemModel } from '../schemas/item';
+import { ItemModel } from '../schemas/item.js';
 const ObjectId = require('mongoose').Types.ObjectId;
 
 class Item {
