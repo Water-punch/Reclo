@@ -1,16 +1,7 @@
 import { Chat } from '../db';
+import { User } from '../db';
 import { Item } from '../db';
-import {
-  BadRequestError,
-  INVALID_USER_Error,
-  INVALID_ITEM_Error,
-  UnauthorizedError,
-  ForbiddenError,
-  NotFoundError,
-  ConflictError,
-  INVALID_ROOM_Error,
-  InternalServerError,
-} from '../utils/customError';
+import { INVALID_ITEM_Error, INVALID_ROOM_Error, InternalServerError } from '../utils/customError';
 
 class ChatService {
   //특정 채팅방의 대화를 가져옴
@@ -46,6 +37,19 @@ class ChatService {
     if (!leavedRoom) {
       throw new INVALID_ROOM_Error('채팅방이 존재하지 않습니다.');
     }
+
+    const user = User.findById({ userId });
+
+    // 상대방이 나갔다는 메시지 추가
+    const newMessage = {
+      room: roomId,
+      message: `${user.nickname}님이 채팅방을 나갔습니다.`,
+      sender: userId,
+      isSystem: true,
+    };
+
+    const createdMessage = await Chat.saveChat({ chat: newMessage });
+
     return leavedRoom;
   }
 
@@ -58,8 +62,14 @@ class ChatService {
 
     return createdMessage;
   }
-  static async getRoomChats({ roomId }) {
-    const chats = await Chat.findChatAll({ roomId });
+
+  static async getRoomChatsNew({ roomId }) {
+    const chats = await Chat.findChatNews({ roomId });
+    return chats;
+  }
+
+  static async getRoomChatsOld({ roomId, cursor, pageSize }) {
+    const chats = await Chat.findChatOlds({ roomId, cursor: { $lt: cursor }, pageSize });
     return chats;
   }
 
