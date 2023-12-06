@@ -1,6 +1,6 @@
 const { Router } = require('express');
-const { login_required, userId_checked, request_checked } = require('../middlewares/login_required');
-const { MsgService } = require('../services/MsgService');
+const { login_required, userId_checked, request_checked } = require('../middlewares/login_required.js');
+const { MsgService } = require('../services/MsgService.js');
 
 const MsgService = Router();
 

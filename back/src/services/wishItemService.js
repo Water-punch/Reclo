@@ -1,6 +1,6 @@
 import { wishItem } from '../db';
 import { Item } from '../db';
-import { BadRequestError, INVALID_ITEM_Error, ConflictError } from '../utils/customError';
+import { BadRequestError, INVALID_ITEM_Error, ConflictError } from '../utils/customError.js';
 
 class wishItemService {
   // 관심상품 조회

@@ -1,4 +1,4 @@
-import { RoomModel, ChatModel } from '../schemas/chat';
+import { RoomModel, ChatModel } from '../schemas/chat.js';
 
 class Chat {
   static async createRoom({ newRoom }) {

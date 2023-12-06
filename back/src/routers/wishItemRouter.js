@@ -1,7 +1,7 @@
 const { Router } = require('express');
-const { login_required } = require('../middlewares/login_required');
-const { asyncHandler } = require('../middlewares/asyncHandler');
-const wishItemController = require('../controllers/wishItemController');
+const { login_required } = require('../middlewares/login_required.js');
+const { asyncHandler } = require('../middlewares/asyncHandler.js');
+const wishItemController = require('../controllers/wishItemController.js');
 
 const wishItemRouter = Router();
 

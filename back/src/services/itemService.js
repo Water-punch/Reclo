@@ -1,6 +1,6 @@
 import { Item } from '../db';
 // const { ObjectId } = require('mongodb');
-import { BadRequestError, INVALID_ITEM_Error } from '../utils/customError';
+import { BadRequestError, INVALID_ITEM_Error } from '../utils/customError.js';
 
 class itemService {
   // 아이템 상세내용 조회

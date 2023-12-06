@@ -1,11 +1,11 @@
 import cors from 'cors';
 import express from 'express';
-import { userAuthRouter } from './routers/userRouter';
-import { itemRouter } from './routers/itemRouter';
-import { imageRouter } from './routers/imgRouter';
-import { chatRouter } from './routers/chatRouter';
-import { wishItemRouter } from './routers/wishItemRouter';
-import { errorMiddleware } from './middlewares/errorMiddleware';
+import { userAuthRouter } from './routers/userRouter.js';
+import { itemRouter } from './routers/itemRouter.js';
+import { imageRouter } from './routers/imgRouter.js';
+import { chatRouter } from './routers/chatRouter.js';
+import { wishItemRouter } from './routers/wishItemRouter.js';
+import { errorMiddleware } from './middlewares/errorMiddleware.js';
 
 const cookieParser = require('cookie-parser');
 

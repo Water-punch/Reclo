@@ -1,7 +1,7 @@
 import AWS from 'aws-sdk';
 import { Image } from '../db';
 const { S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, S3_BUCKET_NAME, S3_REGION } = process.env;
-import { BadRequestError, INVALID_IMAGE_Error } from '../utils/customError';
+import { BadRequestError, INVALID_IMAGE_Error } from '../utils/customError.js';
 
 AWS.config.update({
   region: process.env.S3_REGION,
