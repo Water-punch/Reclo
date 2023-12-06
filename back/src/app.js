@@ -14,7 +14,7 @@ const app = express();
 // CORS 에러 방지
 app.use(
   cors({
-    origin: ['http://localhost:5001', 'http://localhost:5173'],
+    origin: ['http://localhost:5001', 'http://localhost:5173','http://localhost'],
     methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
     credentials: true,
     allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
