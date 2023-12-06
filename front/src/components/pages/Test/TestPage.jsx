@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import QuestionStore from '../../../stores/question';
-import './testpage/question.css';
+import '../../../styles/test/question.css';
 
 const TestPage = () => {
   const navigate = useNavigate();
@@ -78,21 +78,21 @@ const TestPage = () => {
             (currentQuestionIndex + 1 == 5) |
             (currentQuestionIndex + 1 == 10) && (
             <div className='rangeQ'>
-              <input type='range' min={0} max={20} step={1} value={answer} onInput={(e) => saveAnswer(e)} />
+              <input type='range' min={0} max={15} step={0.5} value={num_answer} onInput={(e) => saveAnswer(e)} />
               <span>{num_answer}개</span>
             </div>
           )}
 
         {getCurrentQuestion().type === 'range' && currentQuestionIndex + 1 == 6 && (
           <div className='rangeQ'>
-            <input type='range' min={0} max={100} step={5} value={answer} onInput={(e) => saveAnswer(e)} />
+            <input type='range' min={0} max={100} step={5} value={num_answer} onInput={(e) => saveAnswer(e)} />
             <span>{num_answer}%</span>
           </div>
         )}
 
         {getCurrentQuestion().type === 'range' && (currentQuestionIndex + 1 == 7) | (currentQuestionIndex + 1 == 9) && (
           <div className='rangeQ'>
-            <input type='range' min={0} max={30} step={5} value={answer} onInput={(e) => saveAnswer(e)} />
+            <input type='range' min={0} max={15} step={1} value={num_answer} onInput={(e) => saveAnswer(e)} />
             <span>{num_answer}회</span>
           </div>
         )}

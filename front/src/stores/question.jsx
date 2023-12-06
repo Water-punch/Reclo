@@ -59,7 +59,7 @@ const QuestionStore = create((set) => ({
     },
   ],
   currentQuestionIndex: 0,
-  userAnswers: [0, 0, 0, 0, 0, 0, 0, null, null, 0, null],
+  userAnswers: [0, 0, 0, 0, 0, 0, 0, null, 0, 0, null],
   setCurrentQuestionIndex: (index) => set({ currentQuestionIndex: index }),
 }));
 

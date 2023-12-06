@@ -1,0 +1,25 @@
+.result_page {
+  margin-left: 5vw;
+}
+
+.result_page h2 {
+  font-size: 50px;
+  font-weight: 900;
+  font-style: italic;
+  margin: 5vh 0;
+}
+
+.result_page p div {
+  margin-left: 5vw;
+}
+
+.result_page p strong {
+  font-size: 30px;
+  font-style: italic;
+}
+
+.result_page p img {
+  display: block;
+  width: 20vw;
+  margin: 5vw 10vh;
+}
