@@ -1,7 +1,14 @@
 import AWS from 'aws-sdk';
 import { Image } from '../db';
+import { v4 as uuidv4 } from 'uuid';
 const { S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, S3_BUCKET_NAME, S3_REGION } = process.env;
+
 import { BadRequestError, INVALID_IMAGE_Error } from '../utils/customError.js';
+
+const uuid = () => {
+  const tokens = uuidv4().split('-');
+  return tokens[2] + tokens[1] + tokens[0] + tokens[3] + tokens[4];
+};
 
 AWS.config.update({
   region: process.env.S3_REGION,
@@ -19,7 +26,7 @@ class imageService {
   static async createItemPresignedUrl(fileName) {
     const url = s3.getSignedUrl('putObject', {
       Bucket: bucketName,
-      Key: `upload/itemImage/${fileName}`,
+      Key: `upload/itemImage/${uuid()}_${fileName}`,
       Expires: signedUrlExpireSeconds,
       ContentType: 'image/*',
     });

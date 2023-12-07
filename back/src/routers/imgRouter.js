@@ -6,13 +6,10 @@ const imageController = require('../controllers/imageController.js');
 const imageRouter = Router();
 imageRouter.use(asyncHandler(login_required));
 
+// 아이템 관련 콜렉션 라우터
 // 아이템 이미지 업로드를 위한 presigned URL 요청
 imageRouter.put('/itemURL/:fileName', imageController.getItemPresignedUrl);
 
-// 유저 이미지 업로드를 위한 presigned URL 요청
-imageRouter.put('/userURL/:fileName', imageController.getUserPresignedUrl);
-
-// 아이템 관련 콜렉션 라우터
 // 아이템 이미지 업로드 후 응답을 받으면 데이터베이스에 이미지 정보 저장
 imageRouter.post('/itemImage/:fileName', imageController.uploadItemImage);
 
@@ -23,6 +20,9 @@ imageRouter.put('/itemImage/:_id', imageController.setItemImage);
 imageRouter.delete('/itemImage/:_id', imageController.deletedItemImage);
 
 // 유저 관련 콜렉션 라우터
+// 유저 이미지 업로드를 위한 presigned URL 요청
+imageRouter.put('/userURL/:fileName', imageController.getUserPresignedUrl);
+
 // 유저 이미지 업로드 후 응답을 받으면 데이터베이스에 이미지 정보 저장
 imageRouter.post('/userImage/:fileName', imageController.uploadUserImage);
 
