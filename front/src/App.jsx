@@ -22,15 +22,15 @@ function App() {
       console.log('로그인 여부 확인: ', login);
 
       const res = await Api.get('user/current');
-      // console.log(res);
+      console.log(res);
       setUser(res.data.user);
-      // console.log(user);
+      console.log(user);
     }
   };
 
   useEffect(() => {
     checkLogin();
-  }, [setLogin]);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
