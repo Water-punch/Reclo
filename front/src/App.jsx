@@ -5,7 +5,8 @@ import { Home, IntroPage, ActivityAdmin, LoginPage, RegisterPage } from './compo
 import { TestPage, TestResultPage } from './components/pages/Test';
 import { ChatListPage, ChattingRoomPage } from './components/pages/Chat';
 import { EventPage, ContentsPage, ContentsWritePage, ContentsDetailPage } from './components/pages/Items';
-import { PointPage, MyPage, WishListPage } from './components/pages/User';
+import { PointPage, MyPage } from './components/pages/User';
+import { WishListPage } from './components/pages/WishItem';
 import Header from './components/common/Header';
 import NavBar from './components/common/NavBar';
 import useUserStore from './stores/user';
@@ -21,9 +22,9 @@ function App() {
       console.log('로그인 여부 확인: ', login);
 
       const res = await Api.get('user/current');
-      console.log(res);
+      // console.log(res);
       setUser(res.data.user);
-      console.log(user);
+      // console.log(user);
     }
   };
 
