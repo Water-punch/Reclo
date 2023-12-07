@@ -1,4 +1,5 @@
 const { ChatService } = require('../services/chatService.js');
+const pageSize = 10;
 
 async function getRoomslast(req, res, next) {
   try {
@@ -52,8 +53,7 @@ async function makeRoom(req, res, next) {
 async function getRoomChats(req, res, next) {
   try {
     const roomId = req.params.roomId;
-
-    let chats = await ChatService.getRoomChatsNew({ roomId });
+    let chats = await ChatService.getRoomChatsNew({ roomId, pageSize });
 
     // Content-Type을 text/event-stream으로 설정
     res.setHeader('Content-Type', 'text/event-stream');
@@ -64,7 +64,7 @@ async function getRoomChats(req, res, next) {
     // 주기적으로 채팅방의 채팅내역을 가져와 전송함
 
     const chatsinterval = setInterval(async () => {
-      chats = await ChatService.getRoomChatsNew({ roomId });
+      chats = await ChatService.getRoomChatsNew({ roomId, pageSize });
       res.write('event: chats\n');
       res.write(`data: ${JSON.stringify({ chats: chats })}\n\n`);
     }, 2000);
@@ -85,7 +85,6 @@ async function getRoomChatsOld(req, res, next) {
     // 마지막 채팅부분 클라이언트에서 가져옴 -> 추가적인 채팅부분 서버에서 가져옴 -> 추가할 부분 전달
     const roomId = req.params.roomId;
     const cursor = req.query.cursor ? req.query.cursor : Date.now();
-    const pageSize = 10;
 
     const oldChats = await ChatService.getRoomChatsOld({ roomId, cursor, pageSize });
 
@@ -109,6 +108,7 @@ async function leaveRoom(req, res, next) {
     // 새로운 채팅방을 생성해서 메시지를 전송함
     const leaveRoom = await ChatService.leaveRoom({ roomId, userId });
 
+    console.log('leaveroom : ', leaveRoom);
     // 룸이 제대로 생성되지 않은경우 오류처리
 
     res.status(201).json({ ok: true });

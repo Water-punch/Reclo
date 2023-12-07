@@ -25,7 +25,6 @@ chatRoomSchema.index(
     itemId: 1,
     user: 1,
   },
-  { unique: true }
 );
 
 const RoomModel = model('Room', chatRoomSchema);

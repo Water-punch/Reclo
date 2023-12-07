@@ -1,7 +1,7 @@
 import { User } from '../db'; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from 'bcrypt';
 import { makeToken, makeRefreshToken } from '../utils/token.js';
-import { BadRequestError, INVALID_USER_Error, InternalServerError } from '../utils/customError.js';
+import { BadRequestError,ConflictError, INVALID_USER_Error, InternalServerError } from '../utils/customError.js';
 
 class userAuthService {
   // 회원가입 서비스
@@ -10,7 +10,7 @@ class userAuthService {
     const duplication = await User.findByEmail({ email: user.email });
 
     if (duplication) {
-      throw new BadRequestError('이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요.');
+      throw new ConflictError('이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요.');
     }
 
     // 비밀번호 해쉬화
