@@ -24,11 +24,15 @@ const ChangeInfo = () => {
         return;
       }
 
-      const response = await Api.put('user/current', {
-        user: {
-          _id: user._id,
-          nickname: newNickname,
-          profileImage,
+      // 이미지 변경 FormData
+      const formData = new FormData();
+      formData.append('userId', user._id);
+      formData.append('nickname', newNickname);
+      formData.append('profileImage', profileImage);
+
+      const response = await Api.put('user/current', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
         },
       });
 
@@ -45,30 +49,42 @@ const ChangeInfo = () => {
 
   return (
     <div>
-      <h2>User Change Page</h2>
+      <div className='userInfo'>
+        <h2>User Change Page</h2>
 
-      {user ? (
-        <>
-          <p>현재 닉네임: {user.nickname}</p>
+        {user ? (
+          <div className='changeInfoForm'>
+            <p>현재 닉네임: {user.nickname}</p>
 
-          {isChanging ? (
-            <>
-              <input
-                type='text'
-                placeholder='새 닉네임'
-                value={newNickname}
-                onChange={(e) => setNewNickname(e.target.value)}
-              />
-              <input type='file' accept='image/*' onChange={(e) => setProfileImage(e.target.files[0])} />
-              <button onClick={handleChangeUserInfo}>저장</button>
-            </>
-          ) : (
-            <button onClick={() => setIsChanging(true)}>유저 정보 변경</button>
-          )}
-        </>
-      ) : (
-        <p>Loading...</p>
-      )}
+            {isChanging ? (
+              <>
+                <input
+                  className='inputField'
+                  type='text'
+                  placeholder='새 닉네임'
+                  value={newNickname}
+                  onChange={(e) => setNewNickname(e.target.value)}
+                />
+                <input
+                  className='fileInput'
+                  type='file'
+                  accept='image/*'
+                  onChange={(e) => setProfileImage(e.target.files[0])}
+                />
+                <button className='saveButton' onClick={handleChangeUserInfo}>
+                  저장
+                </button>
+              </>
+            ) : (
+              <button className='userchange-btn' onClick={() => setIsChanging(true)}>
+                유저 정보 변경
+              </button>
+            )}
+          </div>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
     </div>
   );
 };

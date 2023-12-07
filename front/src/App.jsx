@@ -12,7 +12,6 @@ import NavBar from './components/common/NavBar';
 import useUserStore from './stores/user';
 import * as Api from './api/api';
 import ChangeInfo from './components/features/User/Changeinfo';
-import UserPoint from './components/features/User/UserPoint';
 
 function App() {
   const queryClient = new QueryClient();

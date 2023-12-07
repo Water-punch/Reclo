@@ -8,10 +8,7 @@ const UserInfo = ({ user }) => {
   const location = useLocation();
 
   const updatedUser = location.state?.updatedUser;
-
   const displayUser = updatedUser || user;
-
-  console.log(displayUser);
 
   return (
     <div className='userinfoContainer'>
@@ -31,6 +28,8 @@ const UserInfo = ({ user }) => {
         </div>
         <div className='userbox'>
           <div className='userInfo'>
+            <p>현재 닉네임: {displayUser.nickname}</p>
+            <p>현재 Rank: {displayUser.rank}</p>
             <button className='change' onClick={() => navigate('/changeinfo', { state: { user: displayUser } })}>
               유저 정보 변경
             </button>
