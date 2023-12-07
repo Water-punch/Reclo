@@ -33,16 +33,10 @@ class Chat {
   }
 
   static async leaveRoom({ roomId, userId }) {
-    console.log(roomId, userId);
-
     const room = await RoomModel.findById(roomId);
-    console.log(room);
 
     if (room.user == userId) {
       //이미 나간 채팅방인지 확인
-      if (room.userDeleted == true) {
-        throw new BadRequestError('존재하지 않는 채팅방입니다.');
-      }
 
       const leaveRoom = await RoomModel.findByIdAndUpdate(
         { _id: roomId },
@@ -51,9 +45,6 @@ class Chat {
       );
       return leaveRoom;
     } else if (room.hostuser == userId) {
-      if (room.hostuserDeleted == true) {
-        throw new BadRequestError('존재하지 않는 채팅방입니다.');
-      }
       const leaveRoom = await RoomModel.findByIdAndUpdate(
         { _id: roomId },
         { $set: { hostuserDeleted: true } },

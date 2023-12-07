@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { login_required } from '../middlewares/login_required.js';
 import { asyncHandler } from '../middlewares/asyncHandler.js';
+import { isInRoom } from '../middlewares/isInRoom.js';
 
 const chatController = require('../controllers/chatController.js');
 
@@ -14,14 +15,14 @@ chatRouter.get('/chat/current', chatController.getRoomslast);
 chatRouter.post('/chat/newRoom/:itemId', chatController.makeRoom);
 
 // 채팅방에 들어가 채팅을 함, 서버와 연결되어 있음
-chatRouter.get('/chat/room/:roomId', chatController.getRoomChats);
+chatRouter.get('/chat/room/:roomId', asyncHandler(isInRoom), chatController.getRoomChats);
 
 // 채팅창에서 과거의 채팅을 확인
-chatRouter.get('/chat/old/:roomId', chatController.getRoomChatsOld);
+chatRouter.get('/chat/old/:roomId', asyncHandler(isInRoom), chatController.getRoomChatsOld);
 
 // 채팅방을 완전히 나감
-chatRouter.post('/chat/leaveRoom/:roomId', chatController.leaveRoom);
+chatRouter.post('/chat/leaveRoom/:roomId', asyncHandler(isInRoom), chatController.leaveRoom);
 // 특정 채팅방에 메시지를 입력
-chatRouter.post('/chat/send/:roomId', chatController.sendChat);
+chatRouter.post('/chat/send/:roomId', asyncHandler(isInRoom), chatController.sendChat);
 
 export { chatRouter };
