@@ -31,7 +31,7 @@ const PointPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await Api.get('user/current/point/history');
+        const response = await Api.get('user/current/point');
         const data = response?.data?.data || response?.data || {};
 
         console.log('API Response:', response);
@@ -66,9 +66,6 @@ const PointPage = () => {
     }
   };
 
-  // 최근 세 번의 이력만 추출
-  const recentPointHistory = pointHistory.slice(0, 3);
-
   return (
     <CenteredContainer>
       <div className='pointPageContainer'>
@@ -89,10 +86,10 @@ const PointPage = () => {
         )}
       </div>
 
-      <h2>최근 포인트 획득 이력</h2>
-      {recentPointHistory.length > 0 ? (
+      <h2>포인트 획득 이력</h2>
+      {pointHistory.length > 0 ? (
         <ul>
-          {recentPointHistory.map((historyItem, index) => (
+          {pointHistory.map((historyItem, index) => (
             <li key={index}>{`포인트: ${historyItem.point}, 레벨: ${getRankName(historyItem.rank)}`}</li>
           ))}
         </ul>
