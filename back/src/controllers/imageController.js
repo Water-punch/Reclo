@@ -131,6 +131,27 @@ async function deleteUserImage(req, res, next) {
   }
 }
 
+// 채팅이미지 업로드
+async function getChatPresignedUrl(req, res, next) {
+  try {
+    const fileName = req.params.fileName;
+    const presignedUrl = await imageService.createUserPresignedUrl(fileName);
+    res.send({ presignedUrl });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function uploadChatImage(req, res, next) {
+  try {
+    const imageInfo = req.body.imageInfo;
+    const imageData = await imageService.uploadChatImage({ imageInfo });
+    res.send({ imageData });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getItemPresignedUrl,
   getUserPresignedUrl,
@@ -141,4 +162,6 @@ module.exports = {
   deleteUserImage,
   getDelUserUrl,
   deletedItemImage,
+  getChatPresignedUrl,
+  uploadChatImage,
 };

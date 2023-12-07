@@ -3,7 +3,13 @@ import { ImageModel } from '../schemas/image.js';
 import { ItemModel } from '../schemas/item.js';
 import { UserModel } from '../schemas/user.js';
 
-import { BadRequestError, INVALID_IMAGE_Error, INVALID_ITEM_Error } from '../../utils/customError.js';
+import {
+  BadRequestError,
+  INVALID_IMAGE_Error,
+  INVALID_ITEM_Error,
+  INVALID_Chat_Error,
+} from '../../utils/customError.js';
+import { ChatModel } from '../schemas/chat.js';
 
 class Image {
   // 이미지 업로드 후 응답을 받으면 데이터베이스에 아이템 이미지 정보 저장
@@ -113,6 +119,23 @@ class Image {
     );
 
     return userImageDelete;
+  }
+
+  static async createChatImage({ newImage, imageUrl }) {
+    const findChat = await ChatModel.findOne({ _id: newImage.chatId });
+
+    if (!findChat) {
+      throw new INVALID_Chat_Error('해당 채팅을 찾을 수 없습니다.');
+    }
+    // image collection에 newImage 추가
+    const createdImage = await ImageModel.create(newImage);
+    // item collection imageUrl 필드에 imageUrl을 배열로 추가
+    await ChatModel.findOneAndUpdate(
+      { _id: newImage.chatId },
+      { $Set: { chatImgUrl: imageUrl, isImage: true } },
+      { new: true, upsert: true }
+    );
+    return createdImage;
   }
 }
 

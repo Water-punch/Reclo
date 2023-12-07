@@ -52,6 +52,20 @@ class imageService {
     return url;
   }
 
+  static async createChatPresignedUrl(fileName) {
+    const url = s3.getSignedUrl('putObject', {
+      Bucket: bucketName,
+      Key: `upload/chatImage/${uuid()}_${fileName}`,
+      Expires: signedUrlExpireSeconds,
+      ContentType: 'image/*',
+    });
+
+    if (!url) {
+      throw new INVALID_IMAGE_Error('해당 이미지의 Presinged Url이 발급되지 않았습니다.');
+    }
+    return url;
+  }
+
   // 아이템 이미지
   // 아이템 이미지 업로드 후 응답을 받으면 데이터베이스에 이미지 정보 저장
   static async uploadImage({ imageInfo }) {
@@ -124,6 +138,16 @@ class imageService {
       throw new BadRequestError('해당 유저의 이미지가 삭제되지 않았습니다.');
     }
     return deletedUserImage;
+  }
+
+  static async uploadChatImage({ imageInfo }) {
+    const newImage = { ...imageInfo };
+    // console.log(newImage);
+    const createImageData = await Image.createChatImage({ newImage, imageUrl: newImage.imageUrl });
+    if (!createImageData) {
+      throw new BadRequestError('해당 상품이 등록되지 않았습니다.');
+    }
+    return createImageData;
   }
 }
 

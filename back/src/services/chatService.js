@@ -12,7 +12,7 @@ class ChatService {
       throw new INVALID_ITEM_Error('해당 상품이 더이상 존재하지 않습니다.');
     }
 
-    const roomexist = Chat.findRoombyUserIdAnditemId({ userId, itemId });
+    const roomexist = await Chat.findRoombyUserIdAnditemId({ userId, itemId });
 
     if (roomexist) {
       throw new ConflictError('이미 채팅방이 존재합니다.');
@@ -28,6 +28,7 @@ class ChatService {
 
     return room;
   }
+
   static async getRoom({ roomId }) {
     const room = await Chat.findRoom({ roomId });
 
@@ -39,10 +40,6 @@ class ChatService {
 
   static async leaveRoom({ roomId, userId }) {
     const leavedRoom = await Chat.leaveRoom({ roomId, userId });
-
-    // if (!leavedRoom) {
-    //   throw new INVALID_ROOM_Error('채팅방이 존재하지 않습니다.');
-    // }
 
     const user = await User.findById({ userId });
 

@@ -44,7 +44,7 @@ async function makeRoom(req, res, next) {
       const createdMessage = await ChatService.createChat({ newMessage });
     }
 
-    res.status(201).json({ roomId: createdroom });
+    res.status(201).json({ roomId: createdroom._id });
   } catch (error) {
     next(error);
   }
@@ -122,6 +122,7 @@ async function sendChat(req, res, next) {
     const messageText = req.body.message ?? '';
     const userId = req.currentUserId;
 
+    //const chatImage = req.body.url ?? null;
     // 메시지를 데이터베이스에 저장
     const newMessage = { room: roomId, message: messageText, sender: userId }; // 예시로 'user'라는 고정된 사용자로 지정
     const createdMessage = await ChatService.createChat({ newMessage });

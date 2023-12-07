@@ -39,7 +39,7 @@ async function login(req, res, next) {
 
     // email과 password정보가 db와 일치하는지 확인
     // 로그인시 로그인한 유저의 정보와 토큰 생성
-    const { token, refreshtoken, user, errorMessage } = await userAuthService.getUser({ email, password });
+    const { token, refreshtoken, user } = await userAuthService.getUser({ email, password });
 
     // 토큰을 설정해줌
     res.cookie('accessToken', token, {
@@ -134,7 +134,7 @@ async function addPoint(req, res, next) {
 
     const updatedUser = await pointService.addPoint({ pointdetails });
 
-    res.status(200).json({ user: updatedUser });
+    res.status(200).json({ ok: true });
   } catch (error) {
     next(error);
   }

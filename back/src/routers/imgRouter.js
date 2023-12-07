@@ -35,4 +35,6 @@ imageRouter.get('/userImage/:_id', imageController.getDelUserUrl);
 // 저장된 유저 이미지 정보 삭제
 imageRouter.delete('/userImage/:_id', imageController.deleteUserImage);
 
+imageRouter.post('/chatImage/:fileName', imageController.uploadChatImage);
+
 export { imageRouter };

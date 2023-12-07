@@ -35,7 +35,12 @@ class INVALID_ROOM_Error extends Error {
     this.status = 400;
   }
 }
-
+class INVALID_Chat_Error extends Error {
+  constructor(message) {
+    super(message);
+    this.status = 400;
+  }
+}
 // 401: 권한 없음
 class UnauthorizedError extends Error {
   constructor(message) {
@@ -82,6 +87,7 @@ export {
   INVALID_ITEM_Error,
   INVALID_IMAGE_Error,
   INVALID_ROOM_Error,
+  INVALID_Chat_Error,
   UnauthorizedError,
   ForbiddenError,
   NotFoundError,
