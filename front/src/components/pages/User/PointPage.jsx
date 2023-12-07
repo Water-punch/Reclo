@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../../styles/MyPage.css';
 import usePointStore from '../../../stores/point';
@@ -13,7 +13,7 @@ const CenteredContainer = ({ children }) => (
       alignItems: 'center',
       height: '50vh',
       border: '0.5px solid gray',
-      maxWidth: '800px', // 변경된 부분
+      maxWidth: '800px',
       margin: '30px auto 0',
       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
     }}
@@ -26,17 +26,19 @@ const PointPage = () => {
   const navigate = useNavigate();
   const setPointData = usePointStore((state) => state.setUserData);
   const pointData = usePointStore((state) => state.userData) || { points: [] };
+  const [pointHistory, setPointHistory] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await Api.get('user/current/point');
+        const response = await Api.get('user/current/point/history');
         const data = response?.data?.data || response?.data || {};
 
         console.log('API Response:', response);
         console.log('Fetched Data:', data);
 
         setPointData(data);
+        setPointHistory(data.points || []);
       } catch (error) {
         console.error('error:', error);
       }
@@ -64,10 +66,13 @@ const PointPage = () => {
     }
   };
 
+  // 최근 세 번의 이력만 추출
+  const recentPointHistory = pointHistory.slice(0, 3);
+
   return (
     <CenteredContainer>
       <div className='pointPageContainer'>
-        <h1>포인트 이력페이지</h1>
+        <h1>포인트 조회</h1>
         {pointData.points.length > 0 ? (
           <>
             <div className='pointItem'>
@@ -83,6 +88,17 @@ const PointPage = () => {
           <p>로딩 중...</p>
         )}
       </div>
+
+      <h2>최근 포인트 획득 이력</h2>
+      {recentPointHistory.length > 0 ? (
+        <ul>
+          {recentPointHistory.map((historyItem, index) => (
+            <li key={index}>{`포인트: ${historyItem.point}, 레벨: ${getRankName(historyItem.rank)}`}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>포인트 이력이 없습니다.</p>
+      )}
     </CenteredContainer>
   );
 };

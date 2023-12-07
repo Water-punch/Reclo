@@ -10,6 +10,7 @@ const UserPoint = () => {
   const setPointData = usePointStore((state) => state.setUserData);
   const pointData = usePointStore((state) => state.userData);
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,24 +29,54 @@ const UserPoint = () => {
     fetchData();
   }, [setPointData]);
 
-  const handlePointPageNavigation = () => {
-    navigate('/point');
+  const handlePointClick = () => {
+    if (pointData && pointData.points && pointData.points.length > 0) {
+      const currentPoint = pointData.points[0]?.point;
+      alert(`당신의 현재 포인트는 ${currentPoint}입니다.`);
+    }
+  };
+
+  const handleLevelClick = () => {
+    if (pointData && pointData.points && pointData.points.length > 0) {
+      const currentLevel = pointData.points[0]?.rank;
+      const rankName = getRankName(currentLevel);
+      alert(`당신의 현재 등급은 ${rankName}입니다.`);
+    }
+  };
+
+  const getRankName = (level) => {
+    switch (level) {
+      case 0:
+        return '브론즈';
+      case 1:
+        return '실버';
+      case 2:
+        return '골드';
+      case 3:
+        return '플레티넘';
+      case 4:
+        return '다이아몬드';
+      case 5:
+        return '마스터';
+      default:
+        return '알 수 없음';
+    }
   };
 
   return (
     <div className='pointbox'>
       <>
-        <div className='pointItem'>
+        <div className='pointItem' onClick={handlePointClick}>
           <img src='/public/img/point.png' alt='포인트 이미지' />
           <p>포인트</p>
         </div>
-        <div className='pointItem'>
+        <div className='pointItem' onClick={handleLevelClick}>
           <img src='/public/img/level.png' alt='레벨 이미지' />
           <p>레벨</p>
         </div>
         <div className='pointItem'>
           <img src='/public/img/check.png' alt='포인트 조회 이미지' />
-          <p onClick={handlePointPageNavigation}>포인트 조회</p>
+          <p onClick={() => navigate('/point')}>포인트 조회</p>
         </div>
       </>
     </div>

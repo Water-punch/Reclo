@@ -53,6 +53,8 @@
   width: 200px;
   height: 40px;
   border: none;
+  border-radius: 10px;
+  background-color: rgb(208, 241, 230);
 }
 
 .pointbox {
@@ -78,4 +80,5 @@
   width: 150px;
   border: none;
   border-radius: 10px;
+  background-color: rgb(208, 241, 230);
 }
