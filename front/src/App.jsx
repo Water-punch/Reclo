@@ -11,6 +11,8 @@ import Header from './components/common/Header';
 import NavBar from './components/common/NavBar';
 import useUserStore from './stores/user';
 import * as Api from './api/api';
+import ChangeInfo from './components/features/User/Changeinfo';
+import UserPoint from './components/features/User/UserPoint';
 
 function App() {
   const queryClient = new QueryClient();
@@ -47,6 +49,7 @@ function App() {
           <Route path='/mypage' element={<MyPage />} />
           <Route path='/wishlist' element={<WishListPage />} />
           <Route path='/point' element={<PointPage />} />
+          <Route path='/changeinfo' element={<ChangeInfo />} />
 
           <Route path='/test' element={<TestPage />} />
           <Route path='/test/result' element={<TestResultPage></TestResultPage>} />
