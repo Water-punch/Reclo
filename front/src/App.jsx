@@ -20,7 +20,7 @@ function App() {
       setLogin(true);
       console.log('로그인 여부 확인: ', login);
 
-      const res = await Api.get('user/current');
+      const res = await Api.get2('user/current');
       console.log(res);
       setUser(res.data.user);
       console.log(user);
@@ -53,7 +53,7 @@ function App() {
           <Route path='/contents' element={<ContentsPage />} />
           <Route path='/write' element={<ContentsWritePage />} />
           <Route path='/detail/:itemId' element={<ContentsDetailPage />} />
-          <Route path='/event' element={<EventPage />} />
+          <Route path='/wishlist' element={<WishListPage/>} />
 
           <Route path='/chatlist' element={<ChatListPage />} />
           <Route path='/chatting/:roomId' element={<ChattingRoomPage />} />

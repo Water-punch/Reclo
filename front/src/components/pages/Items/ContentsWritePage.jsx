@@ -17,7 +17,7 @@ const ContentsWritePage = () => {
         <>
           <h1>ContentsWritePage</h1>
           {edit ? (<ContentEditForm item={item} />) : 
-          (<ContentWriteForm userId={user._Id}/>)}
+          (<ContentWriteForm userId={user._id}/>)}
         </>
     )
 }

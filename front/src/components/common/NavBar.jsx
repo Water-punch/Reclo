@@ -5,7 +5,6 @@ import SearchBar from './SearchBar'
 
 const NavBar = () => {
   const navigate = useNavigate()
-  const navMenus = [ {variant:'text', color:"success", size:"large", } ] // map으로 정리하기
 
     return (
         <Box className='navbar'>
@@ -34,8 +33,8 @@ const NavBar = () => {
                 variant="text" 
                 color="success"
                 size="large"
-                onClick={() => {navigate('/event')}}>
-                이벤트
+                onClick={() => {navigate('/wishlist')}}>
+                관심상품
               </Button>
               <Button 
                 variant="text" 

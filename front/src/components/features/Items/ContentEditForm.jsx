@@ -13,9 +13,9 @@ const ContentEditForm = ({item}) => {
   const [description, setDescription] = useState(item.description)
   const [state, setState] = useState(item.state)
   const [categories, setCategories] = useState(() => {
-    
+    const categoryString = item.category || ''
     return {
-      1: item.category.slice(0,1), 
+      1: item.category.slice(0,2), 
       2: item.category.includes('상의') ? '상의' : item.category.includes('하의') ? '하의': '아우터', 
       3: item.category
         .replace('남성', '')
@@ -27,29 +27,28 @@ const ContentEditForm = ({item}) => {
   }
  )
   const [category, setCategory] = useState(item.category)
+  const [preUrl, setPreUrl] = useState('')
+  const [itemsImgUrl, setitemsImgUrl] = useState('')
   const itemId = item._id
   console.log('카테고리 잘 불러왔나 확인', categories[1], categories[2], categories[3])
-  
-  const editMutation = useMutation({
-    mutationFn: async (data) => {
-      try {
-        const result = await Api.put(`item/${itemId}`, data);
-        console.log('API 호출 결과:', result); 
-        return result;
-      } catch (error) {
-        console.error('API 호출 중 오류:', error);  
-        throw error;  
-      }
-    }
-  })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try{
-      editMutation.mutate({ title, price, description, category, state, like })
+      const result = await Api.put(`item/${itemId}`, {
+        toUpdate : {
+          userId: user._id, 
+          title: title, 
+          price: Number(price), 
+          description: description, 
+          category: category, 
+          state: state, 
+          itemsImgUrl: itemsImgUrl}});
+        console.log('API 호출 결과:', result); 
+   
       alert('게시글이 업로드되었습니다.')
     } catch (err) {
-      alert(`게시글 등록에 실패했습니다. 모든 항목을 채워주세요.`)
+      alert(`게시글 등록에 실패했습니다. 관리자에게 문의하세요.`)
       }
     } 
 
@@ -163,6 +162,7 @@ const ContentEditForm = ({item}) => {
                     <MenuItem value={'맨투맨'}>맨투맨</MenuItem>
                     <MenuItem value={'셔츠'}>셔츠</MenuItem>
                     <MenuItem value={'니트'}>니트</MenuItem>
+                    <MenuItem value={'후드'}>후드</MenuItem>
                     <MenuItem value={'원피스'}>원피스</MenuItem>
                   </Select>
                 </FormControl>
@@ -238,6 +238,7 @@ const ContentEditForm = ({item}) => {
                     <MenuItem value={'맨투맨'}>맨투맨</MenuItem>
                     <MenuItem value={'셔츠'}>셔츠</MenuItem>
                     <MenuItem value={'니트'}>니트</MenuItem>
+                    <MenuItem value={'후드'}>후드</MenuItem>
                   </Select>
                 </FormControl>
                 ) :

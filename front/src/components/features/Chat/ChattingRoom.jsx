@@ -25,19 +25,19 @@ const ChattingRoom = ({ userId, itemId }) => {
     }
   }
 
-  // const sendAndReceive = async () => {
-  //   try {
-  //     const res = await Api.get(`chat/room/${roomId}`)
-  //     setServerData(res.chats)
-  //   } catch (err) {
-  //       console.log('서버연결에 실패했습니다.', err)
-  //       alert('서버와의 연결에 실패했습니다. 관리자에게 문의하세요.')
-  //   }
-  // }
+  const sendAndReceive = async () => {
+    try {
+      const res = await Api.get(`chat/room/${roomId}`)
+      setServerData(res.chats)
+    } catch (err) {
+        console.log('서버연결에 실패했습니다.', err)
+        alert('서버와의 연결에 실패했습니다. 관리자에게 문의하세요.')
+    }
+  }
 
-  // useEffect(() => {
-  //   sendAndReceive()
-  // }, [])
+  useEffect(() => {
+    sendAndReceive()
+  }, [])
 
   return (
     <Box sx={{height: '100vh', backgroundColor: '#abdfab'}}>

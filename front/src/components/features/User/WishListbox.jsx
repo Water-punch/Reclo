@@ -1,21 +1,10 @@
 import React from "react";
 import "../../styles/wish.css";
-import { create } from "zustand";
 import { Button } from "@mui/material";
 
-const useStore = create((set) => ({
-  rowData: [
-    { id: 1, productName: "상품1", price: 10000 },
-    { id: 2, productName: "상품2", price: 20000 },
-  ],
-  deleteRow: (id) =>
-    set((state) => ({
-      rowData: state.rowData.filter((row) => row.id !== id),
-    })),
-}));
-
-const CelTable = () => {
-  const { rowData, deleteRow } = useStore();
+const WishListBox = () => {
+  
+  
   return (
     <div className="cel-table">
       {/* 첫 번째 행 */}
@@ -43,4 +32,4 @@ const CelTable = () => {
   );
 };
 
-export default CelTable;
+export default WishListBox;

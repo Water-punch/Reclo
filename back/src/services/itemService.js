@@ -19,7 +19,7 @@ class itemService {
     if (!items) {
       throw new INVALID_ITEM_Error('현재 위치의 아이템이 존재하지 않습니다.');
     }
-    const newCursor = items.length > 0 ? items[items.length - 1]._id : null;
+    const newCursor = items.length > 1 ? items[items.length - 1]._id : null;
     return { items, cursor: newCursor };
   }
 

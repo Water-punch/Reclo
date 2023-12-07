@@ -6,7 +6,7 @@ const ContentsCard = ({item}) => {
 
   return (
     <Box>
-      <Card sx={{ width: '30vh' }}>
+      <Card sx={{ width: '60vh', height: '50vh' }}>
       <CardActionArea onClick={() => navigate(`/detail/${item._id}`) }>
         <CardMedia
           component="img"
