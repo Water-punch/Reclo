@@ -31,8 +31,6 @@ const UserInfo = ({ user }) => {
         </div>
         <div className='userbox'>
           <div className='userInfo'>
-            <p>{displayUser.email}</p>
-            <p>{displayUser.nickname}</p>
             <button className='change' onClick={() => navigate('/changeinfo', { state: { user: displayUser } })}>
               유저 정보 변경
             </button>
