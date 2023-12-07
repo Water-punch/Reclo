@@ -5,7 +5,6 @@ const { imageService } = require('../services/imgService.js');
 async function getItemPresignedUrl(req, res, next) {
   try {
     const fileName = req.params.fileName;
-    // const fileName = Date.now() + file;
     const presignedUrl = await imageService.createItemPresignedUrl(fileName);
     res.send({ presignedUrl });
   } catch (error) {

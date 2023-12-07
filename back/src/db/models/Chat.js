@@ -1,5 +1,6 @@
 import { RoomModel, ChatModel } from '../schemas/chat.js';
-
+const ObjectId = require('mongoose').Types.ObjectId;
+import { BadRequestError } from '../../utils/customError.js';
 class Chat {
   static async createRoom({ newRoom }) {
     const createdRoom = await RoomModel.create(newRoom);
@@ -8,6 +9,11 @@ class Chat {
 
   static async findRoom({ roomId }) {
     const room = await RoomModel.findById(roomId);
+    return room;
+  }
+
+  static async findRoombyUserIdAnditemId({ userId, itemId }) {
+    const room = await RoomModel.find({ $and: [{ user: userId }, { itemId: itemId }, { userDeleted: false }] });
     return room;
   }
 
@@ -27,18 +33,20 @@ class Chat {
   }
 
   static async leaveRoom({ roomId, userId }) {
-    const room = await RoomModel.findById({ roomId });
+    const room = await RoomModel.findById(roomId);
 
-    if (room.user === userId) {
+    if (room.user == userId) {
+      //이미 나간 채팅방인지 확인
+
       const leaveRoom = await RoomModel.findByIdAndUpdate(
-        { roomId },
+        { _id: roomId },
         { $set: { userDeleted: true } },
         { returnOriginal: false }
       );
       return leaveRoom;
-    } else if (room.hostuser === userId) {
+    } else if (room.hostuser == userId) {
       const leaveRoom = await RoomModel.findByIdAndUpdate(
-        { roomId },
+        { _id: roomId },
         { $set: { hostuserDeleted: true } },
         { returnOriginal: false }
       );
@@ -48,23 +56,119 @@ class Chat {
   }
 
   static async findChatAll({ roomId }) {
-    const chats = await ChatModel.find({ room: roomId });
+    const chats = await ChatModel.aggregate([
+      {
+        $match: {
+          room: new ObjectId(roomId),
+        },
+      },
+
+      {
+        $lookup: {
+          from: 'users', // 'User' 컬렉션
+          localField: 'sender',
+          foreignField: '_id', // '_id' 필드와 조인
+          as: 'senderData', // 조인된 결과를 저장할 필드 이름
+        },
+      },
+      {
+        $unwind: '$senderData',
+      },
+      {
+        $project: {
+          room: 1,
+          message: 1,
+          createdAt: 1,
+          sender: '$senderData.nickname',
+        },
+      },
+      {
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    ]).exec();
+
     return chats;
   }
 
-  static async findChatNews({ roomId }) {
-    const chats = await ChatModel.find({ room: roomId }).sort({ createdAt: -1 }).limit(10);
+  static async findChatNews({ roomId, pageSize }) {
+    const chats = await ChatModel.aggregate([
+      {
+        $match: {
+          room: new ObjectId(roomId),
+        },
+      },
+
+      {
+        $lookup: {
+          from: 'users', // 'User' 컬렉션
+          localField: 'sender',
+          foreignField: '_id', // '_id' 필드와 조인
+          as: 'senderData', // 조인된 결과를 저장할 필드 이름
+        },
+      },
+      {
+        $unwind: '$senderData',
+      },
+      {
+        $project: {
+          room: 1,
+          message: 1,
+          createdAt: 1,
+          sender: '$senderData.nickname',
+        },
+      },
+      {
+        $sort: {
+          createdAt: -1,
+        },
+      },
+      {
+        $limit: pageSize,
+      },
+    ]).exec();
     return chats;
   }
 
   static async findChatOlds({ roomId, cursor, pageSize }) {
     // 커서식으로 불러오기
 
-    const chats = await ChatModel.find({
-      $and: [{ room: roomId }, { createdAt: cursor }],
-    })
-      .sort({ createdAt: -1 })
-      .limit(pageSize);
+    const chats = await ChatModel.aggregate([
+      {
+        $match: {
+          $and: [{ room: new ObjectId(roomId) }, { createdAt: cursor }],
+        },
+      },
+
+      {
+        $lookup: {
+          from: 'users', // 'User' 컬렉션
+          localField: 'sender',
+          foreignField: '_id', // '_id' 필드와 조인
+          as: 'senderData', // 조인된 결과를 저장할 필드 이름
+        },
+      },
+      {
+        $unwind: '$senderData',
+      },
+      {
+        $project: {
+          room: 1,
+          message: 1,
+          createdAt: 1,
+          sender: '$senderData.nickname',
+        },
+      },
+      {
+        $sort: {
+          createdAt: -1,
+        },
+      },
+      {
+        $limit: pageSize,
+      },
+    ]).exec();
 
     // 더이상 불러올 chat이 없는경우?
     return chats;

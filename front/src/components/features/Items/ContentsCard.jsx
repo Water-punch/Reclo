@@ -1,8 +1,19 @@
-import { useNavigate } from "react-router-dom"
-import { Box, Divider, Card, CardActionArea, CardContent, CardMedia, Chip, Grid, Stack, Typography} from '@mui/material'
+import { useNavigate } from 'react-router-dom';
+import {
+  Box,
+  Divider,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Chip,
+  Grid,
+  Stack,
+  Typography,
+} from '@mui/material';
 
-const ContentsCard = ({item}) => {
-  const navigate = useNavigate()
+const ContentsCard = ({ item }) => {
+  const navigate = useNavigate();
 
   return (
     <Box>
@@ -40,6 +51,6 @@ const ContentsCard = ({item}) => {
     </Card>
   </Box>  
   );
-}
+};
 
-export default ContentsCard
+export default ContentsCard;

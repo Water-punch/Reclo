@@ -3,13 +3,13 @@ import { wishItemModel } from '../schemas/wishItem.js';
 class wishItem {
   // 유저 아이디로 관심상품 찾기
   static async findLikeitems({ userId }) {
-    const userLikeditems = await wishItemModel.find({ userId }).populate('Item');
+    const userLikeditems = await wishItemModel.find({ userId }).populate('userId');
     return userLikeditems;
   }
 
   // 관심상품 상세내용 조회
   static async findLikeitemDetails({ itemId }) {
-    const item = await wishItemModel.findOne({ itemId }).populate('Item');
+    const item = await wishItemModel.findOne({ itemId }).populate('itemId');
     return item;
   }
 

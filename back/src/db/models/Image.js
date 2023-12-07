@@ -59,7 +59,6 @@ class Image {
 
   // 이미지 업로드 후 응답을 받으면 데이터베이스에 유저 이미지 정보 저장
   static async createUserImage({ newImage, imageUrl }) {
-    console.log(newImage.userId);
     const findUser = await UserModel.findOne({ _id: newImage.userId });
 
     if (!findUser) {
