@@ -37,7 +37,7 @@ const ChangeInfo = () => {
 
       console.log('서버 응답:', response.data);
 
-      navigate('/userinfo', { state: { updatedUser: response.data } });
+      navigate('/mypage', { state: { updatedUser: response.data } });
     } catch (error) {
       console.error('유저 정보 에러:', error);
     }
