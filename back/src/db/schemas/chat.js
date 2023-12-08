@@ -56,7 +56,7 @@ const chatMessageSchema = new Schema(
   }
 );
 
-chatRoomSchema.index({
+chatMessageSchema.index({
   room: 1,
   createdAt: -1,
 });

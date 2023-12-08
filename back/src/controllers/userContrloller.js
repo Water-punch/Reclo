@@ -107,7 +107,6 @@ async function currentInfoUpdateImage(req, res, next) {
 
     const user = await userAuthService.getUserInfobyId({ userId });
 
-    console.log(userUrl);
     if (userUrl) {
       await imageService.updateImage({ ImgUrl: user.userImgUrl, newImgUrl: userUrl });
     }
@@ -148,6 +147,21 @@ async function addPoint(req, res, next) {
   }
 }
 
+async function userInfo(req, res, next) {
+  try {
+    const targetId = req.params.userId;
+    // 해당 사용자 이메일로 사용자 정보를 db에서 찾아 업데이트함.
+
+    const targetUser = await userAuthService.getUserInfobyId({ userId: targetId });
+
+    delete targetUser._doc.email;
+
+    res.status(200).json({ user: targetUser });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   register,
   resign,
@@ -158,4 +172,5 @@ module.exports = {
   currentInfoUpdateImage,
   currentPointInfo,
   addPoint,
+  userInfo,
 };

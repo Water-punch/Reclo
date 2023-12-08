@@ -7,7 +7,6 @@ async function getRoomslast(req, res, next) {
 
     // 서버에 연결되어 있는 클라이언트로 추가함, 클라이언트의 userId를 키로 연결되어있는 res를 value로 가짐
     let lastchats = await ChatService.getRoomslast({ userId });
-
     // Content-Type을 text/event-stream으로 설정
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
