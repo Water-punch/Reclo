@@ -112,7 +112,7 @@ const ContentsDetailPage = () => {
     return (
         <Box
           my={5}
-          sx={{ 
+          sx={{
             display: 'flex', 
             justifyContent: 'center', 
             minHeight: '80vh' }}>
