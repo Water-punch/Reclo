@@ -12,6 +12,7 @@ import NavBar from './components/common/NavBar';
 import useUserStore from './stores/user';
 import * as Api from './api/api';
 import ChangeInfo from './components/features/User/Changeinfo';
+import UserInfo from './components/features/User/UserInfo';
 
 function App() {
   const queryClient = new QueryClient();
@@ -49,6 +50,7 @@ function App() {
           <Route path='/wishlist' element={<WishListPage />} />
           <Route path='/point' element={<PointPage />} />
           <Route path='/changeinfo' element={<ChangeInfo />} />
+          <Route path='/userinfo' element={<UserInfo />} />
 
           <Route path='/test' element={<TestPage />} />
           <Route path='/test/result' element={<TestResultPage></TestResultPage>} />
