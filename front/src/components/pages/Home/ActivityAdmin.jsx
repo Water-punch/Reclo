@@ -7,41 +7,43 @@ import * as Api from '../../../api/api'
 
 // 여기서 게시글 & 거래 신청 관리
 const ActivityAdmin = () => {
-  const navigate = useNavigate()
-  const { user } = useUserStore()
-  const [items, setItems] = useState()
+  const navigate = useNavigate();
+  const { user } = useUserStore();
+  const [items, setItems] = useState();
 
-  console.log(user._id)
+  console.log(user._id);
 
   const loadUserActivity = async () => {
     try {
-      const res = await Api.get2(`items/user`)
-      console.log(res.data.userItems)
-      setItems(res.data.userItems)
+      const res = await Api.get2(`items/user`);
+      console.log(res.data.userItems);
+      setItems(res.data.userItems);
     } catch (error) {
-      console.log('유저 활동내역 로딩실패')
+      console.log('유저 활동내역 로딩실패');
     }
-  }
+  };
 
   const deleteItems = async () => {
     try {
-      const result = await Api.del(`item/${user._id}`)
-      console.log('API 호출 결과:', result)
-
+      const result = await Api.del(`item/${user._id}`);
+      console.log('API 호출 결과:', result);
     } catch (error) {
-      console.error('삭제 실패', error)
+      console.error('삭제 실패', error);
     }
-  }
+  };
 
   useEffect(() => {
-    loadUserActivity()
-  }, [])
+    loadUserActivity();
+  }, []);
 
   return (
     <div>
-      <Button 
-        onClick={() => {navigate('/write', { state : { edit: false } })}}>
-          물품 등록
+      <Button
+        onClick={() => {
+          navigate('/write', { state: { edit: false } });
+        }}
+      >
+        물품 등록
       </Button>
       <Grid container spacing={2} mx={5} my={5} >
         { items &&
@@ -67,7 +69,7 @@ const ActivityAdmin = () => {
         ))}
       </Grid>
     </div>
-  )
-}
+  );
+};
 
-export default ActivityAdmin
+export default ActivityAdmin;

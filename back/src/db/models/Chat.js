@@ -1,6 +1,6 @@
 import { RoomModel, ChatModel } from '../schemas/chat.js';
 const ObjectId = require('mongoose').Types.ObjectId;
-import { BadRequestError } from '../../utils/customError.js';
+
 class Chat {
   static async createRoom({ newRoom }) {
     const createdRoom = await RoomModel.create(newRoom);
@@ -8,17 +8,21 @@ class Chat {
   }
 
   static async findRoom({ roomId }) {
-    const room = await RoomModel.findById(roomId);
+    const room = await RoomModel.findById(roomId).select('+user +userDeleted +hostuser +hostuserDeleted');
+
     return room;
   }
 
   static async findRoombyUserIdAnditemId({ userId, itemId }) {
-    const room = await RoomModel.find({ $and: [{ user: userId }, { itemId: itemId }, { userDeleted: false }] });
+    const room = await RoomModel.findOne({ $and: [{ user: userId }, { itemId: itemId }, { userDeleted: false }] });
     return room;
   }
 
   static async saveChat({ chat }) {
     const createdChat = await ChatModel.create(chat);
+
+    delete createdChat._doc._id;
+
     return createdChat;
   }
 
@@ -33,11 +37,9 @@ class Chat {
   }
 
   static async leaveRoom({ roomId, userId }) {
-    const room = await RoomModel.findById(roomId);
+    const room = await RoomModel.findById(roomId).selete('+user', '+hostuser');
 
     if (room.user == userId) {
-      //이미 나간 채팅방인지 확인
-
       const leaveRoom = await RoomModel.findByIdAndUpdate(
         { _id: roomId },
         { $set: { userDeleted: true } },
@@ -76,6 +78,7 @@ class Chat {
       },
       {
         $project: {
+          _id: 0,
           room: 1,
           message: 1,
           createdAt: 1,
@@ -113,6 +116,7 @@ class Chat {
       },
       {
         $project: {
+          _id: 0,
           room: 1,
           message: 1,
           createdAt: 1,
@@ -154,6 +158,7 @@ class Chat {
       },
       {
         $project: {
+          _id: 0,
           room: 1,
           message: 1,
           createdAt: 1,
@@ -176,7 +181,8 @@ class Chat {
 
   static async findChatLast({ roomId }) {
     //안되면 findone -> find + limit
-    const chat = await ChatModel.find({ room: roomId }).sort({ createdAt: -1 }).limit(1);
+    const chat = await ChatModel.find({ room: roomId }).select('-_id').sort({ createdAt: -1 }).limit(1);
+
     return chat;
   }
 }

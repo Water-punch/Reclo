@@ -6,11 +6,13 @@ const PointSchema = new Schema(
       type: Schema.Types.ObjectId,
       required: true,
       ref: 'User',
+      select: false,
     },
     itemId: {
       type: Schema.Types.ObjectId,
       required: true,
       ref: 'Item',
+      select: false,
     },
     point: {
       type: Number,
