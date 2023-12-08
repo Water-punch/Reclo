@@ -14,6 +14,9 @@ userAuthRouter.post('/user/resign', asyncHandler(login_required), userController
 userAuthRouter.post('/user/login', userController.login);
 userAuthRouter.post('/user/logout', asyncHandler(login_required), userController.logout);
 
+
+userAuthRouter.get('/user/:userId', asyncHandler(login_required), userController.userInfo);
+
 // 로그인된 유저 정보 확인, 수정
 userAuthRouter.get('/user/current', asyncHandler(login_required), userController.currentInfo);
 userAuthRouter.put('/user/current', asyncHandler(login_required), userController.currentInfoUpdate);
