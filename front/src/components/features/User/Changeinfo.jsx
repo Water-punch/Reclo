@@ -12,6 +12,10 @@ const ChangeInfo = () => {
   const user = location.state.user;
 
   useEffect(() => {
+    console.log(user);
+  }, []);
+
+  useEffect(() => {
     if (user) {
       setNewNickname(user.nickname || '');
       setUserImgUrl(user.userImgUrl || []);
