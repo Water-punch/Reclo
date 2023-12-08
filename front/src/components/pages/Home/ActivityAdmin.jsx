@@ -12,14 +12,9 @@ const ActivityAdmin = () => {
 
   console.log(user._id)
 
-  useEffect(() => {
-    setTimeout(500)
-    loadUserActivity()
-  }, [])
-
   const loadUserActivity = async () => {
     try {
-      const res = await Api.get(`items/user/${user._id}`)
+      const res = await Api.get2(`items/user`)
       console.log(res.data.userItems)
       setItems(res.data.userItems)
     } catch (error) {
@@ -36,6 +31,10 @@ const ActivityAdmin = () => {
       console.error('삭제 실패', error)
     }
   }
+
+  useEffect(() => {
+    loadUserActivity()
+  }, [])
 
   return (
     <div>

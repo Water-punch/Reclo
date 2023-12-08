@@ -8,6 +8,7 @@
 
   background-color: rgb(196, 251, 233);
   display: flex;
+  justify-content: space-between;
 }
 
 .navbar h1 {

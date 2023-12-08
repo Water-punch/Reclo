@@ -35,32 +35,34 @@ const ContentsPage = () => {
       console.log('필터링 결과로 데이터 요청', res.data.items)
       // setFilter('')   
       setItems(res.data.items)
+      console.log('items:', res.data.items)
     } catch (error) {
       console.log('필터링에 실패했습니다.')
     }
   }
 
   useEffect(() => {
-    if (searchedData !== '') {
+    if (searchedData) {
       setItems(searchedData)
       console.log('검색실행, items:' ,items)
       searchedData = ''
       console.log('검색실행 후 검색어 초기화', searchedData)
-      } else {
-        setItems([])
-      }
-  }, [searchedData])
+      } 
 
-  useEffect(() => {
     if (filter) {
       filterSearch()
       console.log('필터적용, items:' ,items)
       }
 
+  }, [searchedData, filter])
+
+  useEffect(() => {
+   
+
   }, [filter])
 
   return (
-    <Box sx={{display: 'flex', height: '100vh'}}>
+    <Box sx={{display: 'flex' }}>
       <Box>
         <FilterBar/>
       </Box>

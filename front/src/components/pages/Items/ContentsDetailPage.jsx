@@ -54,17 +54,42 @@ const ContentsDetailPage = () => {
     }
   }
 
-  const updateLikeOnPageChange = async () => { //페이지 이동 시 좋아요 상태 업데이트
+  const addWishList = async () => { 
+    //페이지 이동 시 좋아요 상태 업데이트
     try {
-      const res = await Api.put(`item/${itemId}/likes`, {likeInfo: {likeStatus: checkLike}})
-      console.log('like update 성공:', res)
-    } catch {
-      console.log('like Update 실패')
+      const res = await Api.put(`userLikes/${itemId}`, {
+        likeInfo: {
+          likeStatus: checkLike,
+          userId: user._id,
+          itemId: itemId
+        }})
+      console.log('위시리스트 반영 성공:', res)
+    } catch (err) {
+      console.log('위시리스트 반영 실패')
+    }
+  }
+
+  const likeUpdate = async () => {
+    try {
+      const res = await Api.put(`item/${itemId}`, { 
+        itemInfo : { 
+          userId: user._id,
+          title: title, 
+          price: price, 
+          description: description, 
+          category: category,
+          state: state, 
+          like: updatedLike,
+          itemsImgUrl: itemsImgUrl 
+        }})
+    } catch (err) {
+      console.log('좋아요 개수 수정에 실패했습니다.')
     }
   }
 
   useEffect(() => {
     updateLikeOnPageChange()
+    likeUpdate()
   }, [navigate])
 
   const editItem = () => {
