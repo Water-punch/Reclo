@@ -27,7 +27,7 @@ const Home = () => {
         </div>
       </div>
       <div className='freespace'></div>
-      <Slide />
+      {/* <Slide /> */}
       <div className='freespace'></div>
       <div
         className='testbanner'
