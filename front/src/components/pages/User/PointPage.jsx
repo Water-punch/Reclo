@@ -66,6 +66,13 @@ const PointPage = () => {
     }
   };
 
+  const handleLevelClick = () => {
+    console.log('Clicked on Level');
+    const userLevel = pointData.points[0]?.rank;
+    const userLevelName = getRankName(userLevel);
+    alert(`현재 레벨: ${userLevelName}`);
+  };
+
   return (
     <CenteredContainer>
       <div className='pointPageContainer'>
@@ -76,13 +83,13 @@ const PointPage = () => {
               <p>포인트</p>
               <p>{pointData.points[0]?.point}</p>
             </div>
-            <div className='pointItem'>
+            <div className='pointItem' onClick={handleLevelClick}>
               <p>레벨</p>
               <p>{getRankName(pointData.points[0]?.rank)}</p>
             </div>
           </>
         ) : (
-          <p>로딩 중...</p>
+          <p>포인트가 없습니다.</p>
         )}
       </div>
 
