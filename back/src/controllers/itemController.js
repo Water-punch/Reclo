@@ -74,6 +74,18 @@ async function getItemDetails(req, res, next) {
   }
 }
 
+// like 많은 순으로 아이템 조회
+async function getLikedMost(req, res, next) {
+  try {
+    const likeCount = req.params.likeCount;
+    const likedMost = await itemService.getMostLiked({ likeCount });
+
+    res.status(200).send({ likedMost });
+  } catch (error) {
+    next(error);
+  }
+}
+
 // 아이템 추가하기
 async function addItem(req, res, next) {
   try {
@@ -121,7 +133,6 @@ async function setItem(req, res, next) {
     }
 
     res.status(200).send({
-      // itemImgUrl: updatedItem.itemImgUrl,
       message: '아이템 수정에 성공했습니다.',
     });
   } catch (error) {
@@ -131,8 +142,6 @@ async function setItem(req, res, next) {
 
 // 아이템 삭제하기
 async function deleteItem(req, res, next) {
-  // const itemId = ObjectId(req.params.itemId);
-  // delete 로직 수정 필요
   try {
     const item = new ObjectId(req.params.itemId);
     const deleteItem = await itemService.deleteById({ itemId: item });
@@ -153,6 +162,7 @@ module.exports = {
   getItemsByCategory,
   getItemsBySearch,
   getUserItems,
+  getLikedMost,
   getItemDetails,
   addItem,
   setItem,
