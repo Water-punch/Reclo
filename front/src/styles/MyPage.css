@@ -32,9 +32,13 @@
   width: 1000px;
   height: 450px;
   margin-top: 50px;
+  margin-right: auto;
+  margin-bottom: auto;
+  margin-left: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  text-align: center;
   align-items: center;
   box-shadow: 1px 1px 1px 1px gray;
 }
@@ -81,4 +85,34 @@
   border: none;
   border-radius: 10px;
   background-color: rgb(208, 241, 230);
+}
+
+/* change */
+
+.changeInfoForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.inputField {
+  width: 200px;
+  height: 40px;
+  margin-bottom: 10px;
+}
+
+.fileInput {
+  width: 200px;
+  height: 40px;
+  margin-bottom: 10px;
+}
+
+.saveButton {
+  width: 200px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background-color: rgb(208, 241, 230);
+  cursor: pointer;
 }
