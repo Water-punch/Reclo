@@ -35,13 +35,18 @@ async function makeRoom(req, res, next) {
     const itemId = req.params.itemId;
     const message = req.body.message ?? '';
     const userId = req.currentUserId;
+    const imageUrl = req.body.imageUrl;
 
     // 새로운 채팅방을 생성해서 메시지를 전송함
     const createdroom = await ChatService.createRoom({ userId, itemId });
 
     if (createdroom) {
-      const newMessage = { room: createdroom._id, message, sender: userId }; // 예시로 'user'라는 고정된 사용자로 지정
+      const newMessage = { room: createdroom._id, message, sender: userId, imageUrl: imageUrl }; // 예시로 'user'라는 고정된 사용자로 지정
       const createdMessage = await ChatService.createChat({ newMessage });
+    }
+
+    if (imageUrl) {
+      const itemsImage = imageService.uploadImages({ ImgUrl: imageUrl });
     }
 
     res.status(201).json({ roomId: createdroom._id });
