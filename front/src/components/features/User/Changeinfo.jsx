@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const ChangeInfo = () => {
   const [newNickname, setNewNickname] = useState('');
-  const [profileImage, setProfileImage] = useState(null);
+  const [userImgUrl, setUserImgUrl] = useState([]);
   const [isChanging, setIsChanging] = useState(false);
 
   const location = useLocation();
@@ -14,6 +14,7 @@ const ChangeInfo = () => {
   useEffect(() => {
     if (user) {
       setNewNickname(user.nickname || '');
+      setUserImgUrl(user.userImgUrl || []);
     }
   }, [user]);
 
@@ -28,7 +29,11 @@ const ChangeInfo = () => {
       const formData = new FormData();
       formData.append('userId', user._id);
       formData.append('nickname', newNickname);
-      formData.append('profileImage', profileImage);
+
+      // 이미지 배열에 추가
+      for (const img of userImgUrl) {
+        formData.append('userImgUrl', img);
+      }
 
       const response = await Api.put('user/current', formData, {
         headers: {
@@ -37,7 +42,7 @@ const ChangeInfo = () => {
       });
 
       setNewNickname(response.data.nickname);
-      setProfileImage(response.data.profileImage);
+      setUserImgUrl(response.data.userImgUrl);
 
       console.log('서버 응답:', response.data);
 
@@ -69,7 +74,7 @@ const ChangeInfo = () => {
                   className='fileInput'
                   type='file'
                   accept='image/*'
-                  onChange={(e) => setProfileImage(e.target.files[0])}
+                  onChange={(e) => setUserImgUrl([...userImgUrl, e.target.files[0]])}
                 />
                 <button className='saveButton' onClick={handleChangeUserInfo}>
                   저장
