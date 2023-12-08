@@ -1,4 +1,5 @@
 const ObjectId = require('mongoose').Types.ObjectId;
+const { imageService } = require('../services/imgService.js');
 const { itemService } = require('../services/itemService.js');
 
 // 페이징을 적용한 전체 품목 조회
@@ -35,9 +36,8 @@ async function getItemsByCategory(req, res, next) {
       res.status(200).json({ items });
     } else if (!category) {
       items = await itemService.getAllItems();
+      res.status(200).json({ items });
     }
-
-    res.status(200).json({ items });
   } catch (error) {
     next(error);
   }
@@ -80,15 +80,18 @@ async function addItem(req, res, next) {
     const userId = req.currentUserId;
     const itemInfo = req.body.itemInfo;
 
+    const itemsImgUrl = itemInfo.itemsImgUrl ?? null;
+
     // DB에 데이터 추가
     const newItem = await itemService.addItem({
       itemInfo,
       userId,
     });
 
-    if (!newItem) {
-      throw new Error(newItem.errorMessage);
+    if (itemsImgUrl) {
+      const itemsImage = await imageService.uploadImages({ ImgUrl: itemsImgUrl });
     }
+
     res.status(201).send({
       itemId: newItem._id,
     });
@@ -101,11 +104,20 @@ async function addItem(req, res, next) {
 async function setItem(req, res, next) {
   try {
     const itemId = new ObjectId(req.params.itemId);
-
     const toUpdate = req.body.toUpdate;
+    const newItemsImgUrl = itemInfo.itemsImgUrl ?? null;
+
+    const item = await itemService.getItemDetails({ itemId });
+
     const updatedItem = await itemService.setItem({ itemId, toUpdate });
     if (!updatedItem) {
       throw new Error(updatedItem.errorMessage);
+    }
+
+    // DB에 데이터 추가
+
+    if (newItemsImgUrl) {
+      const itemsImage = imageService.updateImages({ ImgUrl: item.itemsImgUrl, newImgUrl: newItemsImgUrl });
     }
 
     res.status(200).send({

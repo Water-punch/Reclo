@@ -5,7 +5,6 @@ import { BadRequestError, INVALID_ITEM_Error, ConflictError } from '../utils/cus
 class wishItemService {
   // 관심상품 조회
   static async getUserLikeItems({ userId }) {
-    console.log(userId);
     const likedItems = await wishItem.findLikeitems({ userId });
     if (!likedItems) {
       throw new INVALID_ITEM_Error('해당 상품이 존재하지 않습니다.');
