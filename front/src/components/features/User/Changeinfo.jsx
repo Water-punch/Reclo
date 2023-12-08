@@ -2,9 +2,30 @@ import React, { useState, useEffect } from 'react';
 import * as Api from '../../../api/api';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+const getRankName = (level) => {
+  const numericLevel = parseInt(level, 10);
+
+  switch (numericLevel) {
+    case 0:
+      return '브론즈';
+    case 1:
+      return '실버';
+    case 2:
+      return '골드';
+    case 3:
+      return '플레티넘';
+    case 4:
+      return '다이아몬드';
+    case 5:
+      return '마스터';
+    default:
+      return '알 수 없음';
+  }
+};
+
 const ChangeInfo = () => {
   const [newNickname, setNewNickname] = useState('');
-  const [userImgUrl, setUserImgUrl] = useState([]);
+  const [profileImage, setProfileImage] = useState(null);
   const [isChanging, setIsChanging] = useState(false);
 
   const location = useLocation();
@@ -12,13 +33,8 @@ const ChangeInfo = () => {
   const user = location.state.user;
 
   useEffect(() => {
-    console.log(user);
-  }, []);
-
-  useEffect(() => {
     if (user) {
       setNewNickname(user.nickname || '');
-      setUserImgUrl(user.userImgUrl || []);
     }
   }, [user]);
 
@@ -29,24 +45,16 @@ const ChangeInfo = () => {
         return;
       }
 
-      // 이미지 변경 FormData
-      const formData = new FormData();
-      formData.append('userId', user._id);
-      formData.append('nickname', newNickname);
-
-      // 이미지 배열에 추가
-      for (const img of userImgUrl) {
-        formData.append('userImgUrl', img);
-      }
-
-      const response = await Api.put('user/current', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      const response = await Api.put('user/current', {
+        user: {
+          _id: user._id,
+          nickname: newNickname,
+          profileImage,
         },
       });
 
       setNewNickname(response.data.nickname);
-      setUserImgUrl(response.data.userImgUrl);
+      setProfileImage(response.data.profileImage);
 
       console.log('서버 응답:', response.data);
 
@@ -59,11 +67,12 @@ const ChangeInfo = () => {
   return (
     <div>
       <div className='userInfo'>
-        <h2>User Change Page</h2>
+        <h2>유저 정보 변경</h2>
 
         {user ? (
           <div className='changeInfoForm'>
             <p>현재 닉네임: {user.nickname}</p>
+            <p>현재 Rank: {getRankName(user.rank)}</p>
 
             {isChanging ? (
               <>
@@ -78,7 +87,7 @@ const ChangeInfo = () => {
                   className='fileInput'
                   type='file'
                   accept='image/*'
-                  onChange={(e) => setUserImgUrl([...userImgUrl, e.target.files[0]])}
+                  onChange={(e) => setProfileImage(e.target.files[0])}
                 />
                 <button className='saveButton' onClick={handleChangeUserInfo}>
                   저장

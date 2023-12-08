@@ -1,5 +1,3 @@
-// UserPoint.jsx
-
 import React, { useEffect } from 'react';
 import '../../../styles/MyPage.css';
 import usePointStore from '../../../stores/point';
