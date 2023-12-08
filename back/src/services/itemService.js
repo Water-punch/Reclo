@@ -50,6 +50,14 @@ class itemService {
     return items;
   }
 
+  // like 많은 순으로 아이템 조회
+  static async getMostLiked({ likeCount }) {
+    const items = await Item.findItemsByLikes({ likeCount });
+    if (!items) {
+      throw new INVALID_ITEM_Error('좋아요 개수로 조회한 상위 상품들이 존재하지 않습니다.');
+    }
+    return items;
+  }
   // 아이템 등록
   static async addItem({ itemInfo, userId }) {
     const newItem = { ...itemInfo };

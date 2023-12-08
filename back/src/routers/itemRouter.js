@@ -20,6 +20,9 @@ itemRouter.get('/items/user', asyncHandler(login_required), itemController.getUs
 // 아이템별 상세내용 조회
 itemRouter.get('/item/:itemId', itemController.getItemDetails);
 
+// like 많은 순으로 아이템 조회
+itemRouter.get('/items/likedMost', itemController.getLikedMost);
+
 // 아이템 추가하기
 itemRouter.post('/item', asyncHandler(login_required), itemController.addItem);
 

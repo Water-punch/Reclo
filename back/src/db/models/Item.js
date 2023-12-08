@@ -20,6 +20,12 @@ class Item {
     return item;
   }
 
+  // like 많은 순으로 아이템 조회
+  static async findItemsByLikes({ likeCount }) {
+    const items = await ItemModel.find({}).sort({ like: -1 }).limit(16);
+    return items;
+  }
+
   // 검색으로 아이템 찾기
   static async findItemsBySearch({ searchItem }) {
     // function escapeRegExp(string) {
