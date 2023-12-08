@@ -26,7 +26,6 @@ class Item {
     //   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $&는 일치하는 전체 문자열을 나타냅니다.
     // }
     const searchTermRegex = new RegExp(`.*${searchItem}.*`, 'i');
-    console.log(searchTermRegex);
 
     const items = await ItemModel.find(
       {
@@ -67,7 +66,6 @@ class Item {
   //userId로 아이템 찾기
   static async findUserItems({ userId }) {
     const items = await ItemModel.findOne({ userId });
-    console.log(items);
     return items;
   }
 

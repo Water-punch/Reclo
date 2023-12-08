@@ -94,7 +94,7 @@ async function currentInfoUpdate(req, res, next) {
     // 해당 사용자 이메일로 사용자 정보를 db에서 찾아 업데이트함.
     const updatedUser = await userAuthService.setUser({ userId, user });
 
-    res.status(200).json({ ok: true });
+    res.status(200).json({ ok: true, ...updatedUser });
   } catch (error) {
     next(error);
   }
@@ -107,7 +107,6 @@ async function currentInfoUpdateImage(req, res, next) {
 
     const user = await userAuthService.getUserInfobyId({ userId });
 
-    console.log(userUrl);
     if (userUrl) {
       await imageService.updateImage({ ImgUrl: user.userImgUrl, newImgUrl: userUrl });
     }

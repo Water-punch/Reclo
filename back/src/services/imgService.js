@@ -89,7 +89,6 @@ class imageService {
     const deletedUrl = set(ImgUrl) - set(newImgUrl);
     const updatedUrl = set(newImgUrl) - set(ImgUrl);
 
-    console.log('imageUpdate : ', deletedUrl, updatedUrl);
     // 사용하지 않는 url deleted처리
     const Images = await Promise.all(
       deletedUrl.map(async (Url) => {
