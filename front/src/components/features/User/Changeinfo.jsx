@@ -27,16 +27,18 @@ const ChangeInfo = () => {
   const [newNickname, setNewNickname] = useState('');
   const [profileImage, setProfileImage] = useState(null);
   const [isChanging, setIsChanging] = useState(false);
+  const [user, setUser] = useState(null);
 
   const location = useLocation();
   const navigate = useNavigate();
-  const user = location.state.user;
 
   useEffect(() => {
-    if (user) {
-      setNewNickname(user.nickname || '');
+    const userFromLocation = location.state.user;
+    if (userFromLocation) {
+      setUser(userFromLocation);
+      setNewNickname(userFromLocation.nickname || '');
     }
-  }, [user]);
+  }, [location.state.user]);
 
   const handleChangeUserInfo = async () => {
     try {
@@ -53,11 +55,13 @@ const ChangeInfo = () => {
         },
       });
 
-      setNewNickname(response.data.nickname);
-      setProfileImage(response.data.profileImage);
+      // 직접 상태 업데이트
+      setNewNickname(response.data.nickname || '');
+      setProfileImage(response.data.profileImage || null);
 
       console.log('서버 응답:', response.data);
 
+      // UserInfo 페이지로 이동
       navigate('/userinfo', { state: { updatedUser: response.data } });
     } catch (error) {
       console.error('유저 정보 에러:', error);
@@ -67,7 +71,7 @@ const ChangeInfo = () => {
   return (
     <div>
       <div className='userInfo'>
-        <h2>유저 정보 변경</h2>
+        <h2></h2>
 
         {user ? (
           <div className='changeInfoForm'>
