@@ -36,9 +36,8 @@ async function getItemsByCategory(req, res, next) {
       res.status(200).json({ items });
     } else if (!category) {
       items = await itemService.getAllItems();
+      res.status(200).json({ items });
     }
-
-    res.status(200).json({ items });
   } catch (error) {
     next(error);
   }

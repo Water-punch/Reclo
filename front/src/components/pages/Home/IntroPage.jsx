@@ -4,6 +4,7 @@ import intro_indonesia from '../../../../public/img/intro_indonesia.jpg';
 import intro_nowater from '../../../../public/img/intro_nowater.jpg';
 import intro_Heatwave from '../../../../public/img/intro_Heatwave.webp';
 import intro_clothwaste from '../../../../public/img/intro_clothwaste.jpg';
+import intro_water_co2_chart from '../../../../public/img/intro_water_co2_chart.png';
 import cloth_waste from '../../../../public/img/cloth_waste.jpg';
 import logo from '../../../../public/img/intro_logo.webp';
 
