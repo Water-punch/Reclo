@@ -27,23 +27,10 @@ const UserPoint = () => {
     fetchData();
   }, [setPointData]);
 
-  const handlePointClick = () => {
-    if (pointData && pointData.points && pointData.points.length > 0) {
-      const currentPoint = pointData.points[0]?.point;
-      alert(`당신의 현재 포인트는 ${currentPoint}입니다.`);
-    }
-  };
-
-  const handleLevelClick = () => {
-    if (pointData && pointData.points && pointData.points.length > 0) {
-      const currentLevel = pointData.points[0]?.rank;
-      const rankName = getRankName(currentLevel);
-      alert(`당신의 현재 등급은 ${rankName}입니다.`);
-    }
-  };
-
   const getRankName = (level) => {
-    switch (level) {
+    const numericLevel = parseInt(level, 10);
+
+    switch (numericLevel) {
       case 0:
         return '브론즈';
       case 1:
@@ -61,16 +48,20 @@ const UserPoint = () => {
     }
   };
 
+  const rank = pointData?.points?.[0]?.rank || 0;
+
   return (
     <div className='pointbox'>
       <>
-        <div className='pointItem' onClick={handlePointClick}>
+        <div className='pointItem'>
           <img src='/public/img/point.png' alt='포인트 이미지' />
           <p>포인트</p>
+          <p>{pointData?.points?.[0]?.point || 0}</p>
         </div>
-        <div className='pointItem' onClick={handleLevelClick}>
+        <div className='pointItem'>
           <img src='/public/img/level.png' alt='레벨 이미지' />
           <p>레벨</p>
+          <p>{getRankName(rank)}</p>
         </div>
         <div className='pointItem'>
           <img src='/public/img/check.png' onClick={() => navigate('/point')} alt='포인트 조회 이미지' />
