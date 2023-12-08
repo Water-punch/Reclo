@@ -1,19 +1,41 @@
-.header {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  /* margin-left: 10rem; ->적용안됨 */
+.introbanner {
+  width: 100%;
+  background-color: rgb(205, 255, 208);
+  height: 450px;
+  padding: 3vh 0 0 5vw;
+  padding-bottom: 500px;
+}
+.introbanner div {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
 }
 
-.logo_space {
-  width: 100%;
+.introbanner img {
+  margin: 3vh 5vw;
+  border-radius: 20px;
+  width: 300px;
+}
+
+.introbanner div div {
+  background-color: white;
+  width: 65%;
+  height: 300px;
+  border-radius: 20px;
+  padding: 50px;
+
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 40px;
 }
 
 .testbanner {
   width: 100%;
-  height: 25vh;
   background-color: blanchedalmond;
+  padding: 30px;
+}
+
+.testbanner img {
+  border-radius: 20px;
 }
 
 .trendbanner {
@@ -22,15 +44,8 @@
   background-color: rgb(208, 241, 230);
 }
 
-.introbanner {
-  width: 100%;
-  height: 15vh;
-  background-color: blanchedalmond;
-}
-
 .eventbanner {
   width: 100%;
-  height: 20vh;
   background-color: blanchedalmond;
 }
 
@@ -38,10 +53,4 @@
   width: 100%;
   height: 20vh;
   text-align: center;
-}
-
-.footer {
-  width: 100%;
-  height: 15vh;
-  background-color: blanchedalmond;
 }

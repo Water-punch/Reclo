@@ -1,6 +1,6 @@
 .IntroPage {
   margin: 0 10%;
-  /* transform: translateY(200px); */
+  transform: translateY(100px);
 }
 
 .IntroPage h1 {
@@ -23,6 +23,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 300px;
+  transform: translateY(100px);
 }
 
 #intro_pic p {
@@ -51,9 +53,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-#cloth_waste a {
+  margin-top: 200px;
 }
 
 #cloth_waste a img {
@@ -72,13 +72,14 @@
 }
 
 #news {
+  margin: 300px 0;
   display: flex;
   justify-content: center;
 }
 
 #news p {
-  margin-left: 100px;
-  width: 60%;
+  margin-left: 200px;
+  width: 80%;
 
   font-weight: 700;
   font-size: 40px;
@@ -91,4 +92,29 @@
   height: 450px;
   margin: 300px;
   color: rgb(6, 82, 23);
+}
+
+#ending p {
+  margin: 500px 30%;
+  width: 80%;
+
+  font-weight: 700;
+  font-size: 40px;
+  letter-spacing: 2px;
+  line-height: 80px;
+  transform: translateY(100px);
+}
+
+#ending img {
+  margin: 200px 30%;
+  width: 40%;
+
+  font-weight: 700;
+  font-size: 40px;
+  letter-spacing: 2px;
+  line-height: 80px;
+}
+
+iframe {
+  margin: 200px 0 200px 320px;
 }
