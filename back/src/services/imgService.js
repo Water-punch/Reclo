@@ -29,6 +29,7 @@ class imageService {
       Key: `upload/itemImage/${uuid()}_${fileName}`,
       Expires: signedUrlExpireSeconds,
       ContentType: 'image/*',
+      ACL: 'public-read',
     });
 
     if (!url) {
