@@ -61,9 +61,9 @@ const ContentWriteForm = ({ userId }) => {
 
     try {
       const presignedUrl = await handlePresigned(file.name);
-      await handleImgToS3(presignedUrl);
+      const imgUrl = await handleImgToS3(presignedUrl);
       console.log('preUrl로 post요청', presignedUrl);
-      // await handleImgResult(file.name)
+
       await Api.post(`item`, {
         itemInfo: {
           userId: userId,
@@ -72,13 +72,14 @@ const ContentWriteForm = ({ userId }) => {
           description: description,
           category: categories[1] + categories[2] + categories[3],
           state: state,
-          itemsImgUrl: itemsImgUrl,
+          itemsImgUrl: [imgUrl],
         },
       });
 
       alert('게시글이 업로드되었습니다.');
 
       // navigate('/activity')
+      // navigate('/contents')
     } catch (err) {
       alert(`게시글 등록에 실패했습니다.\n 필수항목을 채워주세요.`);
     }
@@ -94,27 +95,18 @@ const ContentWriteForm = ({ userId }) => {
     }
   };
 
-  // const handleImgResult = async (fileName) => {
-
-  //   try{
-  //     const res = await Api.post(`itemImage/${fileName}`,{})
-  //     console.log('handleImgResult성공', res)
-
-  //   } catch (err) {
-  //     console.log(`handleImgResult 실패`)
-  //     }
-  // }
-
   const handleImgToS3 = async (preUrl) => {
     //서버에서 받아온 Presigned url, 저장한 파일로 api 호출
     try {
-      const res = await Api.postImg(preUrl, file);
-      console.log(res);
-      console.log(res.data);
-      console.log(res.data.imagePath);
-      setitemsImgUrl((prev) => [...prev, res.data.imagePath]);
+      const res = await Api.postImg(preUrl, file)
+      const resUrl = res.request.responseURL
+      const imageUrlWithoutQuery = resUrl.split('?')[0]
+      console.log(res)
+      console.log(imageUrlWithoutQuery)
+      // setitemsImgUrl((prev) => [...prev, resUrl])
+      return imageUrlWithoutQuery
     } catch {
-      alert('이미지 등록에 실패했습니다. S3업로드');
+      alert('이미지 등록에 실패했습니다. S3업로드')
     }
   };
 
@@ -159,7 +151,7 @@ const ContentWriteForm = ({ userId }) => {
       >
         <Box>
           <Stack>
-            <input multiple type='file' accept='image/*' onChange={imgPreview} />
+            <input type='file' accept='image/*' onChange={imgPreview} />
             <ImageList cols={3} rowHeight={164}>
               {imgSrc.map((url, idx) => (
                 <ImageListItem key={idx}>

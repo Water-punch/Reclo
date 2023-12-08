@@ -1,9 +1,9 @@
-import { Button, Grid } from "@mui/material"
-import useUserStore from "../../../stores/user"
-import { useNavigate } from "react-router-dom"
-import { useQuery, useMutation } from "@tanstack/react-query"
-import { useEffect, useState } from "react"
-import * as Api from '../../../api/api'
+import { Button, Grid } from '@mui/material';
+import useUserStore from '../../../stores/user';
+import { useNavigate } from 'react-router-dom';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import * as Api from '../../../api/api';
 
 // 여기서 게시글 & 거래 신청 관리
 const ActivityAdmin = () => {

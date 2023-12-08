@@ -22,7 +22,7 @@ const ContentsDetailPage = () => {
   const getItemDetail = async () => {
     const res = await Api.get(`item/${itemId}`)
     setItem(res.data.itemDetails)
-    console.log(item)
+    console.log(res.data.itemDetails)
   }
 
   useEffect(() => {
@@ -135,7 +135,7 @@ const ContentsDetailPage = () => {
             <Grid container spacing={2} mx={5} my={5}>
               <Grid item xs={12} sm={8} md={6} lg={5}>
                 <Card sx={{ height: '100%', width: '100%'}}>
-                    <img/>
+                    <img src={item.itemsImgUrl[0]} alt='대표사진'/>
                 </Card>
               </Grid>
               <Grid item xs={12} sm={8} md={6} lg={5}>
