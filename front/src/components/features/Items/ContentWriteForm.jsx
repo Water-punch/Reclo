@@ -45,8 +45,9 @@ const ContentWriteForm = ( {userId} ) => {
     try{
       await handlePresigned(file.name)
       await hadleImgToS3()
+      console.log('preUrl로 post요청', preUrl)
       await handleImgResult(file.name)
-      await Api.post(`item/${userId}`, { 
+      await Api.post(`item`, { 
         itemInfo : { 
           userId: userId,
           title: title, 

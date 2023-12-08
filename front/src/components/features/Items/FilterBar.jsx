@@ -82,8 +82,6 @@ function FilterBar() {
     }
   }
 
- 
-
   const findByCategory = async (e, categoryValue) => { //조건 = 성별, 분류1 이후에 선택한 **분류2**
     if(!open.open1 && !open.open2 && !open.open3) {
       setFilter('')
@@ -98,7 +96,7 @@ function FilterBar() {
         top={200}
         component="nav">
         <Typography variant='h5'>카테고리</Typography>
-        <Button onClick={()=>navigate('/contents')}> 전체아이템 </Button>
+        {/* <Button onClick={()=>navigate('/contents')}> 전체아이템 </Button> */}
         <TabContext value={tabValues[1]}>
 
           <TabList onChange={handleTabChange1}>

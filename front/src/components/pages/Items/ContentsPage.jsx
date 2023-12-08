@@ -31,9 +31,9 @@ const ContentsPage = () => {
 
   const filterSearch = async () => {
     try {
-      const res = await Api.get2(`items?category=${filter}`)
+      const res = await Api.get2(`itemsCategory?category=${filter}`)
       console.log('필터링 결과로 데이터 요청', res.data.items)
-      setFilter('')   
+      // setFilter('')   
       setItems(res.data.items)
     } catch (error) {
       console.log('필터링에 실패했습니다.')
