@@ -4,10 +4,10 @@ import ContentsCard from "./ContentsCard"
  const Contents = ({items}) => {
     console.log('출력할 items' ,items)
     return (
-        <Grid container spacing={2} mx={5} my={5} >
+        <Grid container spacing={1} mx={1} my={5} >
           {items ?
           (items.map((item) => ( // 테스트용임
-            <Grid item xs={6} sm={3} md={4} lg={6} key={item._id}>
+            <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>
               <ContentsCard
                 my={2} 
                 item={item}

@@ -26,7 +26,7 @@ const NavBar = () => {
                 variant="text"
                 color="success"
                 size="large"
-                onClick={() => {navigate('/contents')}}>
+                onClick={() => {navigate('/contents', {state: {normal: true}})}}>
                 거래/나눔
               </Button>
               <Button 

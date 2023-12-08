@@ -88,7 +88,7 @@ const ContentsDetailPage = () => {
   }
 
   useEffect(() => {
-    updateLikeOnPageChange()
+    addWishList()
     likeUpdate()
   }, [navigate])
 
@@ -127,7 +127,7 @@ const ContentsDetailPage = () => {
               삭제
             </Button>
            
-            <Card sx={{ minHeight: '30%', width: '70%' }}>
+            <Card sx={{ minHeight: '30%', width: '70%', marginLeft: '15%' }}>
               유저 정보 넣을 공간
             </Card>
 
