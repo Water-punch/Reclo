@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import * as Api from '../../../api/api';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -59,10 +59,8 @@ const ChangeInfo = () => {
       setNewNickname(response.data.nickname || '');
       setProfileImage(response.data.profileImage || null);
 
-      console.log('서버 응답:', response.data);
-
       // UserInfo 페이지로 이동
-      navigate('/userinfo', { state: { updatedUser: response.data } });
+      navigate('/userinfo', { state: { updatedUser: response.data._doc } });
     } catch (error) {
       console.error('유저 정보 에러:', error);
     }

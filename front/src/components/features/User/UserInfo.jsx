@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../../../styles/MyPage.css';
 import UserPoint from './UserPoint';
@@ -30,6 +30,10 @@ const UserInfo = ({ user }) => {
 
   const updatedUser = location.state?.updatedUser;
   const displayUser = updatedUser || user;
+
+  useEffect(() => {
+    console.log(updatedUser);
+  }, []);
 
   return (
     <div className='userinfoContainer'>

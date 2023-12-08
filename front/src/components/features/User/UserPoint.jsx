@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import '../../../styles/MyPage.css';
 import usePointStore from '../../../stores/point';
 import * as Api from '../../../api/api';
