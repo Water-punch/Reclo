@@ -46,9 +46,10 @@ const ContentsDetailPage = () => {
   const deleteItem = async (e) => {
     e.preventDefault()
     try { 
-      const res = await Api.del(`item/${item.userId}`)
+      const res = await Api.del(`item/${item._id}`)
         console.log('API 호출 결과:', res)
       alert('게시글이 삭제되었습니다.')
+      navigate('/contents')
     } catch (err) {
       alert('게시글 삭제에 실패했습니다.')
     }
@@ -135,7 +136,7 @@ const ContentsDetailPage = () => {
             <Grid container spacing={2} mx={5} my={5}>
               <Grid item xs={12} sm={8} md={6} lg={5}>
                 <Card sx={{ height: '100%', width: '100%'}}>
-                    <img src={item.itemsImgUrl[0]} alt='대표사진'/>
+                  {item.itemsImgUrl && <img src={item.itemsImgUrl[0]} alt='대표사진'/>}
                 </Card>
               </Grid>
               <Grid item xs={12} sm={8} md={6} lg={5}>

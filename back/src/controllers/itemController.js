@@ -105,7 +105,7 @@ async function setItem(req, res, next) {
   try {
     const itemId = new ObjectId(req.params.itemId);
     const toUpdate = req.body.toUpdate;
-    const newItemsImgUrl = itemInfo.itemsImgUrl ?? null;
+    const newItemsImgUrl = toUpdate.itemsImgUrl ?? null;
 
     const item = await itemService.getItemDetails({ itemId });
 

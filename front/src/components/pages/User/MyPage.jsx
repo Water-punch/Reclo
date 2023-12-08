@@ -7,24 +7,9 @@ import UserInfo from '../../features/User/UserInfo';
 
 const MyPage = () => {
   const navigate = useNavigate();
-  // const { isPending, error, data } = useQuery({
-  //   queryKey: ['mypage'],
-  //   queryFn: async () => {
-  //     try {
-  //       const res = await Api.get('user/current')
-  //       return res.data
-  //     } catch (error) {
-  //       throw error
-  //     }
-  //   },
-  // })
-
-  // if (isPending) return 'Loading...'
-  // if (error) return '오류가 발생했습니다.' + error.message
 
   const location = useLocation();
-  const userInfo = location.state.user; //user안에 user가 객체로 담겨있음
-  // const { user, updatedUser } = location.state {user:{}, updatedUser:{}}
+  const userInfo = location.state.user; 
 
   return (
     <div>

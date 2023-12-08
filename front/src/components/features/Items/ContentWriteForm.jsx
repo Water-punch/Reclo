@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import ReactQuill, { Quill } from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import React, { useState } from 'react'
+import ReactQuill, { Quill } from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
 import {
   Box,
   Button,
@@ -12,24 +12,21 @@ import {
   Select,
   ImageList,
   ImageListItem,
-} from '@mui/material';
-import '../../../styles/contents.css';
-import * as Api from '../../../api/api';
-import useUserStore from '../../../stores/user';
-import { useNavigate } from 'react-router-dom';
+} from '@mui/material'
+import '../../../styles/contents.css'
+import * as Api from '../../../api/api'
+import useUserStore from '../../../stores/user'
+import { useNavigate } from 'react-router-dom'
 
 const ContentWriteForm = ({ userId }) => {
-  const [title, setTitle] = useState('');
-  const [price, setPrice] = useState(0);
-  const [description, setDescription] = useState('');
-  const [state, setState] = useState('거래 가능');
+  const [title, setTitle] = useState('')
+  const [price, setPrice] = useState(0)
+  const [description, setDescription] = useState('')
+  const [state, setState] = useState('거래 가능')
   const [categories, setCategories] = useState({ 1: '', 2: '', 3: '' });
-  const [category, setCategory] = useState('');
-  const [preUrl, setPreUrl] = useState('');
-  const [itemsImgUrl, setitemsImgUrl] = useState([]);
-  const [imgSrc, setImgSrc] = useState([]);
-  const [file, setFile] = useState('');
-  const navigate = useNavigate();
+  const [imgSrc, setImgSrc] = useState([])
+  const [file, setFile] = useState('')
+  const navigate = useNavigate()
 
   const modules = {
     toolbar: [
@@ -56,13 +53,13 @@ const ContentWriteForm = ({ userId }) => {
   ];
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(file);
+    e.preventDefault()
+    console.log(file)
 
     try {
-      const presignedUrl = await handlePresigned(file.name);
-      const imgUrl = await handleImgToS3(presignedUrl);
-      console.log('preUrl로 post요청', presignedUrl);
+      const presignedUrl = await handlePresigned(file.name)
+      const imgUrl = await handleImgToS3(presignedUrl)
+      console.log('preUrl로 post요청', presignedUrl)
 
       await Api.post(`item`, {
         itemInfo: {
@@ -73,25 +70,25 @@ const ContentWriteForm = ({ userId }) => {
           category: categories[1] + categories[2] + categories[3],
           state: state,
           itemsImgUrl: [imgUrl],
-        },
-      });
+        }
+      })
 
-      alert('게시글이 업로드되었습니다.');
+      alert('게시글이 업로드되었습니다.')
 
       // navigate('/activity')
       // navigate('/contents')
     } catch (err) {
-      alert(`게시글 등록에 실패했습니다.\n 필수항목을 채워주세요.`);
+      alert(`게시글 등록에 실패했습니다.\n 필수항목을 채워주세요.`)
     }
   };
 
   const handlePresigned = async (fileName) => {
     try {
-      const res = await Api.put(`itemURL/${fileName}`);
-      console.log('PresignedURL을 받아왔습니다.', res.data.presignedUrl);
-      return res.data.presignedUrl;
+      const res = await Api.put(`itemURL/${fileName}`)
+      console.log('PresignedURL을 받아왔습니다.', res.data.presignedUrl)
+      return res.data.presignedUrl
     } catch (err) {
-      alert(`[presignedUrl 오류]`);
+      alert(`[presignedUrl 오류]`)
     }
   };
 
@@ -111,25 +108,25 @@ const ContentWriteForm = ({ userId }) => {
   };
 
   const imgPreview = (e) => {
-    const files = e.target.files;
-    const fileName = files[0].name;
-    const imageSrcArray = [];
-    setFile(files[0]);
-    console.log(files);
-    console.log(files[0]);
+    const files = e.target.files
+    const fileName = files[0].name
+    const imageSrcArray = []
+    setFile(files[0])
+    console.log(files)
+    console.log(files[0])
 
     for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const reader = new FileReader();
+      const file = files[i]
+      const reader = new FileReader()
 
       reader.onload = (event) => {
-        imageSrcArray.push(event.target.result);
-        setImgSrc([...imageSrcArray]);
+        imageSrcArray.push(event.target.result)
+        setImgSrc([...imageSrcArray])
       };
 
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file)
     }
-  };
+  }
 
   return (
     <div className='addBox'>

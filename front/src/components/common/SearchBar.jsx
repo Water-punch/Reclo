@@ -11,7 +11,7 @@ const SearchBar = () => {
     e.preventDefault()
    
     try {
-      const res = await Api.get(`itemsearch?searchItem=${keyword}`)
+      const res = await Api.get2(`itemsearch?searchItem=${keyword}`)
       console.log(`"${keyword}" 검색결과:`, res.data.items)
       if (res.data.items.length === 0) {
         alert('검색결과가 존재하지 않습니다. 다른 검색어를 입력하세요')

@@ -1,11 +1,11 @@
 import { Grid } from "@mui/material"
 import ContentsCard from "./ContentsCard"
 
- const Contents = ({items}) => {
-    console.log('출력할 items' ,items)
+ const Contents = ({ items }) => {
+    console.log('출력할 items..' ,items)
     return (
         <Grid container spacing={1} mx={1} my={5} >
-          {items ?
+          {items != [] ?
           (items.map((item) => ( // 테스트용임
             <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>
               <ContentsCard
