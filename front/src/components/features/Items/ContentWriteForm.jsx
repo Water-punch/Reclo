@@ -43,10 +43,10 @@ const ContentWriteForm = ( {userId} ) => {
     console.log(file)
 
     try{
-      await handlePresigned(file.name)
-      await hadleImgToS3()
-      console.log('preUrl로 post요청', preUrl)
-      await handleImgResult(file.name)
+      const presignedUrl = await handlePresigned(file.name);
+      await handleImgToS3(presignedUrl)
+      console.log('preUrl로 post요청', presignedUrl);
+      // await handleImgResult(file.name)
       await Api.post(`item`, { 
         itemInfo : { 
           userId: userId,
@@ -69,24 +69,24 @@ const ContentWriteForm = ( {userId} ) => {
     try{
       const res = await Api.put(`itemURL/${fileName}`)
       console.log('PresignedURL을 받아왔습니다.', res.data.presignedUrl )
-      setPreUrl(res.data.presignedUrl)
+      return res.data.presignedUrl
     } catch (err) {
       alert(`[presignedUrl 오류]`)
       }
   }
 
-  const handleImgResult = async (fileName) => {
+  // const handleImgResult = async (fileName) => {
 
-    try{
-      const res = await Api.post(`itemImage/${fileName}`,{})
-      console.log('handleImgResult성공', res)
+  //   try{
+  //     const res = await Api.post(`itemImage/${fileName}`,{})
+  //     console.log('handleImgResult성공', res)
 
-    } catch (err) {
-      console.log(`handleImgResult 실패`)
-      }
-  }
+  //   } catch (err) {
+  //     console.log(`handleImgResult 실패`)
+  //     }
+  // }
 
-  const hadleImgToS3 = async () => {
+  const handleImgToS3 = async (preUrl) => {
     //서버에서 받아온 Presigned url, 저장한 파일로 api 호출
     try {
       const res = await Api.postImg(preUrl, file) 
@@ -120,7 +120,6 @@ const ContentWriteForm = ( {userId} ) => {
       reader.readAsDataURL(file)
     }
   }
-  
 
   return (
     <div className="addBox">
