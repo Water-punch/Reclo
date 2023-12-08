@@ -86,8 +86,11 @@ class imageService {
   }
 
   static async updateImages({ ImgUrl, newImgUrl }) {
-    const deletedUrl = set(ImgUrl) - set(newImgUrl);
-    const updatedUrl = set(newImgUrl) - set(ImgUrl);
+    const first = new Set(ImgUrl);
+    const second = new Set(newImgUrl);
+
+    const deletedUrl = ImgUrl.filter(data => !second.has(data))
+    const updatedUrl = newImgUrl.filter(data => !first.has(data))
 
     // 사용하지 않는 url deleted처리
     const Images = await Promise.all(

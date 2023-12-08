@@ -35,14 +35,20 @@ const UserInfo = ({ user }) => {
     console.log(updatedUser);
   }, []);
 
+
+
   return (
     <div className='userinfoContainer'>
       <div className='mypage'>
         <h1>My Page</h1>
         <div className='contentContainer'>
           <div className='profile'>
-            {displayUser.profileImage ? (
-              <img src={displayUser.profileImage} alt='프로필 이미지' />
+            {displayUser.userImgUrl ? (
+              <img 
+                src={displayUser.userImgUrl} 
+                alt='프로필 이미지'
+                className='profile'  
+              />
             ) : (
               <p>No profile image</p>
             )}

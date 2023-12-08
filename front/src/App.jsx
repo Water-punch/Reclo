@@ -11,7 +11,7 @@ import Header from './components/common/Header';
 import NavBar from './components/common/NavBar';
 import useUserStore from './stores/user';
 import * as Api from './api/api';
-import ChangeInfo from './components/features/User/Changeinfo';
+import ChangeInfo from './components/features/User/ChangeInfo';
 import UserInfo from './components/features/User/UserInfo';
 
 function App() {

@@ -28,9 +28,55 @@ const ChangeInfo = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [isChanging, setIsChanging] = useState(false);
   const [user, setUser] = useState(null);
+  const [file, setFile] = useState('')
 
   const location = useLocation();
   const navigate = useNavigate();
+
+  //과정0: Input에 올린 이미지 미리보기
+  const imgPreview = (e) => {
+    const imgFile = e.target.files[0]
+
+    setFile(imgFile)
+    console.log(imgFile)
+
+    if (imgFile) {
+      const reader = new FileReader()
+
+      reader.onload = (event) => {
+        setProfileImage(event.target.result)
+      };
+
+      reader.readAsDataURL(imgFile)
+    }
+  }
+
+  //과정1: 백엔드에 preSignedUrl 요청하기
+  const handlePresigned = async (fileName) => {
+    try {
+      const res = await Api.put(`userURL/${fileName}`)
+      console.log('PresignedURL을 받아왔습니다.', res.data.presignedUrl)
+      return res.data.presignedUrl
+    } catch (err) {
+      alert(`[presignedUrl 오류] 관리자에게 문의하세요`)
+    }
+  };
+
+  //과정2: 받아온 preSignedUrl로 S3에 직접 이미지 업로드
+  const handleImgToS3 = async (preUrl) => {
+    //서버에서 받아온 Presigned url, 저장한 파일로 api 호출
+    try {
+      const res = await Api.postImg(preUrl, file)
+      const resUrl = res.request.responseURL
+      const imageUrlWithoutQuery = resUrl.split('?')[0]
+      console.log(res)
+      console.log(imageUrlWithoutQuery)
+      // setitemsImgUrl((prev) => [...prev, resUrl])
+      return imageUrlWithoutQuery
+    } catch {
+      alert('이미지 등록에 실패했습니다. S3업로드')
+    }
+  };
 
   useEffect(() => {
     const userFromLocation = location.state.user;
@@ -47,11 +93,16 @@ const ChangeInfo = () => {
         return;
       }
 
+      const presignedUrl = await handlePresigned(file.name)
+      const imgUrl = await handleImgToS3(presignedUrl)
+      console.log('preUrl로 post요청', presignedUrl)
+
       const response = await Api.put('user/current', {
         user: {
           _id: user._id,
           nickname: newNickname,
-          profileImage,
+          //User schema에 userImgUrl로 작성되어 있습니다.
+          userImgUrl: imgUrl, 
         },
       });
 
@@ -89,8 +140,14 @@ const ChangeInfo = () => {
                   className='fileInput'
                   type='file'
                   accept='image/*'
-                  onChange={(e) => setProfileImage(e.target.files[0])}
+                  onChange={imgPreview}
                 />
+                {profileImage && 
+                  <img 
+                    src={profileImage} 
+                    alt='프로필사진' 
+                    style={{height: 150, width: 150}}
+                  />}
                 <button className='saveButton' onClick={handleChangeUserInfo}>
                   저장
                 </button>
