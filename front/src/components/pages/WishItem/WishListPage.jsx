@@ -26,7 +26,7 @@ const WishListPage = () => {
 
   // setWishItem
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
       <Box sx={{ marginTop: '20px' }}>오늘도 {user.nickname}님의 옷장에 새로운 가치를 더해 보세요👕</Box>
       <Box sx={{ marginTop: '10px' }}>{user.nickname}님 위시리스트 </Box>
       <Box sx={{ flexGrow: 1, marginLeft: '20vh' }}>

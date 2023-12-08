@@ -3,10 +3,9 @@ import { useNavigate, useParams } from "react-router-dom"
 import { Card, Chip, Stack, Box, Button, Grid, Checkbox, Divider, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder'
 import Favorite from '@mui/icons-material/Favorite'
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useMutation, useQuery } from "@tanstack/react-query"
 import * as Api from '../../../api/api'
 import useUserStore from "../../../stores/user"
+import { getRankName } from '../../features/User/UserInfo'
 
 const ContentsDetailPage = () => {
   const navigate = useNavigate()
@@ -18,15 +17,27 @@ const ContentsDetailPage = () => {
   const [item, setItem] = useState({})
   const { user } = useUserStore()
   const [open, setOpen] = useState(false)
+  const [writer, setWriter] = useState([])
 
   const getItemDetail = async () => {
     const res = await Api.get(`item/${itemId}`)
     setItem(res.data.itemDetails)
     console.log(res.data.itemDetails)
+    return res.data.itemDetails.userId
+  }
+
+  const getWriterInfo = async (userId) => {
+    try {
+      const res = await Api.get(`user/${userId}`)
+      setWriter(res.data.targetUser)
+    } catch {
+      console.log('판매자의 정보를 읽는데 실패했습니다.')
+    }
   }
 
   useEffect(() => {
-    getItemDetail()
+    const userId = getItemDetail()
+    getWriterInfo(userId)
   }, [])
   
   const handleOpen = () => {
@@ -129,8 +140,20 @@ const ContentsDetailPage = () => {
               삭제
             </Button>
            
-            <Card sx={{ minHeight: '30%', width: '70%', marginLeft: '15%' }}>
-              유저 정보 넣을 공간
+            <Card sx={{ maxHeight: '30%', width: '70%', marginLeft: '15%', display: "flex", alignItems: 'center' }}>
+                <div className='profile'>
+                  {writer.userImgUrl ? (
+                    <img 
+                      src={writer.userImgUrl} 
+                      alt='프로필 이미지'
+                      className='profile'  
+                    />
+                  ) : (
+                    <p>No profile image</p>
+                  )}
+                </div>
+                <p>닉네임: {writer.nickname}</p>
+                <p>Rank: {getRankName(writer.rank)}</p>
             </Card>
 
             <Grid container spacing={2} mx={5} my={5}>

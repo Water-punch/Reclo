@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import '../../../styles/MyPage.css';
 import UserPoint from './UserPoint';
 
-const getRankName = (level) => {
+  export const getRankName = (level) => {
   const numericLevel = parseInt(level, 10);
 
   switch (numericLevel) {
@@ -38,7 +38,6 @@ const UserInfo = ({ user }) => {
   return (
     <div className='userinfoContainer'>
       <div className='mypage'>
-        <h1>My Page</h1>
         <div className='contentContainer'>
           <div className='profile'>
             {displayUser.userImgUrl ? (

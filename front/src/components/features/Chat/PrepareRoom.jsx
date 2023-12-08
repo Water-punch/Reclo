@@ -12,10 +12,12 @@ const PrepareRoom = ({ userId, itemId }) => {
   const { myRooms, addRoom } = useChatStore()
   const navigate = useNavigate()
 
-  const startChatting = async () => {
+  const startChatting = async (e) => {
+    e.preventDefault()
+
     try {
       const res = await Api.post(`chat/newRoom/${itemId}`, { message : typing })
-      addRoom(res.data.roomId)
+      // addRoom(res.data.roomId)
       console.log(userId, itemId)
       navigate(`/chatting/${res.data.roomId}`, {state: { userId: userId, itemId: itemId, prepare: false }})
     } catch (err) {
@@ -26,8 +28,7 @@ const PrepareRoom = ({ userId, itemId }) => {
 
   return (
     <Box sx={{height: '100vh', backgroundColor: '#abdfab'}}>
-      <Button >채팅방 나가기</Button>
-      <Button onClick={navigate('/chatlist')}>채팅목록으로 돌아가기</Button>
+      <Button onClick={() => navigate('/chatlist')}>채팅목록으로 돌아가기</Button>
       <Box
         className='sendbar' 
         component='form' 

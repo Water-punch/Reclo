@@ -3,7 +3,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import * as Api from '../../../api/api'
 import Contents from './Contents';
 
-const limit = 4 //페이지당 아이템 수
+const limit = 8 //페이지당 아이템 수
 
 const ScrollPagination = () => {
   const [items, setItems] = useState([])

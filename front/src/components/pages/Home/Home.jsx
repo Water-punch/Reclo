@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Slide from '../../features/Home/Slide';
-import logo from '../../../../public/img/intro_logo.webp';
+import logo from '../../../../public/img/reclo.png';
 
 import '../../../styles/home.css';
 
