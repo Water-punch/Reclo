@@ -9,13 +9,13 @@ const itemRouter = Router();
 itemRouter.get('/items', itemController.getPagedItems);
 
 // 카테고리별 아이템 조회
-itemRouter.get('/items', itemController.getItemsByCategory);
+itemRouter.get('/itemsCategory', itemController.getItemsByCategory);
 
 // 검색으로 아이템 조회
 itemRouter.get('/itemsearch', itemController.getItemsBySearch);
 
 // 유저별 품목 조회
-itemRouter.get('/items/user/:userId', asyncHandler(login_required), itemController.getUserItems);
+itemRouter.get('/items/user', asyncHandler(login_required), itemController.getUserItems);
 
 // 아이템별 상세내용 조회
 itemRouter.get('/item/:itemId', itemController.getItemDetails);

@@ -1,10 +1,11 @@
 import '../../../styles/IntroPage.css';
 
-import intro_indonesia from '../../../../public/img/intro_indonesia.jpg'
-import intro_nowater from '../../../../public/img/intro_nowater.jpg';
-import intro_Heatwave from '../../../../public/img/intro_Heatwave.webp';
-import intro_clothwaste from '../../../../public/img/intro_clothwaste.jpg';
-import cloth_waste from '../../../../public/img/cloth_waste.jpg';
+import intro_indonesia from '/img/intro_indonesia.jpg';
+import intro_nowater from '/img/intro_nowater.jpg';
+import intro_Heatwave from '/img/intro_Heatwave.webp';
+import intro_clothwaste from '/img/intro_clothwaste.jpg';
+import cloth_waste from '/img/cloth_waste.jpg';
+import intro_water_co2_chart from '/img/intro_water_co2_chart.png';
 
 import Chart from './intropage/Chart';
 
@@ -26,6 +27,9 @@ const IntroPage = () => {
         >
           출처: Global Times Series
         </a>
+      </div>
+      <div id='intro_chart_pic'>
+        <img src={intro_water_co2_chart} data-aos='fade-left' data-aos-anchor-placement='center-center' />
       </div>
       <div id='intro_pic'>
         <p data-aos='zoom-in' data-aos-anchor-placement='center-center'>

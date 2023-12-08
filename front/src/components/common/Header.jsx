@@ -35,6 +35,16 @@ const Header = () => {
     } else alert('로그아웃 이후 가입해주세요.');
   };
 
+  const handleWishListPage = () => {
+    console.log('WishListPage 클릭 됨 , login: ', login);
+    if (login === true) {
+      navigate('/wishlist', { state: { user: user } });
+    } else {
+      alert('로그인이 필요한 서비스입니다');
+      navigate('/login');
+    }
+  };
+
   const handleMyPage = () => {
     console.log('mypage 클릭은 됨, login: ', login);
     if (login === true) {
@@ -66,7 +76,14 @@ const Header = () => {
           <Button sx={{ color: 'black' }} onClick={handleRegister}>
             회원가입
           </Button>
-
+          <Button
+            sx={{ color: 'black' }}
+            onClick={() => {
+              handleWishListPage();
+            }}
+          >
+            위시리스트
+          </Button>
           <Button
             sx={{ color: 'black' }}
             onClick={() => {

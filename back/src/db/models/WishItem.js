@@ -1,16 +1,32 @@
 import { wishItemModel } from '../schemas/wishItem.js';
+const ObjectId = require('mongoose').Types.ObjectId;
 
 class wishItem {
   // 유저 아이디로 관심상품 찾기
   static async findLikeitems({ userId }) {
-    const userLikeditems = await wishItemModel.find({ userId }).populate('Item');
-    return userLikeditems;
-  }
+    console.log(userId);
+    const userLikeditems = await wishItemModel
+      .aggregate([
+        {
+          $match: {
+            userId,
+          },
+        },
 
-  // 관심상품 상세내용 조회
-  static async findLikeitemDetails({ itemId }) {
-    const item = await wishItemModel.findOne({ itemId }).populate('Item');
-    return item;
+        {
+          $lookup: {
+            from: 'items', // 'User' 컬렉션
+            localField: 'itemId', // 현재 가지고 있는 필드로
+            foreignField: '_id', // '_id' 필드와 조인
+            as: 'wishItemId', // 조인된 결과를 저장할 필드 이름
+          },
+        },
+        {
+          $unwind: '$wishItemId',
+        },
+      ])
+      .exec();
+    return userLikeditems;
   }
 
   // Like -> 유저 관심상품 등록

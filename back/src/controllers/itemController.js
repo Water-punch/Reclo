@@ -47,7 +47,7 @@ async function getItemsByCategory(req, res, next) {
 // 유저별 품목 조회
 async function getUserItems(req, res, next) {
   try {
-    const userId = new ObjectId(req.params.userId);
+    const userId = req.currentUserId;
     const userItems = await itemService.getUserItems({ userId });
     if (!userItems) {
       // throw new Error(userItems.errorMessage);
@@ -62,7 +62,7 @@ async function getUserItems(req, res, next) {
 // 아이템 상세내용 조회
 async function getItemDetails(req, res, next) {
   try {
-    const itemId = new ObjectId(req.params.itemId);
+    const itemId = req.params.itemId;
     const itemDetails = await itemService.getItemDetails({ itemId });
 
     if (!itemDetails) {
@@ -78,6 +78,7 @@ async function getItemDetails(req, res, next) {
 // 아이템 추가하기
 async function addItem(req, res, next) {
   try {
+    const userId = req.currentUserId;
     const itemInfo = req.body.itemInfo;
 
     const itemsImgUrl = itemInfo.itemsImgUrl ?? null;
@@ -85,6 +86,7 @@ async function addItem(req, res, next) {
     // DB에 데이터 추가
     const newItem = await itemService.addItem({
       itemInfo,
+      userId,
     });
 
     if (itemsImgUrl) {
