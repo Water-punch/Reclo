@@ -10,6 +10,7 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
     nickname: {
       type: String,
@@ -30,16 +31,18 @@ const UserSchema = new Schema(
     },
 
     userImgUrl: {
-      type: Array,
+      type: String,
       required: false,
     },
     admin: {
       type: Boolean,
       default: false,
+      select: false,
     },
     deleted: {
       type: Date,
       default: null,
+      select: false,
     },
   },
   {

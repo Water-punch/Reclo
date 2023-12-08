@@ -5,7 +5,6 @@ const { wishItemService } = require('../services/wishItemService.js');
 async function getLikedItems(req, res, next) {
   try {
     const userId = new ObjectId(req.currentUserId);
-    console.log(userId);
 
     const userwishItems = await wishItemService.getUserLikeItems({ userId });
     if (!userwishItems) {
