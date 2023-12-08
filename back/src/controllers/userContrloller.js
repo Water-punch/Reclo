@@ -162,7 +162,6 @@ async function userInfo(req, res, next) {
   }
 }
 
-
 module.exports = {
   register,
   resign,
@@ -173,4 +172,5 @@ module.exports = {
   currentInfoUpdateImage,
   currentPointInfo,
   addPoint,
+  userInfo,
 };

@@ -35,8 +35,6 @@ const UserInfo = ({ user }) => {
     console.log(updatedUser);
   }, []);
 
-
-
   return (
     <div className='userinfoContainer'>
       <div className='mypage'>

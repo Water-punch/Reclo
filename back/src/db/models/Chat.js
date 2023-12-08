@@ -181,7 +181,7 @@ class Chat {
 
   static async findChatLast({ roomId }) {
     //안되면 findone -> find + limit
-    const chat = await ChatModel.find({ room: roomId }).select('-_id').sort({ createdAt: -1 }).limit(1);
+    const chat = await ChatModel.findOne({ room: roomId }).select('-_id');
 
     return chat;
   }

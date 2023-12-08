@@ -52,8 +52,8 @@ class itemService {
 
   // 아이템 등록
   static async addItem({ itemInfo, userId }) {
-    const newItem = { ...itemInfo };
-    const createdNewItem = await Item.createItem({ newItem, userId });
+    const newItem = { ...itemInfo, userId };
+    const createdNewItem = await Item.createItem({ newItem });
     if (!createdNewItem) {
       throw new BadRequestError('해당 상품이 등록되지 않았습니다.');
     }
