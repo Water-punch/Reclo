@@ -1,7 +1,7 @@
 .introbanner {
   width: 100%;
   background-color: rgb(205, 255, 208);
-  height: 450px;
+  height: 460px;
   padding: 3vh 0 0 5vw;
   padding-bottom: 500px;
 }
@@ -19,7 +19,7 @@
 .introbanner div div {
   background-color: white;
   width: 65%;
-  height: 300px;
+  height: 330px;
   border-radius: 20px;
   padding: 50px;
 

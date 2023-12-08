@@ -102,12 +102,12 @@ function RegisterForm() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel
+                {/* <FormControlLabel
                   control={
                     <Checkbox value="allowExtraEmails" color="primary" />
                   }
                   label="이벤트 소식을 이메일로 전달해드립니다"
-                />
+                /> */}
               </Grid>
             </Grid>
             <Button

@@ -2,8 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Slide from '../../features/Home/Slide';
 import logo from '../../../../public/img/reclo.png';
-
+import charity from '../../../../public/img/charity.png';
+import ecology from '../../../../public/img/ecology.png';
+import love from '../../../../public/img/giving-love.png'
+import secondhand from '../../../../public/img/second-hand.png'
 import '../../../styles/home.css';
+import { Stack, Typography } from '@mui/material';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -20,14 +24,21 @@ const Home = () => {
         <h1> About us</h1>
         <div>
           <img src={logo} />
-          <div>
-            RE:CLO는 버려지는 의류를 줄이고자 만들어 진 서비스 입니다. <br />
-            하고 싶은말 추가적으로 작성
-          </div>
+          <Stack direction='column'>
+            <Typography variant='h3'>What is RE:CLO?</Typography>
+            <Typography variant='body2'>구제의류 나눔 및 거래를 통해 환경을 지키는 플랫폼</Typography>
+            <Stack direction='row' spacing={10} sx={{marginRight: 20}}>
+              <img src={charity} style={{height: 100}}></img>
+              <img src={ecology} style={{height: 100}}></img>
+              <img src={love} style={{height: 100}}></img>
+              <img src={secondhand} style={{height: 100}}></img>
+            </Stack>
+          </Stack>
+
         </div>
       </div>
       <div className='freespace'></div>
-      {/* <Slide /> */}
+      <Slide />
       <div className='freespace'></div>
       <div
         className='testbanner'

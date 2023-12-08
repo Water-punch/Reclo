@@ -1,7 +1,7 @@
 .container {
   width: 100%;
-  height: fit-content;
-  background-color: black;
+  height: 350px;
+  background-color: rgb(238, 212, 212);
   color: white;
 }
 
