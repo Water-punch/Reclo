@@ -32,8 +32,7 @@ const ContentsPage = () => {
   const filterSearch = async () => {
     try {
       const res = await Api.get2(`itemsCategory?category=${filter}`)
-      console.log('필터링 결과로 데이터 요청', res.data.items)
-      // setFilter('')   
+      console.log('필터링 결과로 데이터 요청', res.data.items)  
       setItems(res.data.items)
       console.log('items:', res.data.items)
     } catch (error) {
@@ -43,13 +42,15 @@ const ContentsPage = () => {
 
   useEffect(() => {
     if (searchedData) {
+      setFilter('')
       setItems(searchedData)
       console.log('검색실행, items:' ,items)
-      searchedData = ''
-      console.log('검색실행 후 검색어 초기화', searchedData)
+      // searchedData = ''
+      // console.log('검색실행 후 검색어 초기화', searchedData)
       } 
 
     if (filter) {
+      searchedData = ''
       filterSearch()
       console.log('필터적용, items:' ,items)
       }
@@ -63,7 +64,7 @@ const ContentsPage = () => {
 
   return (
     <Box sx={{display: 'flex' }}>
-      <Box>
+      <Box position='sticky'>
         <FilterBar/>
       </Box>
       <Box 
@@ -74,7 +75,7 @@ const ContentsPage = () => {
           onClick={handleWrite}>
             물품 등록
         </Button>
-        {filter || searchedData && items && (<Contents items={items}/>)}  
+        {filter || searchedData && (<Contents items={items}/>)} 
         {!filter && !searchedData && (<ScrollPagination />)}
       </Box>   
     </Box>

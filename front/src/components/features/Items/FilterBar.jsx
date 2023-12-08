@@ -90,7 +90,7 @@ function FilterBar() {
   }
 
   return (
-    <div style={{ position: 'sticky' }}>
+    <div style={{ position: 'sticky', zIndex: 1000 }}>
       <Box 
         position='sticky'
         top={200}

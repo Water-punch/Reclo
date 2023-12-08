@@ -44,23 +44,12 @@ const ScrollPagination = () => {
     loadItems();
   }
 
-  // const scrollToTop = () => {
-  //   setHasMore(true)
-  //   if (cursorSave.length >= 2) {
-  //     const prevCursor = cursorSave[-2]
-  //   }
-  //   searchParams.set('itemCursor', cursorSave[(cursorSave.length-3) <= 0 ? (cursorSave.length-3) : '' ])
-  //   setItemCursor('')
-  // }
-
   return (
     <InfiniteScroll
       dataLength={items.length}
       next={fetchMoreData}
       hasMore={hasMore}
-      // loader={<h4>Loading...</h4>}
-      // scrollableTarget='scrollableDiv'
-      // scrollToTop={scrollToTop}
+      loader={<h4>Loading...</h4>}
     >
       <Contents items={items}/>
     </InfiniteScroll>
