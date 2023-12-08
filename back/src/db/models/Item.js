@@ -10,7 +10,7 @@ class Item {
 
   // 아이템 아이디로 찾기
   static async findByItemId({ itemId }) {
-    const item = await ItemModel.findOne({ $and: [{ _id: new ObjectId(itemId) }, { deleted: false }] });
+    const item = await ItemModel.findOne({ $and: [{ _id: itemId }, { deleted: false }] });
     return item;
   }
 
@@ -51,7 +51,8 @@ class Item {
 
   //userId로 아이템 찾기
   static async findUserItems({ userId }) {
-    const items = await ItemModel.find({ userId: new ObjectId(userId) });
+    const items = await ItemModel.findOne({ userId });
+    console.log(items);
     return items;
   }
 

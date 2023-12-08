@@ -5,20 +5,12 @@ import { BadRequestError, INVALID_ITEM_Error, ConflictError } from '../utils/cus
 class wishItemService {
   // 관심상품 조회
   static async getUserLikeItems({ userId }) {
+    console.log(userId);
     const likedItems = await wishItem.findLikeitems({ userId });
     if (!likedItems) {
       throw new INVALID_ITEM_Error('해당 상품이 존재하지 않습니다.');
     }
     return likedItems;
-  }
-
-  // 관심상품별 상세내용 조회
-  static async getLikeItemDetails({ itemId }) {
-    const item = await wishItem.findLikeitemDetails({ itemId });
-    if (!item) {
-      throw new INVALID_ITEM_Error('해당 상품이 존재하지 않습니다.');
-    }
-    return item;
   }
 
   // 관심상품 등록
