@@ -49,9 +49,9 @@ async function getUserItems(req, res, next) {
   try {
     const userId = req.currentUserId;
     const userItems = await itemService.getUserItems({ userId });
-    if (!userItems) {
-      // throw new Error(userItems.errorMessage);
-    }
+    // if (!userItems) {
+    //   // throw new Error(userItems.errorMessage);
+    // }
 
     res.status(200).send({ userItems });
   } catch (error) {

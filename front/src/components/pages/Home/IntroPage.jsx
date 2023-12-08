@@ -1,11 +1,11 @@
 import '../../../styles/IntroPage.css';
 
-import intro_indonesia from '/img/intro_indonesia.jpg';
-import intro_nowater from '/img/intro_nowater.jpg';
-import intro_Heatwave from '/img/intro_Heatwave.webp';
-import intro_clothwaste from '/img/intro_clothwaste.jpg';
-import cloth_waste from '/img/cloth_waste.jpg';
-import intro_water_co2_chart from '/img/intro_water_co2_chart.png';
+import intro_indonesia from '../../../../public/img/intro_indonesia.jpg';
+import intro_nowater from '../../../../public/img/intro_nowater.jpg';
+import intro_Heatwave from '../../../../public/img/intro_Heatwave.webp';
+import intro_clothwaste from '../../../../public/img/intro_clothwaste.jpg';
+import cloth_waste from '../../../../public/img/cloth_waste.jpg';
+import logo from '../../../../public/img/intro_logo.webp';
 
 import Chart from './intropage/Chart';
 
@@ -18,8 +18,7 @@ const IntroPage = () => {
 
   return (
     <div className='IntroPage'>
-      <h1>IntroPage</h1>
-      <div id='chart' data-aos='fade-right' data-aos-anchor-placement='center-center'>
+      <div id='chart'>
         <Chart />
         <a
           id='temp_url'
@@ -63,18 +62,35 @@ const IntroPage = () => {
       </div>
       <div id='news' data-aos='zoom-in' data-aos-anchor-placement='center-center'>
         <p data-aos='zoom-in' data-aos-anchor-placement='center-center'>
-          의류 산업의 성장세를 보았을 때 2030년까지의 의류 배출량은 50% 증가 할 것을 보입니다.
+          의류 산업의 성장세를 보았을 때 2030년까지의 의류 배출량은
+          <br />
+          50% 증가 할 것을 보입니다.
         </p>
-        <iframe
-          id='world_news'
-          width='560'
-          height='315'
-          src='https://www.youtube.com/embed/aopyc8cAFzQ?si=NKrPQUY-jBxDLK89&amp;start=0'
-          title='YouTube video player'
-          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-          allowfullscreen
-        ></iframe>
       </div>
+      <div id='ending' data-aos='zoom-in' data-aos-anchor-placement='center-center'>
+        <p data-aos='zoom-in' data-aos-anchor-placement='center-center'>
+          그래서 우리는 만들기로 했습니다.
+        </p>
+      </div>
+      <div id='ending' data-aos='zoom-in' data-aos-anchor-placement='center-center'>
+        <p data-aos='zoom-in' data-aos-anchor-placement='center-center'>
+          우리가 우리의 지구를 돕기 위해.
+        </p>
+      </div>
+
+      <div id='ending' data-aos='zoom-in' data-aos-anchor-placement='center-center'>
+        <img src={logo} data-aos='zoom-in' data-aos-anchor-placement='center-center' />
+      </div>
+
+      <iframe
+        id='world_news'
+        width='1120'
+        height='630'
+        src='https://www.youtube.com/embed/aopyc8cAFzQ?si=NKrPQUY-jBxDLK89&amp;start=0'
+        title='YouTube video player'
+        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+        allowfullscreen
+      ></iframe>
     </div>
   );
 };

@@ -41,18 +41,20 @@ async function post(endpoint, data) {
   });
 }
 
-async function postImg(endpoint, data) {
-  try {
-    console.log(`%c이미지 POST 요청: ${serverUrl + endpoint}`, 'color: #ba2941;');
-    console.log(`%cPOST 요청 데이터: ${data}`, 'color: #ba2941;');
-  } catch (err) {
+async function postImg(url, data) {
+  
+  try{
+    console.log(`%c이미지 POST 요청: ${url}`, "color: #ba2941;");
+    console.log(`%cPOST 요청 데이터: ${data}`, "color: #ba2941;");
+  }
+  catch (err) {
     console.log('POST 요청 실패\n', err);
   }
 
-  return axios.post(serverUrl + endpoint, data, {
-    withCredentials: true,
+  return axios.post(url, data, {
+    // withCredentials: true,
     headers: {
-      'Content-Type': 'multipart/form-data',
+      "Content-Type": 'image/*',
     },
   });
 }
@@ -101,4 +103,4 @@ async function delImg(endpoint, data) {
   });
 }
 
-export { get, get2, post, postImg, put, del, delImg };
+export { get, get2, post, postImg, put, del, delImg }

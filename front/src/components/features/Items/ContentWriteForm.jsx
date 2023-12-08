@@ -1,14 +1,14 @@
 import React, { useState } from "react"
 import ReactQuill, {Quill} from "react-quill"
 import 'react-quill/dist/quill.snow.css'
-import { Box, Button, Stack, TextField, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
+import { Box, Button, Stack, TextField, InputLabel, MenuItem, FormControl, Select, ImageList, ImageListItem } from '@mui/material'
 import '../../../styles/contents.css'
 import * as Api from '../../../api/api'
-import { useMutation } from "@tanstack/react-query"
 import useUserStore from "../../../stores/user"
 import { useNavigate } from "react-router-dom"
 
-const ContentWriteForm = () => {
+
+const ContentWriteForm = ( {userId} ) => {
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState(0)
   const [description, setDescription] = useState('')
@@ -16,8 +16,9 @@ const ContentWriteForm = () => {
   const [categories, setCategories] = useState({1: '', 2: '', 3: ''})
   const [category, setCategory] = useState('')
   const [preUrl, setPreUrl] = useState('')
-  const [itemsImgUrl, setitemsImgUrl] = useState('')
-  const { user } = useUserStore()
+  const [itemsImgUrl, setitemsImgUrl] = useState([])
+  const [imgSrc, setImgSrc] = useState([])
+  const [file, setFile] = useState('')
   const navigate = useNavigate()
 
   const modules = {
@@ -39,50 +40,87 @@ const ContentWriteForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(user._id)
+    console.log(file)
+
     try{
-      await Api.post(`item/${user._id}`, { 
+      await handlePresigned(file.name)
+      await hadleImgToS3()
+      console.log('preUrl로 post요청', preUrl)
+      await handleImgResult(file.name)
+      await Api.post(`item`, { 
         itemInfo : { 
-          userId: user._id, 
+          userId: userId,
           title: title, 
           price: Number(price), 
           description: description, 
-          category: category, 
+          category: categories[1] + categories[2] + categories[3], 
           state: state, 
           itemsImgUrl: itemsImgUrl }})
+          
       alert('게시글이 업로드되었습니다.')
 
-      // await Api.post(`item/${user._id}`, { userId: user._id, title, price: Number(price), description, category, state })
-      // alert('게시글이 업로드되었습니다.')
-
-      navigate('/activity')
+      // navigate('/activity')
     } catch (err) {
       alert(`게시글 등록에 실패했습니다.\n 필수항목을 채워주세요.`)
       }
   } 
 
-  const handlePresigned = async () => {
+  const handlePresigned = async (fileName) => {
     try{
       const res = await Api.put(`itemURL/${fileName}`)
-
       console.log('PresignedURL을 받아왔습니다.', res.data.presignedUrl )
+      setPreUrl(res.data.presignedUrl)
     } catch (err) {
-      alert(`이미지 등록에 실패했습니다.\n [presigned 오류]`)
+      alert(`[presignedUrl 오류]`)
       }
   }
 
-  const handleImg = async () => {
+  const handleImgResult = async (fileName) => {
+
     try{
-      const res = await Api.postImg(`itemURL/${fileName}`,{})
-
-      console.log('이미지를 업로드했습니다.', res)
+      const res = await Api.post(`itemImage/${fileName}`,{})
+      console.log('handleImgResult성공', res)
 
     } catch (err) {
-      alert(`이미지 등록에 실패했습니다.\n [presigned 오류]`)
+      console.log(`handleImgResult 실패`)
       }
   }
 
+  const hadleImgToS3 = async () => {
+    //서버에서 받아온 Presigned url, 저장한 파일로 api 호출
+    try {
+      const res = await Api.postImg(preUrl, file) 
+      console.log(res)
+      console.log(res.data)
+      console.log(res.data.imagePath)
+      setitemsImgUrl(prev => [...prev, res.data.imagePath])
 
+    } catch {
+      alert('이미지 등록에 실패했습니다. S3업로드')
+      }
+  }
+
+  const imgPreview = (e) => {
+    const files = e.target.files
+    const fileName = files[0].name
+    const imageSrcArray = []
+    setFile(files[0])
+    console.log(files)
+    console.log(files[0])
+    
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+      const reader = new FileReader()
+  
+      reader.onload = (event) => {
+        imageSrcArray.push(event.target.result)
+        setImgSrc([...imageSrcArray])
+      }
+  
+      reader.readAsDataURL(file)
+    }
+  }
+  
 
   return (
     <div className="addBox">
@@ -101,6 +139,28 @@ const ContentWriteForm = () => {
           width: '80%',
         },
       }}>
+
+        <Box>
+          <Stack>
+            <input 
+              multiple type="file" 
+              accept="image/*"
+              onChange={imgPreview}
+            />
+            <ImageList 
+              cols={3} rowHeight={164}
+            >
+              {imgSrc.map((url, idx) => (
+                <ImageListItem key={idx}>
+                  <img
+                    src={url}
+                  />
+                </ImageListItem>
+              ))}
+            </ImageList>
+          </Stack>
+        </Box>
+
         <Stack spacing={'10%'} direction="row">
           <TextField 
             value={title}
@@ -124,7 +184,6 @@ const ContentWriteForm = () => {
                   ...prev,
                   1: e.target.value 
                 }))
-              setCategory(prev=> prev + e.target.value)
             }}
           >
             <MenuItem value={'남성'}>남성</MenuItem>
@@ -146,7 +205,6 @@ const ContentWriteForm = () => {
                     ...prev,
                     2: e.target.value 
                   }))
-                setCategory(prev=> prev + e.target.value)
               }}
             >
               <MenuItem value={'상의'}>상의</MenuItem>
@@ -169,13 +227,13 @@ const ContentWriteForm = () => {
                     ...prev,
                     3: e.target.value 
                   }))
-                setCategory(prev=> prev + e.target.value)
               }}
             >
               <MenuItem value={'티셔츠'}>티셔츠</MenuItem>
               <MenuItem value={'맨투맨'}>맨투맨</MenuItem>
               <MenuItem value={'셔츠'}>셔츠</MenuItem>
               <MenuItem value={'니트'}>니트</MenuItem>
+              <MenuItem value={'후드'}>후드</MenuItem>
               <MenuItem value={'원피스'}>원피스</MenuItem>
             </Select>
           </FormControl>
@@ -193,7 +251,6 @@ const ContentWriteForm = () => {
                       ...prev,
                       3: e.target.value 
                     }))
-                  setCategory(prev=> prev + e.target.value)
                 }}
               >
                 <MenuItem value={'치마'}>치마</MenuItem>
@@ -218,7 +275,6 @@ const ContentWriteForm = () => {
                       ...prev,
                       3: e.target.value 
                     }))
-                  setCategory(prev=> prev + e.target.value)
                 }}
               >
                 <MenuItem value={'자켓'}>자켓</MenuItem>
@@ -244,11 +300,11 @@ const ContentWriteForm = () => {
                     ...prev,
                     3: e.target.value 
                   }))
-                setCategory(prev=> prev + e.target.value)
               }}
             >
               <MenuItem value={'티셔츠'}>티셔츠</MenuItem>
               <MenuItem value={'맨투맨'}>맨투맨</MenuItem>
+              <MenuItem value={'후드'}>후드</MenuItem>
               <MenuItem value={'셔츠'}>셔츠</MenuItem>
               <MenuItem value={'니트'}>니트</MenuItem>
             </Select>
@@ -268,7 +324,6 @@ const ContentWriteForm = () => {
                       ...prev,
                       3: e.target.value 
                     }))
-                  setCategory(prev=> prev + e.target.value)
                 }}
               >
                 <MenuItem value={'데님'}>데님</MenuItem>
@@ -292,7 +347,6 @@ const ContentWriteForm = () => {
                       ...prev,
                       3: e.target.value 
                     }))
-                  setCategory(prev=> prev + e.target.value)
                 }}
               >
                 <MenuItem value={'자켓'}>자켓</MenuItem>

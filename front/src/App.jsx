@@ -11,6 +11,8 @@ import Header from './components/common/Header';
 import NavBar from './components/common/NavBar';
 import useUserStore from './stores/user';
 import * as Api from './api/api';
+import ChangeInfo from './components/features/User/Changeinfo';
+import UserPoint from './components/features/User/UserPoint';
 
 function App() {
   const queryClient = new QueryClient();
@@ -21,8 +23,8 @@ function App() {
       setLogin(true);
       console.log('로그인 여부 확인: ', login);
 
-      const res = await Api.get('user/current');
-      console.log(res);
+      const res = await Api.get2('user/current');
+      console.log(res.data.user);
       setUser(res.data.user);
       console.log(user);
     }
@@ -47,6 +49,7 @@ function App() {
           <Route path='/mypage' element={<MyPage />} />
           <Route path='/wishlist' element={<WishListPage />} />
           <Route path='/point' element={<PointPage />} />
+          <Route path='/changeinfo' element={<ChangeInfo />} />
 
           <Route path='/test' element={<TestPage />} />
           <Route path='/test/result' element={<TestResultPage></TestResultPage>} />
@@ -54,7 +57,7 @@ function App() {
           <Route path='/contents' element={<ContentsPage />} />
           <Route path='/write' element={<ContentsWritePage />} />
           <Route path='/detail/:itemId' element={<ContentsDetailPage />} />
-          <Route path='/event' element={<EventPage />} />
+          <Route path='/wishlist' element={<WishListPage/>} />
 
           <Route path='/chatlist' element={<ChatListPage />} />
           <Route path='/chatting/:roomId' element={<ChattingRoomPage />} />

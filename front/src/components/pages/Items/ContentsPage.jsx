@@ -1,53 +1,68 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import FilterBar from '../../features/Items/FilterBar'
-import ContentsCard from '../../features/Items/ContentsCard'
 import * as Api from '../../../api/api'
-import { useQuery } from '@tanstack/react-query'
 import { Grid, Box, Button } from '@mui/material'
-import useUserStore from '../../../stores/user'
 import Contents from '../../features/Items/Contents'
 import ScrollPagination from '../../features/Items/ScrollPagination'
+import useItemsStore from '../../../stores/items'
+import useUserStore from '../../../stores/user'
 
 const ContentsPage = () => {
   const navigate = useNavigate()
   const [items, setItems] = useState([])
   const [seachParams, setSearchParams] = useSearchParams()
-  const filter = seachParams.get('category')
-  // const location = useLocation()
-  // const searchedData = location.state
-  // console.log('searchedData' , searchedData)
+  const location = useLocation()
+  let searchedData = location.state?.items || ''
+  const { filter, setFilter } = useItemsStore()
+  const { login } = useUserStore()
+
+  console.log('searchedData: ' , searchedData)
+  console.log('filter: ', filter )
+
+  const handleWrite = () => {
+    if(login) {
+      navigate('/write', { state : { edit: false } })
+    } else {
+      alert('로그인이 필요한 서비스입니다.')
+      navigate('/login')
+    }
+  }
 
   const filterSearch = async () => {
     try {
-      const res = await Api.get(`items?category=${filter}`)
-      console.log(res.data)
+      const res = await Api.get2(`itemsCategory?category=${filter}`)
+      console.log('필터링 결과로 데이터 요청', res.data.items)
+      // setFilter('')   
       setItems(res.data.items)
+      console.log('items:', res.data.items)
     } catch (error) {
       console.log('필터링에 실패했습니다.')
     }
   }
 
-  // useEffect(() => {
-  //   if (searchedData) {
-  //     setItems(searchedData.items)
-  //     }
+  useEffect(() => {
+    if (searchedData) {
+      setItems(searchedData)
+      console.log('검색실행, items:' ,items)
+      searchedData = ''
+      console.log('검색실행 후 검색어 초기화', searchedData)
+      } 
 
-  //   if (filter) {
-  //     filterSearch()
-  //     }
-  // }, [filter, searchedData])
+    if (filter) {
+      filterSearch()
+      console.log('필터적용, items:' ,items)
+      }
 
-  console.log('filter, searchedData : ' , filter)
+  }, [searchedData, filter])
 
-  // useEffect(() => {
-  //   if (searchedData) {
-  //     setItems(searchedData)
-  //     }
-  // }, [searchedData])
+  useEffect(() => {
+   
+
+  }, [filter])
 
   return (
-    <Box sx={{display: 'flex'}}>
+    <Box sx={{display: 'flex' }}>
       <Box>
         <FilterBar/>
       </Box>
@@ -56,10 +71,11 @@ const ContentsPage = () => {
         // sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Button 
-          onClick={() => {navigate('/write', { state : { edit: false } })}}>
+          onClick={handleWrite}>
             물품 등록
         </Button>
-        {filter ? (<Contents items={items}/>) : (<ScrollPagination />)}
+        {filter || searchedData && items && (<Contents items={items}/>)}  
+        {!filter && !searchedData && (<ScrollPagination />)}
       </Box>   
     </Box>
   )

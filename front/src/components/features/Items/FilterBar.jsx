@@ -1,22 +1,26 @@
 import '../../../styles/filter.css'
 import { useState } from 'react'
-import { Box, Divider, List, ListItem, ListItemButton, ListItemText, Toolbar, Tab, Typography, Stack } from '@mui/material'
+import { Box, Divider, List, ListItem, ListItemButton, ListItemText, Tab, Typography, Button } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { useQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
-import * as Api from '../../../api/api'
+import useItemsStore from '../../../stores/items'
+import { useNavigate } from 'react-router-dom'
 
 function FilterBar() {
   const [tabValues, setTabValues] = useState({1: '1', 2:'3'})
   const [open, setOpen] = useState({open1: false, open2: false, open3: false})
-  const [condition, setCondition] = useState('')
-  const [searchParams, setSearchParams] = useSearchParams()
+  const { filter, setFilter } = useItemsStore()
+  const navigate = useNavigate()
 
   const handleTabChange1 = (event, newTabValue) => {
     setTabValues(prev => ({
       ...prev,
       1: newTabValue
     }))
+    setOpen({
+      open1: false,
+      open2: false,
+      open3: false,
+    })
   }
 
   const handleTabChange2 = (event, newTabValue) => {
@@ -26,37 +30,63 @@ function FilterBar() {
     }))
   }
 
+  //클릭 = 첫항목 열기, 재클릭 = 첫항목 닫기
   const handleOpen1 = (event) => {
-    setOpen(prev => ({
-      ...prev,
-      open1: true,
-      open2: false,
-      open3: false,
-    }))
+    if (!open.open1) {  
+      setOpen(prev => ({
+        ...prev,
+        open1: true,
+        open2: false,
+        open3: false,
+      }))
+    } else {
+      setOpen({
+        open1: false,
+        open2: false,
+        open3: false,
+      })
+    }
   }
 
   const handleOpen2 = (event) => {
-    setOpen(prev => ({
-      ...prev,
-      open1: false,
-      open2: true,
-      open3: false,
-    }))
+    if (!open.open2) {
+      setOpen(prev => ({
+        ...prev,
+        open1: false,
+        open2: true,
+        open3: false,
+      }))
+    } else {
+      setOpen({
+        open1: false,
+        open2: false,
+        open3: false,
+      })
+    }
   }
 
   const handleOpen3 = (event) => {
-    setOpen(prev => ({
-      ...prev,
-      open1: false,
-      open2: false,
-      open3: true,
-    }))
+    if (!open.open3) {
+      setOpen(prev => ({
+        ...prev,
+        open1: false,
+        open2: false,
+        open3: true,
+      }))
+    } else {
+      setOpen({
+        open1: false,
+        open2: false,
+        open3: false,
+      })
+    }
   }
 
   const findByCategory = async (e, categoryValue) => { //조건 = 성별, 분류1 이후에 선택한 **분류2**
-    setCondition(categoryValue)
-    searchParams.set('category', categoryValue)
-    setSearchParams(searchParams)
+    if(!open.open1 && !open.open2 && !open.open3) {
+      setFilter('')
+    }
+    setFilter(categoryValue)
   }
 
   return (
@@ -66,6 +96,7 @@ function FilterBar() {
         top={200}
         component="nav">
         <Typography variant='h5'>카테고리</Typography>
+        {/* <Button onClick={()=>navigate('/contents')}> 전체아이템 </Button> */}
         <TabContext value={tabValues[1]}>
 
           <TabList onChange={handleTabChange1}>
@@ -173,6 +204,9 @@ function FilterBar() {
               </TabPanel>
             </TabContext>
           </TabPanel>
+
+
+          
 
         </TabContext>
       </Box>
