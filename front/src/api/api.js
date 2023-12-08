@@ -3,18 +3,6 @@ import axios from 'axios';
 const backendPortNumber = '5001';
 const serverUrl = 'http://' + window.location.hostname + ':' + backendPortNumber + '/';
 
-// const { S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, S3_BUCKET_NAME, S3_REGION } = process.env
-
-// AWS.config.update({
-//   region: process.env.S3_REGION,
-//   accessKeyId: process.env.S3_ACCESS_KEY_ID,
-//   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-// })
-
-// const s3 = new AWS.S3()
-
-// const bucketName = process.env.S3_BUCKET_NAME
-
 async function get(endpoint, params = '') {
   try {
     console.log(`%cGET 요청: ${serverUrl + endpoint + '/' + params}`, 'color: #ba2941;');
@@ -38,19 +26,6 @@ async function get2(endpoint) {
   });
 }
 
-//endpoint로만 get
-async function get2(endpoint) {
-
-  try {
-    console.log(`%cGET 요청: ${serverUrl + endpoint}`, "color: #ba2941;")
-  } catch (err) {
-    console.log('GET 요청 실패\n', err)
-  }
-  return axios.get(serverUrl + endpoint, {
-    withCredentials: true,
-  })
-}
-
 async function post(endpoint, data) {
   const bodyData = JSON.stringify(data);
   try {
@@ -69,14 +44,14 @@ async function post(endpoint, data) {
 async function postImg(url, data) {
   
   try{
-    console.log(`%c이미지 POST 요청: ${serverUrl + endpoint}`, "color: #ba2941;");
+    console.log(`%c이미지 POST 요청: ${url}`, "color: #ba2941;");
     console.log(`%cPOST 요청 데이터: ${data}`, "color: #ba2941;");
   }
   catch (err) {
     console.log('POST 요청 실패\n', err);
   }
 
-  return axios.put(url, data, {
+  return axios.post(url, data, {
     withCredentials: true,
     headers: {
       "Content-Type": 'image/*',

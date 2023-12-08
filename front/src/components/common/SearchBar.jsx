@@ -1,26 +1,28 @@
 import { TextField, Button, Box, Stack } from "@mui/material"
 import { useState } from "react"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import * as Api from '../../api/api'
 
 const SearchBar = () => {
   const [keyword, setKeyword] = useState('')
   const navigate = useNavigate()
-  const [searchParams, setSearchParams] = useSearchParams()
 
   const searchByKeyword = async (e) => { //조건 = 성별, 분류1 이후에 선택한 **분류2**
     e.preventDefault()
-    searchParams.set('searchItem', keyword)
-    setSearchParams(searchParams)
    
     try {
-      const res = await Api.get(`itemsearch?searchItem=${encodeURIComponent(keyword)}`)
-
-      console.log(`"${keyword}" 검색결과:`,res.data)
-
-      navigate(`/contents?${searchParams}`, { state : { items : res.data }})
+      const res = await Api.get(`itemsearch?searchItem=${keyword}`)
+      console.log(`"${keyword}" 검색결과:`, res.data.items)
+      if (res.data.items.length === 0) {
+        alert('검색결과가 존재하지 않습니다. 다른 검색어를 입력하세요')
+        setKeyword('')
+        navigate('/contents', { state : { items : res.data.items}})
+      }
+      else {
+        navigate(`/contents`, { state : { items : res.data.items }})
+      }
     } catch (error) { //ErrorBoundary 설정도 고려
-      alert('검색결과를 찾지 못했습니다.')
+      alert('검색에 실패했습니다.')
     }
   }
 

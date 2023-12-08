@@ -40,9 +40,11 @@ const ContentWriteForm = ( {userId} ) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    console.log(file)
 
     try{
-      await hadleImgToS3(file)
+      await handlePresigned(file.name)
+      await hadleImgToS3()
       await handleImgResult(file.name)
       await Api.post(`item/${userId}`, { 
         itemInfo : { 
@@ -56,7 +58,7 @@ const ContentWriteForm = ( {userId} ) => {
           
       alert('게시글이 업로드되었습니다.')
 
-      navigate('/activity')
+      // navigate('/activity')
     } catch (err) {
       alert(`게시글 등록에 실패했습니다.\n 필수항목을 채워주세요.`)
       }
@@ -84,9 +86,9 @@ const ContentWriteForm = ( {userId} ) => {
   }
 
   const hadleImgToS3 = async () => {
-
+    //서버에서 받아온 Presigned url, 저장한 파일로 api 호출
     try {
-      const res = await Api.postImg(preUrl, file)
+      const res = await Api.postImg(preUrl, file) 
       console.log(res)
       console.log(res.data)
       console.log(res.data.imagePath)
@@ -99,10 +101,11 @@ const ContentWriteForm = ( {userId} ) => {
 
   const imgPreview = (e) => {
     const files = e.target.files
-    const fileName = files.name
+    const fileName = files[0].name
     const imageSrcArray = []
-    setFile(files)
+    setFile(files[0])
     console.log(files)
+    console.log(files[0])
     
     for (let i = 0; i < files.length; i++) {
       const file = files[i]
@@ -114,7 +117,6 @@ const ContentWriteForm = ( {userId} ) => {
       }
   
       reader.readAsDataURL(file)
-      handlePresigned(fileName)
     }
   }
   

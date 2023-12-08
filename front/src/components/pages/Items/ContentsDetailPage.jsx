@@ -13,7 +13,7 @@ const ContentsDetailPage = () => {
   const params = useParams()
   const itemId = params.itemId
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
-  const [checkLike, setCheckLike] = useState(false)
+  const [checkLike, setCheckLike] = useState(true)
   const [updatedLike, setUpdatedLike] = useState(0)
   const [item, setItem] = useState({})
   const { user } = useUserStore()
@@ -56,7 +56,7 @@ const ContentsDetailPage = () => {
 
   const updateLikeOnPageChange = async () => { //페이지 이동 시 좋아요 상태 업데이트
     try {
-      const res = await Api.put(`item/${itemId}/likes`, {likeInfo: {like: updatedLike}})
+      const res = await Api.put(`item/${itemId}/likes`, {likeInfo: {likeStatus: checkLike}})
       console.log('like update 성공:', res)
     } catch {
       console.log('like Update 실패')
@@ -73,7 +73,8 @@ const ContentsDetailPage = () => {
 
   const handleLike = () => {
     setCheckLike(prev => !prev)
-    setUpdatedLike(prev => prev + (checkLike ? -1 : 1))
+    console.log(checkLike)
+    setUpdatedLike(prev => prev + (checkLike ? 1 : -1))
   }
 
   const sendRequest = async () => {
