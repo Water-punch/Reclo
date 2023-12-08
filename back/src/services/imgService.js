@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 const { S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, S3_BUCKET_NAME, S3_REGION } = process.env;
 
 import { BadRequestError, INVALID_IMAGE_Error } from '../utils/customError.js';
+import { set } from 'mongoose';
 
 const uuid = () => {
   const tokens = uuidv4().split('-');
@@ -66,88 +67,80 @@ class imageService {
     return url;
   }
 
-  // 아이템 이미지
   // 아이템 이미지 업로드 후 응답을 받으면 데이터베이스에 이미지 정보 저장
-  static async uploadImage({ imageInfo }) {
-    const newImage = { ...imageInfo };
-    const createImageData = await Image.createItemImage({ newImage, imageUrl: imageInfo.imageUrl });
-    if (!createImageData) {
-      throw new BadRequestError('해당 상품이 등록되지 않았습니다.');
-    }
+  static async uploadImages({ ImgUrl }) {
+    const createImageData = await Promise.all(
+      ImgUrl.map(async (Url) => {
+        const image = Image.createImage({ imageUrl: Url });
+        return image;
+      })
+    );
+
     return createImageData;
   }
 
-  // 아이템 이미지 수정
-  static async updateItemImage({ imageId, toUpdate }) {
-    const image = await Image.findByImageId({ imageId });
-    if (!image) {
-      throw new INVALID_IMAGE_Error('해당 이미지가 존재하지 않습니다.');
-    }
-    const updatedImage = await Image.updateImage({ imageId, updateImg: toUpdate });
-
-    return updatedImage;
+  static async uploadImage({ ImgUrl }) {
+    const itemImage = await Image.createImage({ imageUrl: ImgUrl });
+    return itemImage;
   }
 
-  // 아이템 이미지 삭제
-  static async deleteItemImage({ imageId }) {
-    const deletedItemImage = await Image.deleteImage({ imageId });
-    if (!deletedItemImage) {
-      throw new BadRequestError('해당 상품이 삭제되지 않았습니다.');
-    }
-    return deletedItemImage;
+  static async updateImages({ ImgUrl, newImgUrl }) {
+    const deletedUrl = set(ImgUrl) - set(newImgUrl);
+    const updatedUrl = set(newImgUrl) - set(ImgUrl);
+
+    console.log('imageUpdate : ', deletedUrl, updatedUrl);
+    // 사용하지 않는 url deleted처리
+    const Images = await Promise.all(
+      deletedUrl.map(async (Url) => {
+        const image = Image.deleteImage({ imageUrl: Url });
+        return image;
+      })
+    );
+
+    // 새로 추가된 url deleted처리
+    const updatedImages = await Promise.all(
+      updatedUrl.map(async (Url) => {
+        const image = Image.createImage({ imageUrl: Url });
+        return image;
+      })
+    );
+
+    //반환값 필요한가?
+    return { Images, updatedImages };
   }
 
-  // 유저 이미지
-  //유저 이미지 추가
-  static async uploadImage({ imageInfo }) {
-    const newImage = { ...imageInfo };
-    // console.log(newImage);
-    const createImageData = await Image.createUserImage({ newImage, imageUrl: newImage.imageUrl });
-    if (!createImageData) {
-      throw new BadRequestError('해당 상품이 등록되지 않았습니다.');
+  static async updateImage({ ImgUrl, newImgUrl }) {
+    if (!ImgUrl) {
+      const updatedImage = await Image.createImage({ imageUrl: newImgUrl });
+    } else if (ImgUrl !== newImgUrl) {
+      // 사용하지 않는 url deleted처리
+      const image = await Image.deleteImage({ imageUrl: ImgUrl });
+      // 새로 추가된 url deleted처리
+      const updatedImage = await Image.createImage({ imageUrl: newImgUrl });
     }
-    return createImageData;
+
+    //반환값 필요한가?
   }
 
-  // 유저 이미지 수정
-  static async updateUserImage({ imageId, toUpdate }) {
-    const image = await Image.findByImageId({ imageId });
-    if (!image) {
-      throw new INVALID_IMAGE_Error('해당 유저의 이미지가 존재하지 않습니다.');
-    }
-    const updatedImage = await Image.updateImage({ imageId, updateImg: toUpdate });
+  static async deleteImages({ ImgUrl }) {
+    // 사용하지 않는 url deleted처리
+    const Images = await Promise.all(
+      ImgUrl.map(async (Url) => {
+        const image = Image.deleteImage({ imageUrl: Url });
+        return image;
+      })
+    );
 
-    return updatedImage;
+    //반환값 필요한가?
+    return Images;
   }
 
-  // S3에 유저 이미지 삭제를 위한 image url 요청
-  // 프론트에서 image url과 bucket name 만 있으면 된다.
-  static async getdeleteUrl({ imageId }) {
-    const deleteImage = await Image.getdelUrl({ imageId });
+  static async deleteImage({ ImgUrl }) {
+    // 사용하지 않는 url deleted처리
+    const deletedImage = await Image.deleteImage({ imageUrl: ImgUrl });
 
-    if (!deleteImage) {
-      throw new INVALID_IMAGE_Error('삭제 요청한 유저 이미지가 존재하지 않습니다.');
-    }
-    return deleteImage;
-  }
-
-  //S3에서 이미지 삭제 후 DB에 저장된 유저 이미지 삭제
-  static async deleteUserImage({ imageId }) {
-    const deletedUserImage = await Image.delUserImage({ imageId });
-    if (!deletedUserImage) {
-      throw new BadRequestError('해당 유저의 이미지가 삭제되지 않았습니다.');
-    }
-    return deletedUserImage;
-  }
-
-  static async uploadChatImage({ imageInfo }) {
-    const newImage = { ...imageInfo };
-    // console.log(newImage);
-    const createImageData = await Image.createChatImage({ newImage, imageUrl: newImage.imageUrl });
-    if (!createImageData) {
-      throw new BadRequestError('해당 상품이 등록되지 않았습니다.');
-    }
-    return createImageData;
+    //반환값 필요한가?
+    return deletedImage;
   }
 }
 

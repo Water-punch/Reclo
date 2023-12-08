@@ -1,11 +1,12 @@
 const ObjectId = require('mongoose').Types.ObjectId;
 const { userAuthService } = require('../services/userService.js');
 const { pointService } = require('../services/pointService.js');
-const { wishItemService } = require('../services/wishItemService.js');
+const { imageService } = require('../services/imgService.js');
 
 async function register(req, res, next) {
   try {
     const user = req.body.user;
+    // DB에 데이터 추가
     // req (request) 에서 데이터 가져오기
     // 위 데이터를 유저 db에 추가하기
     const newUser = await userAuthService.addUser({
@@ -99,6 +100,26 @@ async function currentInfoUpdate(req, res, next) {
   }
 }
 
+async function currentInfoUpdateImage(req, res, next) {
+  try {
+    const userId = req.currentUserId;
+    const userUrl = req.body.userImgUrl;
+
+    const user = await userAuthService.getUserInfobyId({ userId });
+
+    console.log(userUrl);
+    if (userUrl) {
+      await imageService.updateImage({ ImgUrl: user.userImgUrl, newImgUrl: userUrl });
+    }
+    // 해당 사용자 이메일로 사용자 정보를 db에서 찾아 업데이트함.
+    const updatedUser = await userAuthService.setUserProfile({ userId, userUrl });
+
+    res.status(200).json({ ok: true });
+  } catch (error) {
+    next(error);
+  }
+}
+
 //포인트 누적 정보 확인
 async function currentPointInfo(req, res, next) {
   try {
@@ -108,19 +129,6 @@ async function currentPointInfo(req, res, next) {
     const points = await pointService.getAllUserPoint({ userId });
 
     res.status(200).json({ points });
-  } catch (error) {
-    next(error);
-  }
-}
-
-async function profileUpdate(req, res, next) {
-  try {
-    const userId = req.currentUserId;
-
-    // 해당 사용자 이메일로 사용자 정보를 db에서 찾아 업데이트함.
-    //const updatedUser = await userAuthService.setUserProfile({ userId, img });
-
-    res.status(200).json({ user: updatedUser });
   } catch (error) {
     next(error);
   }
@@ -140,20 +148,6 @@ async function addPoint(req, res, next) {
   }
 }
 
-// 닉네임으로 유저정보 조회, 넘겨주는 데이터에서 개인정보와 관련된부분 없애야할 필요가 있을듯
-async function InfoByNickname(req, res, next) {
-  try {
-    const userNickname = req.params.nickname;
-    const currentUserInfo = await userAuthService.getUserInfobyNickname({
-      nickname: userNickname,
-    });
-
-    res.status(200).json({ user: currentUserInfo });
-  } catch (error) {
-    next(error);
-  }
-}
-
 module.exports = {
   register,
   resign,
@@ -161,8 +155,7 @@ module.exports = {
   logout,
   currentInfo,
   currentInfoUpdate,
+  currentInfoUpdateImage,
   currentPointInfo,
-  profileUpdate,
   addPoint,
-  InfoByNickname,
 };

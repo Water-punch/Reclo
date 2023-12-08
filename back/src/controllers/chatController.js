@@ -121,11 +121,16 @@ async function sendChat(req, res, next) {
     const roomId = req.params.roomId;
     const messageText = req.body.message ?? '';
     const userId = req.currentUserId;
+    const imageUrl = req.body.imageUrl;
 
     //const chatImage = req.body.url ?? null;
     // 메시지를 데이터베이스에 저장
-    const newMessage = { room: roomId, message: messageText, sender: userId }; // 예시로 'user'라는 고정된 사용자로 지정
+    const newMessage = { room: roomId, message: messageText, sender: userId, imageUrl: imageUrl }; // 예시로 'user'라는 고정된 사용자로 지정
     const createdMessage = await ChatService.createChat({ newMessage });
+
+    if (imageUrl) {
+      const itemsImage = imageService.uploadImages({ ImgUrl: imageUrl });
+    }
 
     res.status(201).json({ ok: true });
   } catch (error) {

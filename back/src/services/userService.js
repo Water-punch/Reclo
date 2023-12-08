@@ -146,6 +146,21 @@ class userAuthService {
     }
     return updatedUser;
   }
+
+  static async setUserProfile({ userId, userUrl }) {
+    const duplication = await User.findById({ userId });
+
+    const updateduser = {
+      ...duplication._doc,
+      userImgUrl: userUrl,
+    };
+    // user 업데이트 후 반환
+    const updatedUser = await User.update({ user: updateduser });
+    if (!updatedUser) {
+      throw new InternalServerError('유저 정보 수정에 실패하였습니다.');
+    }
+    return updatedUser;
+  }
 }
 
 export { userAuthService };

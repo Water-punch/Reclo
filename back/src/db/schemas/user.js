@@ -31,7 +31,7 @@ const UserSchema = new Schema(
     },
 
     userImgUrl: {
-      type: Array,
+      type: String,
       required: false,
     },
     admin: {

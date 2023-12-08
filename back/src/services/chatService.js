@@ -81,7 +81,7 @@ class ChatService {
 
     const lastchats = await Promise.all(
       rooms.map(async (room) => {
-        const lastchat = await Chat.findChatLast({ roomId: room._id });
+        const lastchat = Chat.findChatLast({ roomId: room._id });
         return lastchat;
       })
     );

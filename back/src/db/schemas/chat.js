@@ -46,12 +46,9 @@ const chatMessageSchema = new Schema(
       type: Boolean,
       defalut: false,
     },
-    isImage: {
-      type: Boolean,
-      defalut: false,
-    },
     chatImgUrl: {
-      type: String,
+      type: Array,
+      required: false,
     },
   },
   {
