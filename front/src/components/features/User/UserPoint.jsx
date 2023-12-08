@@ -1,6 +1,4 @@
-// UserPoint.jsx
-
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import '../../../styles/MyPage.css';
 import usePointStore from '../../../stores/point';
 import * as Api from '../../../api/api';
@@ -22,7 +20,7 @@ const UserPoint = () => {
 
         setPointData(data);
       } catch (error) {
-        console.error('데이터를 불러오는 중 에러 발생:', error);
+        console.error('error:', error);
       }
     };
 
@@ -75,8 +73,8 @@ const UserPoint = () => {
           <p>레벨</p>
         </div>
         <div className='pointItem'>
-          <img src='/public/img/check.png' alt='포인트 조회 이미지' />
-          <p onClick={() => navigate('/point')}>포인트 조회</p>
+          <img src='/public/img/check.png' onClick={() => navigate('/point')} alt='포인트 조회 이미지' />
+          <p>포인트 조회</p>
         </div>
       </>
     </div>
