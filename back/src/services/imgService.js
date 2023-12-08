@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 const { S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, S3_BUCKET_NAME, S3_REGION } = process.env;
 
 import { BadRequestError, INVALID_IMAGE_Error } from '../utils/customError.js';
-import { set } from 'mongoose';
+
 
 const uuid = () => {
   const tokens = uuidv4().split('-');
@@ -86,8 +86,13 @@ class imageService {
   }
 
   static async updateImages({ ImgUrl, newImgUrl }) {
-    const deletedUrl = set(ImgUrl) - set(newImgUrl);
-    const updatedUrl = set(newImgUrl) - set(ImgUrl);
+    const first = new Set(ImgUrl);
+    const second = new Set(newImgUrl);
+   
+    const deletedUrl = ImgUrl.filter(data => !second.has(data))
+
+    const updatedUrl = newImgUrl.filter(data => !first.has(data))
+    
 
     // 사용하지 않는 url deleted처리
     const Images = await Promise.all(

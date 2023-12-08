@@ -117,7 +117,7 @@ async function setItem(req, res, next) {
   try {
     const itemId = new ObjectId(req.params.itemId);
     const toUpdate = req.body.toUpdate;
-    const newItemsImgUrl = itemInfo.itemsImgUrl ?? null;
+    const newItemsImgUrl = toUpdate.itemsImgUrl ?? null;
 
     const item = await itemService.getItemDetails({ itemId });
 
@@ -129,7 +129,7 @@ async function setItem(req, res, next) {
     // DB에 데이터 추가
 
     if (newItemsImgUrl) {
-      const itemsImage = imageService.updateImages({ ImgUrl: item.itemsImgUrl, newImgUrl: newItemsImgUrl });
+      const itemsImage = await imageService.updateImages({ ImgUrl: item.itemsImgUrl, newImgUrl: newItemsImgUrl });
     }
 
     res.status(200).send({
