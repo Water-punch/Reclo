@@ -22,13 +22,28 @@ class Item {
 
   // 검색으로 아이템 찾기
   static async findItemsBySearch({ searchItem }) {
+    // function escapeRegExp(string) {
+    //   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $&는 일치하는 전체 문자열을 나타냅니다.
+    // }
+    const searchTermRegex = new RegExp(`.*${searchItem}.*`, 'i');
+    console.log(searchTermRegex);
+
     const items = await ItemModel.find(
-      { $text: { $search: searchItem, $caseSensitive: false } }, // 대소문자 구분 안 함
-      { score: { $meta: 'textScore' }, deleted: false }
-    ).sort({ score: { $meta: 'textScore' } });
+      {
+        $or: [
+          { title: { $regex: searchTermRegex } },
+          { category: { $regex: searchTermRegex } },
+          { description: { $regex: searchTermRegex } },
+        ],
+        deleted: false,
+      }
+      // { score: { $meta: 'textScore' }, deleted: false }
+    ).sort({ createdAt: -1 });
+
     if (items.length > 0) {
       return items;
     }
+
     return items;
   }
 

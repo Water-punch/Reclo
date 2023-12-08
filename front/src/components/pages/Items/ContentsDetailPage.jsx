@@ -82,13 +82,14 @@ const ContentsDetailPage = () => {
           like: updatedLike,
           itemsImgUrl: itemsImgUrl 
         }})
+      console.log('좋아요 개수를 갱신했습니다. ')
     } catch (err) {
       console.log('좋아요 개수 수정에 실패했습니다.')
     }
   }
 
   useEffect(() => {
-    updateLikeOnPageChange()
+    addWishList()
     likeUpdate()
   }, [navigate])
 
@@ -127,7 +128,7 @@ const ContentsDetailPage = () => {
               삭제
             </Button>
            
-            <Card sx={{ minHeight: '30%', width: '70%' }}>
+            <Card sx={{ minHeight: '30%', width: '70%', marginLeft: '15%' }}>
               유저 정보 넣을 공간
             </Card>
 
@@ -162,7 +163,8 @@ const ContentsDetailPage = () => {
                       <Checkbox 
                       {...label} 
                       icon={<FavoriteBorder />} 
-                      checkedIcon={<Favorite />} 
+                      checkedIcon={<Favorite />}
+                      // value={item.} 
                       onClick={handleLike} />
                       <Typography variant="body2"> 좋아요 {updatedLike} </Typography>
                     </Stack>

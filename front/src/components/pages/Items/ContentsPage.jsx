@@ -11,12 +11,14 @@ import useUserStore from '../../../stores/user'
 const ContentsPage = () => {
   const navigate = useNavigate()
   const [items, setItems] = useState([])
-  const [seachParams, setSearchParams] = useSearchParams()
   const location = useLocation()
   let searchedData = location.state?.items || ''
+  let normal = location.state?.normal || ''
+
   const { filter, setFilter } = useItemsStore()
   const { login } = useUserStore()
-
+  const [searchItems, setSearchItems] = useState(searchedData)
+  console.log('normal', normal)
   console.log('searchedData: ' , searchedData)
   console.log('filter: ', filter )
 
@@ -45,37 +47,43 @@ const ContentsPage = () => {
       setFilter('')
       setItems(searchedData)
       console.log('검색실행, items:' ,items)
-      // searchedData = ''
-      // console.log('검색실행 후 검색어 초기화', searchedData)
       } 
 
     if (filter) {
-      searchedData = ''
+      // searchedData = ''
+      setSearchItems('')
       filterSearch()
       console.log('필터적용, items:' ,items)
       }
 
   }, [searchedData, filter])
 
-  useEffect(() => {
-   
 
-  }, [filter])
+  const handleReset = () => {
+    setFilter('')
+    setSearchItems('')
+  }
 
   return (
-    <Box sx={{display: 'flex' }}>
-      <Box position='sticky'>
+    <Box sx={{display: 'flex', width: "100%", height: '100vh'}}>
+      <Box position='sticky' zIndex={1}>
         <FilterBar/>
       </Box>
       <Box 
-        sx={{ flexGrow: 1, marginLeft: '20vh' }}
+        sx={{ flexGrow: 1, marginLeft: '20%', zIndex: 0 }}
         // sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Button 
           onClick={handleWrite}>
             물품 등록
         </Button>
-        {filter || searchedData && (<Contents items={items}/>)} 
+        <Button
+          color='success' 
+          onClick={handleReset}> 
+            전체아이템 조회 
+        </Button>
+        {filter && (<Contents items={items}/>)} 
+        {searchedData && (<Contents items={items}/>)}
         {!filter && !searchedData && (<ScrollPagination />)}
       </Box>   
     </Box>

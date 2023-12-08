@@ -4,6 +4,7 @@ import { Box, Divider, List, ListItem, ListItemButton, ListItemText, Tab, Typogr
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import useItemsStore from '../../../stores/items'
 import { useNavigate } from 'react-router-dom'
+import { Stack } from '@mui/system'
 
 function FilterBar() {
   const [tabValues, setTabValues] = useState({1: '1', 2:'3'})
@@ -87,16 +88,16 @@ function FilterBar() {
       setFilter('')
     }
     setFilter(categoryValue)
+    navigate('/contents', {state: {filter: categoryValue} })
   }
 
   return (
-    <div style={{ position: 'sticky', zIndex: 1000 }}>
+    <div className='bar'>
       <Box 
-        position='sticky'
         top={200}
         component="nav">
         <Typography variant='h5'>카테고리</Typography>
-        {/* <Button onClick={()=>navigate('/contents')}> 전체아이템 </Button> */}
+
         <TabContext value={tabValues[1]}>
 
           <TabList onChange={handleTabChange1}>
@@ -163,16 +164,16 @@ function FilterBar() {
           <TabPanel value='2'>
             <TabContext value={tabValues[2]} direction='column'>
               <TabList onChange={handleTabChange2} >
-                <Tab label='상의' value='3'/>
+                <Tab label='상의' value='3' sx={{maxWidth: 50}} />
                 <Divider />
-                <Tab label='하의' value='4'/>
+                <Tab label='하의' value='4' sx={{maxWidth: 50}} />
                 <Divider />
-                <Tab label='아우터' value='5'/>
+                <Tab label='아우터' value='5' sx={{maxWidth: 50}} />
               </TabList>
               <TabPanel value='3'>
                 <List>
                   {['티셔츠', '셔츠', '니트', '원피스', '맨투맨', '후드'].map((text, index) => (
-                    <ListItem key={text} disablePadding>
+                    <ListItem key={text} disablePadding >
                       <ListItemButton onClick={e => findByCategory(e,'여성상의'+ text )}>
                         <ListItemText primary={text} />
                       </ListItemButton>

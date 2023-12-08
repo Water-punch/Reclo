@@ -1,7 +1,9 @@
 .bar {
-    display: flex;
+    position: fixed;
+    top: 180px;
     justify-content: center;
-    width: 80%;
-    height: 15vh;
-    background-color: antiquewhite;
+    width: 33vh;
+    height: 100vh;
+    background-color: rgb(251, 251, 251);
+    z-index: 3;
 }
