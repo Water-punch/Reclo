@@ -12,6 +12,12 @@
   margin: 100px 0;
 }
 
+#intro_chart_pic {
+  display: flex;
+  flex-direction: column;
+  width: 1700px;
+}
+
 /* intro_pic */
 #intro_pic {
   display: flex;
