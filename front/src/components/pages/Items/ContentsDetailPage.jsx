@@ -82,6 +82,7 @@ const ContentsDetailPage = () => {
           like: updatedLike,
           itemsImgUrl: itemsImgUrl 
         }})
+      console.log('좋아요 개수를 갱신했습니다. ')
     } catch (err) {
       console.log('좋아요 개수 수정에 실패했습니다.')
     }
@@ -162,7 +163,8 @@ const ContentsDetailPage = () => {
                       <Checkbox 
                       {...label} 
                       icon={<FavoriteBorder />} 
-                      checkedIcon={<Favorite />} 
+                      checkedIcon={<Favorite />}
+                      // value={item.} 
                       onClick={handleLike} />
                       <Typography variant="body2"> 좋아요 {updatedLike} </Typography>
                     </Stack>

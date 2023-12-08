@@ -44,7 +44,7 @@ const ContentsPage = () => {
 
   useEffect(() => {
     if (searchedData) {
-      setFilterItems('')
+      setFilter('')
       setItems(searchedData)
       console.log('검색실행, items:' ,items)
       } 

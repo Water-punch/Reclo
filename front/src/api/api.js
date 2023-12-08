@@ -51,7 +51,7 @@ async function postImg(url, data) {
     console.log('POST 요청 실패\n', err);
   }
 
-  return axios.post(url, data, {
+  return axios.put(url, data, {
     // withCredentials: true,
     headers: {
       "Content-Type": 'image/*',

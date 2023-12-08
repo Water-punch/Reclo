@@ -11,7 +11,7 @@ const WishListPage = () => {
   const getWishItem = async () => {
     try {
       console.log(user);
-      const res = await Api.get2(`item/user-likes/${user._id}`);
+      const res = await Api.get2(`userLikes`);
       // console.log(res);
       console.log(res.data.userwishItems);
       setWishItem(res.data.userwishItems);
