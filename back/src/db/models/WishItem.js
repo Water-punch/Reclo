@@ -4,7 +4,6 @@ const ObjectId = require('mongoose').Types.ObjectId;
 class wishItem {
   // 유저 아이디로 관심상품 찾기
   static async findLikeitems({ userId }) {
-    console.log(userId);
     const userLikeditems = await wishItemModel
       .aggregate([
         {
