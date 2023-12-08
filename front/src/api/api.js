@@ -52,7 +52,7 @@ async function postImg(url, data) {
   }
 
   return axios.post(url, data, {
-    withCredentials: true,
+    // withCredentials: true,
     headers: {
       "Content-Type": 'image/*',
     },
