@@ -19,13 +19,13 @@ const ContentsCard = ({ item }) => {
     <Box my={2}>
       <Card sx={{ width: '30vh', height: 420 }}>
       <CardActionArea onClick={() => navigate(`/detail/${item._id}`) }>
-        <CardMedia
+        {item?.itemsImgUrl && (<CardMedia
           component="img"
           sx={{height: 250}}
           // width='30vh'
           src={item.itemsImgUrl[0]} //이미지 경로는 public 기준, {imgUrl}로 서버에서 받은 이미지 url을 넣을 수 있음.
           alt="대표이미지"
-        />
+        />)}
         <CardContent>
           <Stack direction='row' spacing={1} my={1}>
             <Chip label={item.price == 0 ? '나눔' : '판매'}/>

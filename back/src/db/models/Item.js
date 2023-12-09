@@ -71,7 +71,7 @@ class Item {
 
   //userId로 아이템 찾기
   static async findUserItems({ userId }) {
-    const items = await ItemModel.findOne({ userId });
+    const items = await ItemModel.find({ userId });
     return items;
   }
 

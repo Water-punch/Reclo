@@ -14,7 +14,6 @@ const PrepareRoom = ({ userId, itemId }) => {
 
   const startChatting = async (e) => {
     e.preventDefault()
-
     try {
       const res = await Api.post(`chat/newRoom/${itemId}`, { message : typing })
       // addRoom(res.data.roomId)

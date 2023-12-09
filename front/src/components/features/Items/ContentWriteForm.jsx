@@ -75,8 +75,7 @@ const ContentWriteForm = ({ userId }) => {
 
       alert('게시글이 업로드되었습니다.')
 
-      // navigate('/activity')
-      navigate('/contents')
+      navigate('/activity')
     } catch (err) {
       alert(`게시글 등록에 실패했습니다.\n 필수항목을 채워주세요.`)
     }

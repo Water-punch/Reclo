@@ -72,13 +72,13 @@ async function put(endpoint, data) {
   });
 }
 
-async function del(endpoint, params = '') {
+async function del(endpoint) {
   try {
-    console.log(`%cDELETE 요청: ${serverUrl + endpoint + '/' + params}`, 'color: #ba2941;');
+    console.log(`%cDELETE 요청: ${serverUrl + endpoint}`, 'color: #ba2941;');
   } catch (err) {
     console.log('DELETE 요청 실패\n', err);
   }
-  return axios.delete(serverUrl + endpoint + '/' + params, {
+  return axios.delete(serverUrl + endpoint, {
     withCredentials: true,
     headers: {
       // Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,

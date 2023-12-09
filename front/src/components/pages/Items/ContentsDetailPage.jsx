@@ -5,7 +5,6 @@ import FavoriteBorder from '@mui/icons-material/FavoriteBorder'
 import Favorite from '@mui/icons-material/Favorite'
 import * as Api from '../../../api/api'
 import useUserStore from "../../../stores/user"
-import { getRankName } from '../../features/User/UserInfo'
 
 const ContentsDetailPage = () => {
   const navigate = useNavigate()
@@ -20,24 +19,29 @@ const ContentsDetailPage = () => {
   const [writer, setWriter] = useState([])
 
   const getItemDetail = async () => {
-    const res = await Api.get(`item/${itemId}`)
-    setItem(res.data.itemDetails)
-    console.log(res.data.itemDetails)
-    return res.data.itemDetails.userId
-  }
-
-  const getWriterInfo = async (userId) => {
     try {
-      const res = await Api.get(`user/${userId}`)
-      setWriter(res.data.targetUser)
+      const res = await Api.get(`item/${itemId}`)
+      setItem(res.data.itemDetails)
+      console.log(res.data.itemDetails.userId)
+      getWriterInfo(res.data.itemDetails.userId)
     } catch {
-      console.log('판매자의 정보를 읽는데 실패했습니다.')
+      console.log('아이템 정보를 읽는데 실패했습니다.')
     }
   }
 
+  // const getWriterInfo = async (userId) => {
+  //   try {
+  //     const res = await Api.get2(`user/${userId}`)
+  //     console.log(res.data.targetUser)
+  //     setWriter(res.data.targetUser)
+  //   } catch {
+  //     console.log('판매자의 정보를 읽는데 실패했습니다.')
+  //   }
+  // }
+
   useEffect(() => {
-    const userId = getItemDetail()
-    getWriterInfo(userId)
+   getItemDetail()
+
   }, [])
   
   const handleOpen = () => {
@@ -133,12 +137,14 @@ const ContentsDetailPage = () => {
             boxShadow: 2,
             width: '80%',
           }}>
+            {item.userId === user.userId && 
             <Button onClick={editItem}>
               수정
-            </Button>
+            </Button>}
+            {item.userId === user.userId && 
             <Button onClick={deleteItem}>
               삭제
-            </Button>
+            </Button>}
            
             <Card sx={{ maxHeight: '30%', width: '70%', marginLeft: '15%', display: "flex", alignItems: 'center' }}>
                 <div className='profile'>
@@ -153,7 +159,6 @@ const ContentsDetailPage = () => {
                   )}
                 </div>
                 <p>닉네임: {writer.nickname}</p>
-                <p>Rank: {getRankName(writer.rank)}</p>
             </Card>
 
             <Grid container spacing={2} mx={5} my={5}>
