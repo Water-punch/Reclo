@@ -18,6 +18,7 @@ app.use(
       'http://localhost:5173',
       'http://kdt-ai-9-team01.elicecoding.com/:5173',
       'http://kdt-ai-9-team01.elicecoding.com',
+      'http://reclo.ddns.net',
     ],
     methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
     credentials: true,
