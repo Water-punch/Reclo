@@ -1,0 +1,7 @@
+.sendbar {
+  z-index: 2;
+  position: fixed;
+  bottom: 50px;
+  width: 80%;
+  left: 10%;
+}

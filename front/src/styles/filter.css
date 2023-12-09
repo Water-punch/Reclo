@@ -1,0 +1,9 @@
+.bar {
+    position: fixed;
+    top: 300px;
+    justify-content: center;
+    width: 33vh;
+    height: 100vh;
+    background-color: rgb(251, 251, 251);
+    z-index: 3;
+}

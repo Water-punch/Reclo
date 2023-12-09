@@ -1,0 +1,44 @@
+.result_page {
+  margin-left: 5vw;
+}
+
+.result_page h2 {
+  font-size: 50px;
+  font-weight: 900;
+  font-style: italic;
+  margin: 5vh 0;
+}
+
+.result_page .result_page_test {
+  display: flex;
+}
+
+.result_page p div {
+  margin-left: 5vw;
+}
+
+.result_page p strong {
+  font-size: 30px;
+  font-style: italic;
+}
+
+.result_page p img {
+  display: block;
+  width: 20vw;
+  margin: 5vh 2vw;
+}
+
+.result_page .result_page_test .calculate {
+  background-color: rgb(255, 199, 199);
+  display: flex;
+  flex-direction: column;
+  height: 25vh;
+  width: 30vw;
+  border-radius: 10px;
+
+  margin-left: 15vw;
+  margin-top: 20vh;
+
+  text-align: center;
+  justify-content: center;
+}
