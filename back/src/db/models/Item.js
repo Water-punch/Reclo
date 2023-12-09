@@ -22,28 +22,22 @@ class Item {
 
   // like 많은 순으로 아이템 조회
   static async findItemsByLikes({ likeCount }) {
-    const items = await ItemModel.find({}).sort({ like: -1 }).limit(16);
+    const items = await ItemModel.find({ like: likeCount }).sort({ like: -1 }).limit(16);
     return items;
   }
 
   // 검색으로 아이템 찾기
   static async findItemsBySearch({ searchItem }) {
-    // function escapeRegExp(string) {
-    //   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $&는 일치하는 전체 문자열을 나타냅니다.
-    // }
     const searchTermRegex = new RegExp(`.*${searchItem}.*`, 'i');
 
-    const items = await ItemModel.find(
-      {
-        $or: [
-          { title: { $regex: searchTermRegex } },
-          { category: { $regex: searchTermRegex } },
-          { description: { $regex: searchTermRegex } },
-        ],
-        deleted: false,
-      }
-      // { score: { $meta: 'textScore' }, deleted: false }
-    ).sort({ createdAt: -1 });
+    const items = await ItemModel.find({
+      $or: [
+        { title: { $regex: searchTermRegex } },
+        { category: { $regex: searchTermRegex } },
+        { description: { $regex: searchTermRegex } },
+      ],
+      deleted: false,
+    }).sort({ createdAt: -1 });
 
     if (items.length > 0) {
       return items;
@@ -71,7 +65,7 @@ class Item {
 
   //userId로 아이템 찾기
   static async findUserItems({ userId }) {
-    const items = await ItemModel.findOne({ userId });
+    const items = await ItemModel.find({ userId });
     return items;
   }
 

@@ -14,7 +14,7 @@ class itemService {
 
   // 커서 기반 페이지 조회
   static async getCursorItems({ itemCursor, limit }) {
-    const cursor = itemCursor ? { $lte: itemCursor } : '';
+    const cursor = itemCursor ? { $lt: itemCursor } : '';
     const items = await Item.findCursor({ cursor, limit });
     if (!items) {
       throw new INVALID_ITEM_Error('현재 위치의 아이템이 존재하지 않습니다.');

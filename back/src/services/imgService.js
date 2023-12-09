@@ -97,7 +97,7 @@ class imageService {
       })
     );
 
-    // 새로 추가된 url deleted처리
+    // 새로 추가된 url create처리
     const updatedImages = await Promise.all(
       updatedUrl.map(async (Url) => {
         const image = Image.createImage({ imageUrl: Url });

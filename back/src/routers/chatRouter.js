@@ -22,6 +22,7 @@ chatRouter.get('/chat/old/:roomId', asyncHandler(isInRoom), chatController.getRo
 
 // 채팅방을 완전히 나감
 chatRouter.post('/chat/leaveRoom/:roomId', asyncHandler(isInRoom), chatController.leaveRoom);
+
 // 특정 채팅방에 메시지를 입력
 chatRouter.post('/chat/send/:roomId', asyncHandler(isInRoom), chatController.sendChat);
 
