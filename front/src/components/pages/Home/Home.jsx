@@ -9,7 +9,7 @@ import secondhand from '../../../../public/img/second-hand.png';
 import '../../../styles/home.css';
 import { Stack, Typography } from '@mui/material';
 
-import test from '../../../../public/img/test.png';
+import test from '../../../../public/img/Test.png';
 
 const Home = () => {
   const navigate = useNavigate();
