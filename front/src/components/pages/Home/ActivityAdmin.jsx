@@ -1,4 +1,4 @@
-import { Button, Grid } from '@mui/material';
+import { Button, Box, Grid } from '@mui/material';
 import useUserStore from '../../../stores/user';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
@@ -11,6 +11,7 @@ const ActivityAdmin = () => {
   const navigate = useNavigate();
   const { user } = useUserStore();
   const [items, setItems] = useState();
+  const [singleItem, setSingleItem] = useState()
 
   console.log(user._id);
 
@@ -18,19 +19,17 @@ const ActivityAdmin = () => {
     try {
       const res = await Api.get2(`items/user`);
       console.log(res.data.userItems);
-      setItems([res.data.userItems]);
+      setItems(res.data.userItems);
     } catch (error) {
       console.log('유저 활동내역 로딩실패');
     }
   };
 
-  const deleteItem = async (e) => {
-    e.preventDefault()
+  const deleteItem = async (itemId) => {
     try { 
-      const res = await Api.del(`item/${item._id}`)
+      const res = await Api.del(`item/${itemId}`)
         console.log('API 호출 결과:', res)
       alert('게시글이 삭제되었습니다.')
-      navigate('/contents')
     } catch (err) {
       alert('게시글 삭제에 실패했습니다.')
     }
@@ -49,14 +48,22 @@ const ActivityAdmin = () => {
       >
         물품 등록
       </Button>
-      <Grid container spacing={2} mx={5} my={5} >
+      <Button
+        onClick={() => {
+          navigate('/chatlist');
+        }}
+      >
+        ✉채팅리스트 
+      </Button>
+      <Grid container spacing={2}>
         { items &&
         items.map((item, idx) => ( // 테스트용임
-          <Grid item xs={12} sm={6} md={4} lg={3} key={idx} direction='row'>
-            <ContentsCard
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={idx}>
+            <Box key={idx} >
+              <ContentsCard
               mt={2} 
               item={item}
-            />
+              />
               <Button 
                 variant="outlined" 
                 color="success"
@@ -66,12 +73,14 @@ const ActivityAdmin = () => {
               <Button 
                 variant="outlined" 
                 color="success"
-                onClick={deleteItem}>
+                onClick={() => {deleteItem(item._id)}}>
                   삭제
-            </Button>
-          </Grid> 
-        ))}
-      </Grid>
+              </Button>
+            </Box>
+          </Grid>
+          ))
+        }
+      </Grid> 
     </div>
   );
 };

@@ -29,7 +29,6 @@ const ChattingRoom = ({ userId, itemId }) => {
 
     try {
       const res = await Api.get2(`chat/room/${roomId}`)
-
       eventSource.onopen = () => {
         console.log('SSE 연결이 시작되었습니다.');
       }
@@ -51,10 +50,8 @@ const ChattingRoom = ({ userId, itemId }) => {
   const sendMessage = async () => {
 
     setMyMessage(prev => [...prev, typing])
-
     try {
       const res = await Api.post(`chat/send/${roomId}`, {meesageText : myMessage})
-
       console.log('메세지 :', myMessage , res.ok)
     } catch {
       alert('메세지 전송에 실패했습니다.')
