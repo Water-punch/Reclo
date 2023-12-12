@@ -1,0 +1,43 @@
+.container {
+  width: 100%;
+  height: 350px;
+  background-color: rgb(238, 212, 212);
+  color: white;
+}
+
+.wrapper {
+  width: 400px;
+  height: 200px;
+  padding: 20px;
+  margin: auto;
+}
+
+.slideImg {
+  height: 400px;
+  float: left;
+}
+
+.contents {
+  float: left;
+  margin-left: 20px;
+}
+
+.contentTitle {
+  font-weight: bold;
+  font-size: 16px;
+  width: 140px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.contentDescription {
+  width: 140px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.countInfo {
+  float: left;
+  margin: 0px 2px;
+  font-size: 14px;
+}
